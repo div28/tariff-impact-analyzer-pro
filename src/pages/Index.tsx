@@ -60,36 +60,6 @@ const Index = () => {
             Instant insights. Strategic planning. Professional results.
           </p>
 
-          {/* How It Works */}
-          <div className="mb-12">
-            <h2 className="text-2xl font-bold text-white mb-4">How It Works</h2>
-            <p className="text-blue-200 mb-8">Get your tariff impact analysis in 3 simple steps</p>
-            
-            <div className="grid md:grid-cols-3 gap-8 mb-8">
-              <div className="text-center">
-                <div className="w-16 h-16 bg-amber-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl">📝</span>
-                </div>
-                <h3 className="text-lg font-bold text-white mb-2">1. Enter Details</h3>
-                <p className="text-blue-200 text-sm">Quick 30-second form with your business info</p>
-              </div>
-              <div className="text-center">
-                <div className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl">📊</span>
-                </div>
-                <h3 className="text-lg font-bold text-white mb-2">2. Instant Analysis</h3>
-                <p className="text-blue-200 text-sm">See your exact cost impact immediately</p>
-              </div>
-              <div className="text-center">
-                <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl">💡</span>
-                </div>
-                <h3 className="text-lg font-bold text-white mb-2">3. Smart Solutions</h3>
-                <p className="text-blue-200 text-sm">Get AI-powered recommendations to save money</p>
-              </div>
-            </div>
-          </div>
-
           {/* Trust Indicators */}
           <div className="flex flex-wrap justify-center gap-6 mb-8 text-sm text-blue-200">
             <div className="flex items-center gap-2">
@@ -133,33 +103,33 @@ const Index = () => {
         </div>
 
         {/* What You'll Discover */}
-        <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-8 mb-8">
-          <h2 className="text-2xl font-bold text-white mb-6 text-center">What You'll Discover</h2>
-          <div className="grid md:grid-cols-5 gap-4 text-center">
-            <div>
-              <div className="text-2xl mb-2">📈</div>
-              <h3 className="font-semibold text-white mb-1 text-sm">Exact Financial Impact</h3>
-              <p className="text-xs text-blue-200">Precise cost increases in dollars and percentages</p>
+        <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6 mb-8">
+          <h2 className="text-xl font-bold text-white mb-4 text-center">What You'll Discover</h2>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-3 text-center">
+            <div className="p-3">
+              <div className="text-xl mb-2">📈</div>
+              <h3 className="font-semibold text-white mb-1 text-xs">Exact Financial Impact</h3>
+              <p className="text-xs text-blue-200">Precise cost increases</p>
             </div>
-            <div>
-              <div className="text-2xl mb-2">🌍</div>
-              <h3 className="font-semibold text-white mb-1 text-sm">Alternative Suppliers</h3>
-              <p className="text-xs text-blue-200">Countries with lower tariff rates for your products</p>
+            <div className="p-3">
+              <div className="text-xl mb-2">🌍</div>
+              <h3 className="font-semibold text-white mb-1 text-xs">Alternative Suppliers</h3>
+              <p className="text-xs text-blue-200">Lower tariff countries</p>
             </div>
-            <div>
-              <div className="text-2xl mb-2">📅</div>
-              <h3 className="font-semibold text-white mb-1 text-sm">Strategic Timing</h3>
-              <p className="text-xs text-blue-200">Should you order before Aug 1st deadline?</p>
+            <div className="p-3">
+              <div className="text-xl mb-2">📅</div>
+              <h3 className="font-semibold text-white mb-1 text-xs">Strategic Timing</h3>
+              <p className="text-xs text-blue-200">Deadline planning</p>
             </div>
-            <div>
-              <div className="text-2xl mb-2">💰</div>
-              <h3 className="font-semibold text-white mb-1 text-sm">Money-Saving Strategies</h3>
-              <p className="text-xs text-blue-200">Custom recommendations for your business type</p>
+            <div className="p-3">
+              <div className="text-xl mb-2">💰</div>
+              <h3 className="font-semibold text-white mb-1 text-xs">Money-Saving Strategies</h3>
+              <p className="text-xs text-blue-200">Custom recommendations</p>
             </div>
-            <div>
-              <div className="text-2xl mb-2">📄</div>
-              <h3 className="font-semibold text-white mb-1 text-sm">Shareable Summary</h3>
-              <p className="text-xs text-blue-200">Professional report for your team or investors</p>
+            <div className="p-3">
+              <div className="text-xl mb-2">📄</div>
+              <h3 className="font-semibold text-white mb-1 text-xs">Shareable Summary</h3>
+              <p className="text-xs text-blue-200">Professional reports</p>
             </div>
           </div>
         </div>
@@ -217,27 +187,27 @@ const Index = () => {
           </p>
         </div>
 
-        {/* Official Data Sources - Vertical */}
+        {/* Official Data Sources - Professional */}
         <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6 mb-8">
           <h3 className="text-lg font-semibold text-white mb-4 text-center">Official Data Sources</h3>
-          <div className="space-y-3">
+          <div className="flex flex-wrap justify-center gap-4">
             <a 
               href="https://ustr.gov" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-lg hover:bg-white/20 transition-colors text-sm"
             >
               <ExternalLink className="w-4 h-4 text-blue-300" />
-              <span className="text-blue-200">USTR.gov - Tariff Schedules</span>
+              <span className="text-blue-200">USTR.gov</span>
             </a>
             <a 
               href="https://federalreserve.gov" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-lg hover:bg-white/20 transition-colors text-sm"
             >
               <ExternalLink className="w-4 h-4 text-blue-300" />
-              <span className="text-blue-200">Federal Reserve - Exchange Rates</span>
+              <span className="text-blue-200">Federal Reserve</span>
             </a>
           </div>
         </div>
