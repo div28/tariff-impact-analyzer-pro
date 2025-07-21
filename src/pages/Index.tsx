@@ -29,13 +29,13 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+    <div className="min-h-screen bg-white">
       {/* Tariff Implementation Status - Running Countdown */}
-      <div className="fixed top-4 right-4 z-50">
-        <div className="bg-white/95 backdrop-blur-sm border-2 border-red-200 rounded-lg px-4 py-2 shadow-lg">
+      <div className="absolute top-4 right-4 z-10">
+        <div className="bg-white border border-slate-200 rounded-lg px-3 py-2 shadow-sm">
           <div className="flex items-center gap-2">
-            <Clock className="w-4 h-4 text-red-600" />
-            <span className="text-sm font-semibold text-red-700">Tariffs Active: {timeLeft}</span>
+            <Clock className="w-4 h-4 text-slate-600" />
+            <span className="text-sm font-medium text-slate-700">Tariffs Active: {timeLeft}</span>
           </div>
         </div>
       </div>
@@ -89,47 +89,6 @@ const Index = () => {
         {/* Calculator */}
         <SimpleTariffCalculator />
 
-        {/* Official Data Sources */}
-        <div className="mt-12 bg-white rounded-xl shadow-lg p-6 border border-slate-200">
-          <h3 className="text-lg font-semibold text-slate-900 mb-4">Official Data Sources</h3>
-          <div className="grid md:grid-cols-2 gap-4">
-            <a 
-              href="https://ustr.gov" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 p-3 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors"
-            >
-              <ExternalLink className="w-4 h-4 text-blue-600" />
-              <span className="text-slate-700">USTR.gov - Tariff Schedules</span>
-            </a>
-            <a 
-              href="https://federalreserve.gov" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 p-3 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors"
-            >
-              <ExternalLink className="w-4 h-4 text-blue-600" />
-              <span className="text-slate-700">Federal Reserve - Exchange Rates</span>
-            </a>
-          </div>
-        </div>
-
-        {/* Calculation Methodology */}
-        <div className="mt-8 bg-white rounded-xl shadow-lg p-6 border border-slate-200">
-          <h3 className="text-lg font-semibold text-slate-900 mb-4">Calculation Methodology</h3>
-          <div className="bg-slate-50 rounded-lg p-4">
-            <p className="text-sm text-slate-700 mb-2">
-              <strong>Example:</strong> $100K monthly electronics imports from China
-            </p>
-            <div className="text-xs text-slate-600 space-y-1">
-              <p>• Current cost: $100,000/month</p>
-              <p>• New tariff rate: 30%</p>
-              <p>• Additional cost: $30,000/month</p>
-              <p>• Annual impact: $360,000</p>
-            </div>
-          </div>
-        </div>
-
         {/* FAQ Section - Merged */}
         <div className="mt-8">
           <Collapsible open={showFAQ} onOpenChange={setShowFAQ}>
@@ -169,6 +128,49 @@ const Index = () => {
               </div>
             </CollapsibleContent>
           </Collapsible>
+        </div>
+
+        {/* Calculation Methodology */}
+        <div className="mt-8 text-center">
+          <p className="text-slate-700">
+            Your costs increase 27.5% due to new tariff rates on imports from China and Mexico.
+          </p>
+        </div>
+
+        {/* Official Data Sources - Vertical */}
+        <div className="mt-8 bg-white rounded-xl shadow-lg p-6 border border-slate-200">
+          <h3 className="text-lg font-semibold text-slate-900 mb-4 text-center">Official Data Sources</h3>
+          <div className="space-y-3">
+            <a 
+              href="https://ustr.gov" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 p-3 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors"
+            >
+              <ExternalLink className="w-4 h-4 text-blue-600" />
+              <span className="text-slate-700">USTR.gov - Tariff Schedules</span>
+            </a>
+            <a 
+              href="https://federalreserve.gov" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 p-3 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors"
+            >
+              <ExternalLink className="w-4 h-4 text-blue-600" />
+              <span className="text-slate-700">Federal Reserve - Exchange Rates</span>
+            </a>
+          </div>
+        </div>
+
+        {/* Disclaimer */}
+        <div className="mt-8 text-center text-sm text-slate-500 border-t pt-6">
+          <p>
+            This calculator provides estimates based on announced policy proposals. 
+            Actual tariff impacts may vary. Consult trade professionals for specific guidance.
+          </p>
+          <p className="mt-2">
+            Data sources: U.S. Trade Representative, Federal Reserve Economic Data
+          </p>
         </div>
       </div>
     </div>

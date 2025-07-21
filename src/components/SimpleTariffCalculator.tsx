@@ -52,9 +52,9 @@ const SimpleTariffCalculator = () => {
   const [results, setResults] = useState<any>(null);
   const [isCalculating, setIsCalculating] = useState(false);
   const [selectedCurrency, setSelectedCurrency] = useState('USD');
-  const [showDetailedBreakdown, setShowDetailedBreakdown] = useState(false);
-  const [showTimelineAnalysis, setShowTimelineAnalysis] = useState(false);
-  const [showSupplierAnalysis, setShowSupplierAnalysis] = useState(false);
+  const [showDetailedBreakdown, setShowDetailedBreakdown] = useState(true);
+  const [showTimelineAnalysis, setShowTimelineAnalysis] = useState(true);
+  const [showSupplierAnalysis, setShowSupplierAnalysis] = useState(true);
   const [selectedCountryNote, setSelectedCountryNote] = useState('');
 
   const handleCountryChange = (countryName: string, checked: boolean) => {
