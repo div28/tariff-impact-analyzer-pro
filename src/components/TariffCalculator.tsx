@@ -311,6 +311,117 @@ const TariffCalculator = () => {
         </div>
       </div>
 
+      {/* What You'll Discover Section */}
+      <Card className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-950 dark:to-blue-950 border-green-200 dark:border-green-800 shadow-lg mb-12">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-3 text-2xl text-green-800 dark:text-green-200">
+            <div className="p-2 rounded-lg bg-green-100 dark:bg-green-900">
+              <Lightbulb className="h-6 w-6 text-green-600 dark:text-green-400" />
+            </div>
+            What You'll Discover
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="space-y-3">
+              <div className="flex items-start gap-3">
+                <span className="text-lg">📈</span>
+                <div>
+                  <h4 className="font-semibold text-green-800 dark:text-green-200">Exact Financial Impact</h4>
+                  <p className="text-sm text-green-700 dark:text-green-300">Precise cost increases in dollars and percentages</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="text-lg">🌍</span>
+                <div>
+                  <h4 className="font-semibold text-green-800 dark:text-green-200">Alternative Suppliers</h4>
+                  <p className="text-sm text-green-700 dark:text-green-300">Countries with lower tariff rates for your products</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="text-lg">📅</span>
+                <div>
+                  <h4 className="font-semibold text-green-800 dark:text-green-200">Strategic Timing</h4>
+                  <p className="text-sm text-green-700 dark:text-green-300">Should you order before Aug 1st deadline?</p>
+                </div>
+              </div>
+            </div>
+            <div className="space-y-3">
+              <div className="flex items-start gap-3">
+                <span className="text-lg">💰</span>
+                <div>
+                  <h4 className="font-semibold text-green-800 dark:text-green-200">Money-Saving Strategies</h4>
+                  <p className="text-sm text-green-700 dark:text-green-300">Custom recommendations for your business type</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="text-lg">📄</span>
+                <div>
+                  <h4 className="font-semibold text-green-800 dark:text-green-200">Shareable Summary</h4>
+                  <p className="text-sm text-green-700 dark:text-green-300">Professional report for your team or investors</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Realistic Example */}
+          <div className="mt-6 p-4 bg-white/50 dark:bg-gray-800/50 rounded-lg border border-green-200 dark:border-green-700">
+            <h4 className="font-semibold text-green-800 dark:text-green-200 mb-2">📊 Sample Analysis:</h4>
+            <p className="text-sm text-green-700 dark:text-green-300">
+              <strong>$100K monthly imports from China</strong> = $30K additional annual cost (30% tariff).<br />
+              <strong>Alternative: Vietnam at 20%</strong> saves $10K/year.
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* FAQ Section */}
+      <Card className="mb-12 shadow-lg">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-3 text-2xl">
+            <div className="p-2 rounded-lg bg-blue-100 dark:bg-blue-900">
+              <AlertTriangle className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+            </div>
+            Frequently Asked Questions
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="space-y-4">
+              <div>
+                <h4 className="font-semibold text-lg mb-2">Is this calculator really free?</h4>
+                <p className="text-muted-foreground text-sm">
+                  Yes! Built to help small businesses navigate tariff uncertainty. No hidden fees or sign-ups required.
+                </p>
+              </div>
+              
+              <div>
+                <h4 className="font-semibold text-lg mb-2">How accurate are the calculations?</h4>
+                <p className="text-muted-foreground text-sm">
+                  Based on official Trump administration tariff announcements from July 2025. Always consult trade professionals for final compliance decisions.
+                </p>
+              </div>
+            </div>
+            
+            <div className="space-y-4">
+              <div>
+                <h4 className="font-semibold text-lg mb-2">What if I don't know my exact import amounts?</h4>
+                <p className="text-muted-foreground text-sm">
+                  Rough estimates work great for planning! The calculator is designed to give you helpful insights even with approximate numbers.
+                </p>
+              </div>
+              
+              <div>
+                <h4 className="font-semibold text-lg mb-2">Do you store my business information?</h4>
+                <p className="text-muted-foreground text-sm">
+                  No. All calculations happen in your browser. We don't collect, store, or share your data.
+                </p>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Quick Access Features */}
       <div className="grid lg:grid-cols-3 gap-8 mb-12">
         <QuickCalculateMode onQuickCalculate={handleQuickCalculate} />
