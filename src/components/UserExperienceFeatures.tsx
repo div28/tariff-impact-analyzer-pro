@@ -14,7 +14,9 @@ import {
   Clock,
   Calculator,
   Trash2,
-  Download
+  Download,
+  Globe,
+  HelpCircle
 } from 'lucide-react';
 import { toast } from "@/hooks/use-toast";
 
@@ -330,90 +332,173 @@ export const CalculationHistory = () => {
 
 export const MethodologySection = () => {
   return (
-    <Card className="shadow-xl border-2 border-slate-200 bg-gradient-to-br from-slate-50 to-gray-50">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-3 text-2xl">
-          <div className="p-3 rounded-xl bg-gradient-to-r from-slate-700 to-gray-700">
-            <BookOpen className="text-white h-6 w-6" />
-          </div>
-          Calculation Methodology
-        </CardTitle>
-        <p className="text-muted-foreground">Transparent formulas and data sources behind our analysis</p>
-      </CardHeader>
-      <CardContent className="space-y-6">
-        {/* Core Calculations */}
-        <div className="space-y-4">
-          <h3 className="text-lg font-semibold">Core Calculation Formulas</h3>
-          <div className="grid md:grid-cols-2 gap-4">
-            <div className="p-4 bg-white rounded-lg border">
-              <h4 className="font-semibold mb-2 text-primary">Monthly Tariff Cost</h4>
-              <div className="text-sm space-y-1">
-                <div className="font-mono bg-gray-100 p-2 rounded text-xs">
-                  Monthly Cost = Import Value × (Weighted Avg Tariff Rate / 100)
-                </div>
-                <p className="text-muted-foreground">Where weighted average accounts for import distribution across countries</p>
-              </div>
-            </div>
-            
-            <div className="p-4 bg-white rounded-lg border">
-              <h4 className="font-semibold mb-2 text-primary">Survival Score Algorithm</h4>
-              <div className="text-sm space-y-1">
-                <div className="font-mono bg-gray-100 p-2 rounded text-xs">
-                  Score = 100 - (Tariff Impact × 1.2) - Volume Risk + Diversification Bonus - Industry Risk
-                </div>
-                <p className="text-muted-foreground">Comprehensive risk assessment across multiple factors</p>
-              </div>
-            </div>
-          </div>
+    <section className="py-16 bg-gradient-to-br from-slate-50 to-gray-50">
+      <div className="container mx-auto px-6">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-bold mb-4 text-primary">Behind the Numbers</h2>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            Understand the detailed methodology and assumptions behind our tariff impact calculations
+          </p>
         </div>
 
-        {/* Data Sources */}
-        <div className="space-y-4">
-          <h3 className="text-lg font-semibold">Official Data Sources</h3>
-          <div className="grid md:grid-cols-3 gap-4">
-            {[
-              { name: "USTR.gov", description: "Official tariff announcements and trade policy updates", url: "https://ustr.gov" },
-              { name: "Commerce.gov", description: "International trade statistics and economic analysis", url: "https://commerce.gov" },
-              { name: "CBP.gov", description: "U.S. Customs and Border Protection tariff schedules", url: "https://cbp.gov" }
-            ].map((source, index) => (
-              <div key={index} className="p-4 bg-white rounded-lg border">
-                <div className="flex items-center justify-between mb-2">
-                  <h4 className="font-semibold text-primary">{source.name}</h4>
-                  <Button size="sm" variant="outline">
-                    <ExternalLink className="h-3 w-3" />
-                  </Button>
-                </div>
-                <p className="text-xs text-muted-foreground">{source.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Assumptions & Limitations */}
-        <div className="space-y-4">
-          <h3 className="text-lg font-semibold">Key Assumptions & Limitations</h3>
-          <div className="p-4 bg-yellow-50 rounded-lg border border-yellow-200">
-            <ul className="text-sm space-y-2 text-gray-700">
-              <li>• <strong>Import Value Ranges:</strong> Calculations use midpoint values of selected ranges</li>
-              <li>• <strong>Product Classification:</strong> Assumes standard HS codes without specific exemptions</li>
-              <li>• <strong>Geographic Distribution:</strong> Equal weight given to all selected countries unless specified</li>
-              <li>• <strong>Timeline Accuracy:</strong> Based on announced implementation dates as of July 2025</li>
-              <li>• <strong>Currency Fluctuations:</strong> USD-based calculations; exchange rate impacts not included</li>
-            </ul>
-          </div>
-        </div>
-
-        {/* Last Updated */}
-        <div className="pt-4 border-t border-gray-200">
-          <div className="flex items-center justify-between text-sm text-muted-foreground">
-            <div className="flex items-center gap-2">
-              <Clock className="h-4 w-4" />
-              <span>Last Updated: July 21, 2025</span>
+        <div className="max-w-6xl mx-auto space-y-12">
+          {/* Interactive Formula Breakdown */}
+          <Card className="shadow-2xl border-0 overflow-hidden">
+            <div className="bg-gradient-to-r from-primary to-accent p-6 text-white">
+              <h3 className="text-2xl font-bold mb-2">Step-by-Step Calculation Process</h3>
+              <p className="opacity-90">How we transform your inputs into precise tariff impact estimates</p>
             </div>
-            <div>Version 2.1.0</div>
+            <CardContent className="p-8">
+              <div className="grid md:grid-cols-4 gap-6">
+                <div className="text-center">
+                  <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-blue-100 flex items-center justify-center">
+                    <span className="text-2xl font-bold text-blue-600">1</span>
+                  </div>
+                  <h4 className="font-semibold mb-2">Import Value</h4>
+                  <div className="text-sm text-muted-foreground space-y-1">
+                    <div>Convert range to midpoint</div>
+                    <div className="font-mono bg-blue-50 p-2 rounded text-xs">
+                      "$50K-$200K" → $125K
+                    </div>
+                  </div>
+                </div>
+
+                <div className="text-center">
+                  <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-orange-100 flex items-center justify-center">
+                    <span className="text-2xl font-bold text-orange-600">2</span>
+                  </div>
+                  <h4 className="font-semibold mb-2">Weighted Tariff</h4>
+                  <div className="text-sm text-muted-foreground space-y-1">
+                    <div>Calculate country average</div>
+                    <div className="font-mono bg-orange-50 p-2 rounded text-xs">
+                      (30% + 40%) ÷ 2 = 35%
+                    </div>
+                  </div>
+                </div>
+
+                <div className="text-center">
+                  <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-green-100 flex items-center justify-center">
+                    <span className="text-2xl font-bold text-green-600">3</span>
+                  </div>
+                  <h4 className="font-semibold mb-2">Monthly Impact</h4>
+                  <div className="text-sm text-muted-foreground space-y-1">
+                    <div>Apply tariff rate</div>
+                    <div className="font-mono bg-green-50 p-2 rounded text-xs">
+                      $125K × 35% = $43.75K
+                    </div>
+                  </div>
+                </div>
+
+                <div className="text-center">
+                  <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-purple-100 flex items-center justify-center">
+                    <span className="text-2xl font-bold text-purple-600">4</span>
+                  </div>
+                  <h4 className="font-semibold mb-2">Annual Total</h4>
+                  <div className="text-sm text-muted-foreground space-y-1">
+                    <div>Project yearly cost</div>
+                    <div className="font-mono bg-purple-50 p-2 rounded text-xs">
+                      $43.75K × 12 = $525K
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Range Values Table */}
+          <div className="grid md:grid-cols-2 gap-8">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Calculator className="h-5 w-5 text-primary" />
+                  Import Range Values
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  {[
+                    { range: "Under $10K", value: "$5,000" },
+                    { range: "$10K-$50K", value: "$30,000" },
+                    { range: "$50K-$200K", value: "$125,000" },
+                    { range: "$200K-$1M", value: "$600,000" },
+                    { range: "Over $1M", value: "$2,000,000" }
+                  ].map((item, index) => (
+                    <div key={index} className="flex justify-between items-center p-3 bg-muted/30 rounded-lg">
+                      <span className="font-medium">{item.range}</span>
+                      <span className="text-primary font-semibold">{item.value}</span>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Globe className="h-5 w-5 text-primary" />
+                  Current Tariff Rates
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  {[
+                    { country: "China", rate: "30%", status: "High Impact" },
+                    { country: "Germany", rate: "40%", status: "Highest Rate" },
+                    { country: "Mexico", rate: "25%", status: "Moderate" },
+                    { country: "Japan", rate: "24%", status: "Moderate" },
+                    { country: "South Korea", rate: "35%", status: "High Impact" }
+                  ].map((item, index) => (
+                    <div key={index} className="flex justify-between items-center p-3 bg-muted/30 rounded-lg">
+                      <div>
+                        <span className="font-medium">{item.country}</span>
+                        <div className="text-xs text-muted-foreground">{item.status}</div>
+                      </div>
+                      <span className={`font-bold ${
+                        parseFloat(item.rate) >= 35 ? 'text-destructive' : 
+                        parseFloat(item.rate) >= 25 ? 'text-warning' : 'text-success'
+                      }`}>{item.rate}</span>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
           </div>
+
+          {/* Limitations & Disclaimer */}
+          <Card className="border-2 border-amber-200 bg-gradient-to-r from-amber-50 to-yellow-50">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-amber-800">
+                <HelpCircle className="h-5 w-5" />
+                Important Limitations & Assumptions
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid md:grid-cols-2 gap-6 text-sm">
+                <div className="space-y-3">
+                  <div>
+                    <div className="font-semibold text-amber-800 mb-1">Import Value Ranges</div>
+                    <div className="text-amber-700">Calculations use midpoint values of selected ranges for estimation purposes</div>
+                  </div>
+                  <div>
+                    <div className="font-semibold text-amber-800 mb-1">Product Classification</div>
+                    <div className="text-amber-700">Assumes standard HS codes without specific exemptions or special cases</div>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <div>
+                    <div className="font-semibold text-amber-800 mb-1">Geographic Distribution</div>
+                    <div className="text-amber-700">Equal weight given to all selected countries unless otherwise specified</div>
+                  </div>
+                  <div>
+                    <div className="font-semibold text-amber-800 mb-1">Currency & Exchange</div>
+                    <div className="text-amber-700">All calculations in USD; exchange rate fluctuations not included</div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </section>
   );
 };
