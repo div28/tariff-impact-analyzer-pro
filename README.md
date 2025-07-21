@@ -1,73 +1,99 @@
-# Welcome to your Lovable project
+# Tariff Impact Analyzer Pro
 
-## Project info
+🚀 **[Live Demo](https://tariff-impact-analyzer-pro.lovable.app)**
 
-**URL**: https://lovable.dev/projects/4b77edf1-94fa-40c3-9cbb-339ff48a203e
+An AI-powered web application that calculates the financial impact of Trump's 2025 tariffs on businesses and provides actionable recommendations.
 
-## How can I edit this code?
+## 🎯 Problem Solved
+With Trump's new tariffs affecting 14+ countries at rates of 25-50%, businesses need quick impact assessments. This calculator provides instant cost projections and alternative supplier recommendations.
 
-There are several ways of editing your application.
+## ✨ Features
+- **Real-time Calculations**: Instant tariff impact assessment
+- **Tariff Survival Score**: 1-100 risk rating for your business
+- **Alternative Suppliers**: Smart recommendations for lower-tariff countries
+- **Currency Conversion**: Multi-currency support
+- **Timeline Awareness**: Adapts before/after August 1st deadline
+- **Mobile Responsive**: Works perfectly on all devices
 
-**Use Lovable**
+## 🛠️ Technology Stack
+- **Frontend**: HTML5, CSS3, JavaScript
+- **AI Platform**: Lovable.dev
+- **Deployment**: Lovable hosting
+- **Version Control**: GitHub
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/4b77edf1-94fa-40c3-9cbb-339ff48a203e) and start prompting.
+## 🎯 Target Users
+- Small/medium business importers
+- Procurement managers
+- Trade compliance professionals
+- Business analysts
 
-Changes made via Lovable will be committed automatically to this repo.
+## 🚀 Getting Started
+1. Visit the [live application](https://tariff-impact-analyzer-pro.lovable.app)
+2. Select your business type and import volume
+3. Choose your import countries
+4. View instant calculations and recommendations
 
-**Use your preferred IDE**
+## 📊 Key Calculations
+- **Tariff Rates**: China 30%, Germany 40%, Mexico 25%, Japan 24%
+- **Cost Impact**: Before vs after comparisons
+- **Alternative Analysis**: Lower-tariff country suggestions
+- **Timeline Planning**: August 1st deadline considerations
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## 🏆 Unique Features
+- **Tariff Survival Score**: Color-coded risk assessment
+- **Interactive Map**: Visual supplier alternatives
+- **Cost Offset Calculator**: Pricing strategy recommendations
+- **Industry Benchmarking**: Compare to similar businesses
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## 🔗 Project Links
+- **Live Application**: https://tariff-impact-analyzer-pro.lovable.app
+- **GitHub Repository**: https://github.com/div28/tariff-impact-analyzer-pro
+- **Documentation**: [Product Requirements Document](docs/PRD.md)
 
-Follow these steps:
+## 📱 Application Preview
+Visit the [live demo](https://tariff-impact-analyzer-pro.lovable.app) to see:
+- Interactive calculator form
+- Real-time cost impact dashboard  
+- Alternative supplier recommendations
+- Mobile-responsive design
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## 🎓 Project Context
+Built as part of AI Web Development Bootcamp. This project demonstrates:
+- AI-powered web application development
+- Real-world problem solving with current events
+- Professional UI/UX design
+- Responsive web development
+- GitHub version control
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+## 📄 Technical Implementation
+- **Development Platform**: Lovable.dev AI-assisted development
+- **Deployment**: Automatic deployment via Lovable hosting
+- **Data Sources**: Official tariff rates from USTR.gov and Commerce Department
+- **Responsive Design**: Mobile-first approach with CSS Grid and Flexbox
 
-# Step 3: Install the necessary dependencies.
-npm i
+## 🎯 Business Impact
+This calculator addresses a real need for the thousands of U.S. businesses affected by:
+- Trump's 2025 tariff announcements
+- 25-50% tariff rates across 14+ countries
+- August 1st implementation deadlines
+- Supply chain disruption and cost uncertainty
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+## 👨‍💻 Author
+**Div** - Built for AI Web Development Bootcamp
 
-**Edit a file directly in GitHub**
+## 📅 Development Timeline
+- **Planning & Research**: 1 day - Market analysis and feature planning
+- **Core Development**: 2 days - UI, calculations, and core functionality  
+- **Advanced Features**: 1 day - Survival score, recommendations engine
+- **Polish & Documentation**: 0.5 days - Final testing and documentation
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## 🚀 Future Enhancements
+- Real-time tariff rate API integration
+- Advanced supply chain optimization
+- Multi-language support
+- Enterprise dashboard features
 
-**Use GitHub Codespaces**
+---
+🏗️ **Built with**: [Lovable.dev](https://lovable.dev) | 🚀 **Deployed on**: Lovable Cloud | 📝 **Source**: [GitHub](https://github.com/div28/tariff-impact-analyzer-pro)
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/4b77edf1-94fa-40c3-9cbb-339ff48a203e) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+*Try the live calculator: https://tariff-impact-analyzer-pro.lovable.app*
