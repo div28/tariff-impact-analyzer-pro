@@ -12,7 +12,44 @@ Small-to-medium US importers and business analysts lack a current, scenario-focu
 
 A rapid-impact, mobile-optimized, public web calculator focused exclusively on estimating and mitigating Trump's 2025 tariff cost scenarios for US importers. Delivers clarity, urgency, and actionable guidance around this singular, timely policy change.
 
+# Trump Tariff Calculator
+🚀 **[Live Demo](https://tariff-impact-analyzer-pro.lovable.app)** | 📋 **[Product Requirements](docs/PRD.md)** | 💻 **[GitHub Repo](https://github.com/div28/tariff-impact-analyzer-pro)**
+
+> A user-friendly, mobile-first web calculator that allows importers and analysts to instantly estimate the financial impact of Trump's 2025 tariffs with actionable supplier comparisons and risk mitigation guidance.
+
+## 🎯 Problem Statement
+Small-to-medium US importers and business analysts lack a current, scenario-focused tool to estimate the cost impact of Trump's proposed 2025 tariffs. As tariff policy evolves rapidly, business owners face critical uncertainty, exposing them to the risk of costly supplier misjudgments and inadequate mitigation planning.
+
+## 🏆 Solution
+A rapid-impact, mobile-optimized, public web calculator focused exclusively on estimating and mitigating Trump's 2025 tariff cost scenarios for US importers. Delivers clarity, urgency, and actionable guidance around this singular, timely policy change.
+
+## 📱 Application Preview
+
+### 🚀 Enhanced User Experience:
+- **Quick Demo Button**: Try sample calculation instantly without entering data
+- **Smart Form Guidance**: Helper text and tooltips guide new users
+- **Trust Signals**: Official data sources and real usage statistics
+- **Results Preview**: See exactly what insights you'll receive
+- **Mobile Optimized**: Seamless experience on any device
+
+### 👥 Real-World User Scenarios:
+- **Stressed Business Owner**: "Will tariffs kill my margins?" → Get clear cost impact in 30 seconds
+- **Procurement Manager**: "Should we order early?" → Timeline strategies and deadline guidance  
+- **Trade Consultant**: "Show client options" → Professional alternative supplier analysis
+- **Student Researcher**: "Model policy impact" → Credible data for presentations
+
+### 💡 What Makes This Different:
+- **Timeline-Aware**: Accurate before/after August 1st calculations
+- **Policy-Specific**: Built exclusively for Trump's 2025 tariff announcements
+- **Actionable Output**: Goes beyond calculation to strategic recommendations
+- **User-Friendly**: Designed for stressed business owners, not trade experts
+
+**🎯 Try the live calculator**: https://tariff-impact-analyzer-pro.lovable.app
+
 ## ✨ Key Features
+
+### 🔢 **Product & Import Details Entry**
+Simple interface for users to submit product categories, country of origin, and import values
 
 ### 🔢 **Product & Import Details Entry**
 Simple interface for users to submit product categories, country of origin, and import values
