@@ -32,10 +32,7 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Professional Content Sections */}
-      <HowItWorksSection />
-      <MethodologySection />
-      <DataSourcesSection />
+      {/* Simple FAQ Section */}
       <FAQSection />
       
       {/* Professional Footer */}

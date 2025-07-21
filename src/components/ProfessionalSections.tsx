@@ -247,43 +247,31 @@ export const FAQSection = () => {
   const faqs = [
     {
       question: "How accurate are these calculations?",
-      answer: "Our calculations use official tariff rates and conservative methodologies. Results are estimates for planning purposes."
+      answer: "Based on official tariff rates. Results are estimates for planning purposes - consult trade professionals for final decisions."
     },
     {
-      question: "When do the new tariffs take effect?",
-      answer: "Based on current announcements, implementation begins August 1, 2025. Check official sources for updates."
+      question: "When do tariffs take effect?",
+      answer: "Implementation begins August 1, 2025. Check official sources for latest updates."
     },
     {
-      question: "Can I use this for official business planning?",
-      answer: "Yes, but consult with trade professionals and legal advisors for final business decisions."
-    },
-    {
-      question: "Are there exemptions or special cases?",
-      answer: "Some products may qualify for exemptions. Check with trade authorities for specific product classifications."
+      question: "What should I do with these results?",
+      answer: "Use them to understand potential impact and start planning. Consider consulting trade advisors for detailed strategy."
     }
   ];
 
   return (
-    <section className="py-16 bg-gradient-to-br from-muted/20 to-background">
+    <section className="py-12 bg-muted/20">
       <div className="container mx-auto px-6">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold mb-4 text-primary">❓ Frequently Asked Questions</h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Common questions about tariff calculations and implementation
-          </p>
+        <div className="text-center mb-8">
+          <h2 className="text-2xl font-bold mb-2 text-primary">Quick Questions</h2>
         </div>
         
-        <div className="max-w-4xl mx-auto space-y-6">
+        <div className="max-w-2xl mx-auto space-y-4">
           {faqs.map((faq, index) => (
-            <Card key={index} className="shadow-lg">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-lg">
-                  <HelpCircle className="h-5 w-5 text-primary" />
-                  {faq.question}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">{faq.answer}</p>
+            <Card key={index} className="border border-muted">
+              <CardContent className="p-4">
+                <h3 className="font-semibold mb-2 text-sm">{faq.question}</h3>
+                <p className="text-sm text-muted-foreground">{faq.answer}</p>
               </CardContent>
             </Card>
           ))}
@@ -294,44 +282,15 @@ export const FAQSection = () => {
 };
 
 export const FooterSection = () => (
-  <footer className="bg-slate-900 text-white py-12">
-    <div className="container mx-auto px-6">
-      <div className="grid md:grid-cols-3 gap-8">
-        <div>
-          <h3 className="text-xl font-bold mb-4">Trump Tariff Calculator</h3>
-          <p className="text-slate-300 text-sm">
-            Professional tariff impact analysis for business planning and strategic decision-making.
-          </p>
-        </div>
-        
-        <div>
-          <h4 className="font-semibold mb-4">Resources</h4>
-          <ul className="space-y-2 text-sm text-slate-300">
-            <li><a href="#" className="hover:text-white transition-colors">Methodology</a></li>
-            <li><a href="#" className="hover:text-white transition-colors">Data Sources</a></li>
-            <li><a href="#" className="hover:text-white transition-colors">FAQ</a></li>
-          </ul>
-        </div>
-        
-        <div>
-          <h4 className="font-semibold mb-4">Contact</h4>
-          <p className="text-sm text-slate-300 mb-4">
-            For business inquiries and support
-          </p>
-          <p className="text-sm text-slate-300">
-            Email: info@tariffcalculator.com
-          </p>
-        </div>
-      </div>
-      
-      <div className="border-t border-slate-700 mt-8 pt-8 text-center">
-        <p className="text-sm text-slate-400">
-          © 2025 Trump Tariff Impact Calculator. Based on announced tariff rates as of July 2025.
-        </p>
-        <p className="text-xs text-slate-500 mt-2">
-          Disclaimer: This tool provides estimates for planning purposes. Consult professional advisors for business decisions.
-        </p>
-      </div>
+  <footer className="bg-slate-900 text-white py-8">
+    <div className="container mx-auto px-6 text-center">
+      <h3 className="text-lg font-bold mb-2">Trump Tariff Calculator</h3>
+      <p className="text-slate-300 text-sm mb-4">
+        Get quick estimates of tariff impact on your business
+      </p>
+      <p className="text-xs text-slate-500">
+        Disclaimer: Estimates for planning purposes. Consult trade professionals for business decisions.
+      </p>
     </div>
   </footer>
 );
