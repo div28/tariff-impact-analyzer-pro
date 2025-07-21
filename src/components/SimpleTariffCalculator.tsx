@@ -224,173 +224,160 @@ const SimpleTariffCalculator = () => {
     return (
       <div className="max-w-5xl mx-auto space-y-6">
         
-        {/* Premium Primary Results */}
-        <div className="relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-red-500/20 via-orange-500/20 to-yellow-500/20 rounded-2xl"></div>
-          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-yellow-400/30 to-transparent rounded-2xl"></div>
-          <div className="relative bg-white/95 backdrop-blur-sm border-0 shadow-2xl rounded-2xl p-6 md:p-8">
-            <div className="space-y-6">
-              {/* Success Header */}
-              <div className="text-center">
-                <div className="flex items-center justify-center gap-3 mb-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-emerald-500 to-green-600 rounded-full flex items-center justify-center shadow-lg">
-                    <TrendingUp className="w-6 h-6 text-white" />
+        {/* Results Section */}
+        <div className="bg-white rounded-xl shadow-lg p-6 border border-slate-200">
+          <div className="text-center mb-6">
+            <h2 className="text-2xl font-bold text-slate-900 mb-2">
+              Your Tariff Impact Analysis
+            </h2>
+            <p className="text-slate-600">
+              Based on your import profile and announced tariff rates
+            </p>
+          </div>
+
+          {/* Primary Results */}
+          <div className="grid md:grid-cols-3 gap-6 mb-6">
+            <div className="text-center p-4 bg-slate-50 rounded-lg">
+              <div className="flex items-center justify-center gap-2 mb-2">
+                <TrendingUp className="w-5 h-5 text-red-600" />
+                <span className="font-semibold text-slate-700">Monthly Impact</span>
+              </div>
+              <div className="text-2xl font-bold text-slate-900 mb-1">
+                {formatCurrency(results.monthlyTariffCost, selectedCurrency)}
+              </div>
+              <div className="text-sm text-slate-600">
+                +{results.percentageIncrease.toFixed(1)}% increase
+              </div>
+            </div>
+
+            <div className="text-center p-4 bg-slate-50 rounded-lg">
+              <div className="flex items-center justify-center gap-2 mb-2">
+                <DollarSign className="w-5 h-5 text-amber-600" />
+                <span className="font-semibold text-slate-700">Annual Impact</span>
+              </div>
+              <div className="text-2xl font-bold text-slate-900 mb-1">
+                {formatCurrency(results.annualTariffCost, selectedCurrency)}
+              </div>
+              <div className="text-sm text-slate-600">
+                12-month projection
+              </div>
+            </div>
+
+            <div className="text-center p-4 bg-slate-50 rounded-lg">
+              <div className="flex items-center justify-center gap-2 mb-2">
+                <Globe className="w-5 h-5 text-blue-600" />
+                <span className="font-semibold text-slate-700">Currency</span>
+              </div>
+              <Select value={selectedCurrency} onValueChange={setSelectedCurrency}>
+                <SelectTrigger className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {currencies.map(currency => (
+                    <SelectItem key={currency.code} value={currency.code}>
+                      {currency.symbol} {currency.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <div className="text-sm text-slate-600 mt-1">
+                Real-time rates
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+            <p className="text-sm text-blue-800">
+              {results.explanation}
+            </p>
+          </div>
+        </div>
+
+        {/* Margin Protection */}
+        <div className="bg-white rounded-xl shadow-lg p-6 border border-slate-200">
+          <div className="flex items-center gap-3 mb-6">
+            <Shield className="w-6 h-6 text-green-600" />
+            <div>
+              <h3 className="text-xl font-bold text-slate-900">Margin Protection Strategies</h3>
+              <p className="text-sm text-slate-600">Actionable ways to maintain profitability</p>
+            </div>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-4">
+            <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+              <div className="flex items-center gap-2 mb-3">
+                <DollarSign className="w-5 h-5 text-blue-600" />
+                <div className="text-sm font-bold text-blue-700">Smart Pricing</div>
+              </div>
+              <p className="text-sm text-blue-800">{results.marginProtection.priceIncrease}</p>
+            </div>
+            <div className="p-4 bg-green-50 rounded-lg border border-green-200">
+              <div className="flex items-center gap-2 mb-3">
+                <Target className="w-5 h-5 text-green-600" />
+                <div className="text-sm font-bold text-green-700">Cost Optimization</div>
+              </div>
+              <p className="text-sm text-green-800">{results.marginProtection.costSavings}</p>
+            </div>
+            <div className="p-4 bg-amber-50 rounded-lg border border-amber-200">
+              <div className="flex items-center gap-2 mb-3">
+                <Zap className="w-5 h-5 text-amber-600" />
+                <div className="text-sm font-bold text-amber-700">Strategic Timing</div>
+              </div>
+              <p className="text-sm text-amber-800">{results.marginProtection.inventoryStrategy}</p>
+            </div>
+          </div>
+        </div>
+
+        {/* AI Recommendations */}
+        <div className="bg-white rounded-xl shadow-lg p-6 border border-slate-200">
+          <div className="flex items-center gap-3 mb-4">
+            <Brain className="w-6 h-6 text-purple-600" />
+            <div className="flex-1">
+              <h3 className="text-xl font-bold text-slate-900">AI Recommendations</h3>
+              <div className="flex items-center gap-2">
+                <span className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full">
+                  AI Analysis
+                </span>
+                <span className="text-xs text-slate-500">
+                  Based on {formData.imports} from {formData.countries.join(', ')}
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div className="space-y-4">
+            {results.aiRecommendations.map((rec: any, index: number) => (
+              <div key={index} className="flex items-start gap-4 p-4 bg-slate-50 rounded-lg border border-slate-200">
+                <div className="flex-shrink-0">
+                  <div className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-sm">
+                    {index + 1}
                   </div>
-                  <span className="text-xl font-bold bg-gradient-to-r from-emerald-600 to-green-700 bg-clip-text text-transparent">
-                    Your Business Impact Analysis
-                  </span>
-                </div>
-                
-                <div className="space-y-3 mb-6">
-                  <div className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-red-600 via-orange-600 to-yellow-600 bg-clip-text text-transparent animate-pulse">
-                    {formatCurrency(results.annualTariffCost, selectedCurrency)}
-                  </div>
-                  <div className="text-xl font-semibold text-slate-700">
-                    additional cost annually
-                  </div>
-                  <div className="inline-flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-red-100 to-orange-100 rounded-full border-2 border-red-200">
-                    <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
-                    <span className="text-red-700 font-bold">
-                      {results.percentageIncrease.toFixed(1)}% cost increase starting {results.deadlineDate}
+                  <div className="text-center mt-2">
+                    <span className={`text-xs px-2 py-1 rounded-full font-medium ${
+                      rec.priority === 'High Impact' ? 'bg-red-100 text-red-700' :
+                      rec.priority === 'Easy Win' ? 'bg-green-100 text-green-700' :
+                      'bg-blue-100 text-blue-700'
+                    }`}>
+                      {rec.priority}
                     </span>
                   </div>
                 </div>
-
-                {/* Premium Multi-Currency Display */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-                  {currencies.map((currency) => (
-                    <div 
-                      key={currency.code}
-                      className={`group p-3 rounded-xl border-2 transition-all cursor-pointer transform hover:scale-105 ${
-                        selectedCurrency === currency.code 
-                          ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white border-blue-500 shadow-lg' 
-                          : 'bg-white/80 text-slate-700 border-slate-200 hover:border-blue-300 hover:shadow-md'
-                      }`}
-                      onClick={() => setSelectedCurrency(currency.code)}
-                    >
-                      <div className="text-sm font-bold">
-                        {formatCurrency(results.annualTariffCost, currency.code)}
-                      </div>
-                      <div className="text-xs opacity-80">{currency.code}</div>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Success Insight */}
-                <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-4 border-2 border-blue-200">
+                <div className="flex-1">
                   <div className="flex items-center gap-2 mb-2">
-                    <Star className="w-5 h-5 text-yellow-500" />
-                    <span className="font-semibold text-blue-900">Strategic Insight</span>
+                    <span className="font-bold text-slate-900">{rec.action}</span>
+                    <span className={`text-xs px-2 py-1 rounded-full ${
+                      rec.difficulty === 'Easy' ? 'bg-green-100 text-green-700' :
+                      rec.difficulty === 'Moderate' ? 'bg-yellow-100 text-yellow-700' :
+                      'bg-red-100 text-red-700'
+                    }`}>
+                      {rec.difficulty}
+                    </span>
                   </div>
-                  <p className="text-sm text-blue-800">
-                    {results.explanation} Our AI has identified <strong>3 profit-protection strategies</strong> below.
-                  </p>
+                  <p className="text-sm text-green-700 font-semibold mb-1">{rec.benefit}</p>
+                  <p className="text-xs text-slate-600">{rec.timeline}</p>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Premium Margin Protection */}
-        <div className="relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 via-green-500/10 to-blue-500/10 rounded-xl"></div>
-          <div className="relative bg-white/95 backdrop-blur-sm border-0 shadow-xl rounded-xl p-6">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-gradient-to-r from-emerald-500 to-green-600 rounded-full flex items-center justify-center shadow-lg">
-                <Shield className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h3 className="text-xl font-bold text-slate-900">Profit Protection Suite</h3>
-                <p className="text-sm text-slate-600">Turn challenges into competitive advantages</p>
-              </div>
-            </div>
-            
-            <div className="grid md:grid-cols-3 gap-4">
-              <div className="group p-4 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg border-2 border-blue-200 hover:shadow-lg transition-all transform hover:-translate-y-1">
-                <div className="flex items-center gap-2 mb-3">
-                  <DollarSign className="w-5 h-5 text-blue-600" />
-                  <div className="text-sm font-bold text-blue-700">Smart Pricing</div>
-                </div>
-                <p className="text-sm text-blue-800">{results.marginProtection.priceIncrease}</p>
-              </div>
-              <div className="group p-4 bg-gradient-to-br from-green-50 to-emerald-100 rounded-lg border-2 border-green-200 hover:shadow-lg transition-all transform hover:-translate-y-1">
-                <div className="flex items-center gap-2 mb-3">
-                  <Target className="w-5 h-5 text-green-600" />
-                  <div className="text-sm font-bold text-green-700">Cost Optimization</div>
-                </div>
-                <p className="text-sm text-green-800">{results.marginProtection.costSavings}</p>
-              </div>
-              <div className="group p-4 bg-gradient-to-br from-amber-50 to-orange-100 rounded-lg border-2 border-amber-200 hover:shadow-lg transition-all transform hover:-translate-y-1">
-                <div className="flex items-center gap-2 mb-3">
-                  <Zap className="w-5 h-5 text-amber-600" />
-                  <div className="text-sm font-bold text-amber-700">Strategic Timing</div>
-                </div>
-                <p className="text-sm text-amber-800">{results.marginProtection.inventoryStrategy}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Premium AI Recommendations */}
-        <div className="relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-blue-500/10 to-indigo-500/10 rounded-xl"></div>
-          <div className="absolute top-0 left-0 w-24 h-24 bg-gradient-to-br from-purple-400/20 to-transparent rounded-xl"></div>
-          <div className="relative bg-white/95 backdrop-blur-sm border-0 shadow-xl rounded-xl p-6">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-600 rounded-full flex items-center justify-center shadow-lg">
-                <Brain className="w-5 h-5 text-white" />
-              </div>
-              <div className="flex-1">
-                <h3 className="text-xl font-bold text-slate-900">AI Strategic Analysis</h3>
-                <div className="flex items-center gap-2">
-                  <span className="text-xs bg-gradient-to-r from-purple-100 to-blue-100 text-purple-700 px-3 py-1 rounded-full border border-purple-200">
-                    🧠 Powered by Advanced AI
-                  </span>
-                  <span className="text-xs text-slate-500">
-                    Based on {formData.imports} from {formData.countries.join(', ')}
-                  </span>
-                </div>
-              </div>
-            </div>
-            
-            <div className="space-y-4">
-              {results.aiRecommendations.map((rec: any, index: number) => (
-                <div key={index} className="group relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-r from-slate-50 to-slate-100 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                  <div className="relative flex items-start gap-4 p-4 bg-white/80 rounded-lg border-2 border-slate-200 hover:border-purple-300 transition-all">
-                    <div className="flex-shrink-0">
-                      <div className="w-10 h-10 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-full flex items-center justify-center font-bold shadow-lg">
-                        {index + 1}
-                      </div>
-                      <div className="text-center mt-2">
-                        <span className={`text-xs px-2 py-1 rounded-full font-medium ${
-                          rec.priority === 'High Impact' ? 'bg-red-100 text-red-700' :
-                          rec.priority === 'Easy Win' ? 'bg-green-100 text-green-700' :
-                          'bg-blue-100 text-blue-700'
-                        }`}>
-                          {rec.priority}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="font-bold text-slate-900">{rec.action}</span>
-                        <span className={`text-xs px-2 py-1 rounded-full ${
-                          rec.difficulty === 'Easy' ? 'bg-green-100 text-green-700' :
-                          rec.difficulty === 'Moderate' ? 'bg-yellow-100 text-yellow-700' :
-                          'bg-red-100 text-red-700'
-                        }`}>
-                          {rec.difficulty}
-                        </span>
-                      </div>
-                      <p className="text-sm text-emerald-700 font-semibold mb-1">💰 {rec.benefit}</p>
-                      <p className="text-xs text-slate-600">⏱️ {rec.timeline}</p>
-                    </div>
-                    <ArrowRight className="w-5 h-5 text-purple-600 mt-2 flex-shrink-0 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </div>
-              ))}
-            </div>
+            ))}
           </div>
         </div>
 
