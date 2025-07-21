@@ -38,19 +38,19 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onScrollToCalculator }) => {
 
         {/* Main Headline */}
         <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight">
-          <span className="bg-gradient-to-r from-white via-slate-100 to-slate-200 bg-clip-text text-transparent">
+          <span className="text-white">
             Trump Tariff
           </span>
           <br />
-          <span className="bg-gradient-to-r from-accent-light via-accent to-primary bg-clip-text text-transparent">
+          <span className="text-white">
             Impact Calculator
           </span>
         </h1>
 
         {/* Professional Subheadline */}
-        <p className="text-xl md:text-2xl lg:text-3xl mb-12 text-slate-300 max-w-4xl mx-auto leading-relaxed font-light">
-          Enterprise-grade analysis of <span className="font-semibold text-warning">2025 tariff impacts</span> on your supply chain.<br />
-          <span className="text-accent font-medium">Instant insights. Strategic planning. Professional results.</span>
+        <p className="text-xl md:text-2xl lg:text-3xl mb-12 text-white max-w-4xl mx-auto leading-relaxed font-light">
+          Enterprise-grade analysis of <span className="font-semibold text-yellow-300">2025 tariff impacts</span> on your supply chain.<br />
+          <span className="text-blue-200 font-medium">Instant insights. Strategic planning. Professional results.</span>
         </p>
 
         {/* Premium Feature Grid */}
