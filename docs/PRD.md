@@ -14,13 +14,43 @@ Achieve seamless, portfolio-worthy technical deployment, including live web URL 
 Drive user engagement—encouraging sharing, repeat use, and credible outputs.
 Ensure a simple, mobile-first user experience accessible to non-experts.
 Establish policy credibility via transparent, clearly cited data sources.
-Metrics
-North Star Metric: Number of tariff scenarios calculated
-Secondary Metrics: Average time on results page, number of result shares, returning user sessions
-Guardrails:
-Page load errors <1% of sessions
-AI daily message quota exceeded: zero tolerance in critical flows
-Inaccurate calculations: zero tolerance for critical miscalculations (tariff or cost errors >$10 for any scenario)
+## Metrics
+
+### North Star Metric
+Number of tariff scenarios calculated (target: 2,600 yearly scenarios)
+
+### Primary Success Metrics
+- **User Engagement**: Average time on results page >2 minutes
+- **Completion Rate**: >80% of form starters reach results page
+- **User Satisfaction**: Results sharing rate >15% of successful calculations
+- **Mobile Usage**: >60% of sessions on mobile devices
+
+### Secondary Metrics
+- **Discovery**: Demo button usage >40% of first-time visitors  
+- **Learning**: FAQ section engagement >25% of users
+- **Return Usage**: >20% of users return within 30 days
+- **Viral Growth**: 10% share rate driving organic user acquisition
+
+### Updated Guardrails (Post UX Improvements)
+- **Technical Performance**: Page load errors <1% of sessions
+- **AI Reliability**: Zero AI quota exceeded in critical calculation flows  
+- **Calculation Accuracy**: Zero tolerance for cost errors >$10 in any scenario
+- **User Experience**: Time to first result <45 seconds
+- **Mobile Performance**: All features functional on mobile devices
+
+### Impact Measurement
+- **Business Value**: Track estimated cost savings provided to users
+- **User Feedback**: Monitor calculation accuracy through user reports
+- **Market Reach**: Geographic distribution of users across US states
+- **Policy Relevance**: Usage spikes correlated with tariff news cycles
+
+### Success Validation
+**6-Month Targets:**
+- 2,000+ unique users
+- 2,600+ scenarios calculated  
+- 15%+ results sharing rate
+- <1% error reports
+- Featured in 3+ trade publications or business blogs
 Impact Sizing Model
 User Reach:
 Bootcamp: 50–100 assignment reviewers
