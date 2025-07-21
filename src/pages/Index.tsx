@@ -1,17 +1,9 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef } from 'react';
 import HeroSection from '@/components/HeroSection';
-import TariffCalculator from '@/components/TariffCalculator';
-import { HowItWorksSection, DataSourcesSection, FAQSection, FooterSection } from '@/components/ProfessionalSections';
-import { PWAInstallPrompt, registerSW } from '@/components/PWAFeatures';
-import { MethodologySection } from '@/components/UserExperienceFeatures';
+import SimpleTariffCalculator from '@/components/SimpleTariffCalculator';
 
 const Index = () => {
   const calculatorRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    // Register service worker for PWA functionality
-    registerSW();
-  }, []);
 
   const scrollToCalculator = () => {
     calculatorRef.current?.scrollIntoView({ 
@@ -21,25 +13,16 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-white">
       {/* Hero Section */}
       <HeroSection onScrollToCalculator={scrollToCalculator} />
 
       {/* Calculator Section */}
-      <section ref={calculatorRef} className="py-16 bg-gradient-to-br from-background to-muted/30">
-        <div className="container mx-auto">
-          <TariffCalculator />
+      <section ref={calculatorRef} className="py-16 bg-slate-50">
+        <div className="container mx-auto px-6">
+          <SimpleTariffCalculator />
         </div>
       </section>
-      
-      {/* Simple FAQ Section */}
-      <FAQSection />
-      
-      {/* Professional Footer */}
-      <FooterSection />
-      
-      {/* PWA Install Prompt */}
-      <PWAInstallPrompt />
     </div>
   );
 };
