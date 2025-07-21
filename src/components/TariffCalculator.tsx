@@ -9,6 +9,8 @@ import { Calculator, AlertTriangle, TrendingUp, DollarSign, Building2, Globe, Pa
 import { toast } from "@/hooks/use-toast";
 import { TimelineAwareness, TariffSurvivalScore, CurrencyConverter, CostOffsetCalculator } from '@/components/EnterpriseFeatures';
 import { TariffInsuranceCalculator, ProfessionalExportTools, LegalDisclaimer } from '@/components/AdvancedFeatures';
+import { SmartRecommendationsEngine, AdvancedAnalyticsDashboard } from '@/components/IntelligentFeatures';
+import { QuickCalculateMode, BusinessProfileManager, CalculationHistory } from '@/components/UserExperienceFeatures';
 
 interface Country {
   name: string;
@@ -237,6 +239,27 @@ const TariffCalculator = () => {
     }).format(amount);
   };
 
+  const handleQuickCalculate = (quickData: any) => {
+    setFormData(quickData);
+    toast({
+      title: "Quick Scenario Loaded",
+      description: `${quickData.businessType} scenario has been applied.`,
+    });
+  };
+
+  const handleLoadProfile = (profile: any) => {
+    setFormData({
+      businessType: profile.businessType,
+      monthlyImport: profile.monthlyImport,
+      countries: profile.countries,
+      products: profile.products
+    });
+    toast({
+      title: "Profile Loaded",
+      description: `Business profile "${profile.name}" has been loaded.`,
+    });
+  };
+
   return (
     <div className="max-w-7xl mx-auto p-6 space-y-12">
       {/* Header Section */}
@@ -245,8 +268,15 @@ const TariffCalculator = () => {
           Professional Impact Analysis
         </h2>
         <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-          Enterprise-grade tariff calculations with real-time market data
+          Enterprise-grade tariff calculations with intelligent recommendations
         </p>
+      </div>
+
+      {/* Quick Access Features */}
+      <div className="grid lg:grid-cols-3 gap-8 mb-12">
+        <QuickCalculateMode onQuickCalculate={handleQuickCalculate} />
+        <BusinessProfileManager currentProfile={formData} onLoadProfile={handleLoadProfile} />
+        <CalculationHistory />
       </div>
 
       {/* Form Section - Premium Design */}
@@ -533,6 +563,11 @@ const TariffCalculator = () => {
 
           {/* Advanced Enterprise Features */}
           <TariffInsuranceCalculator results={results} formData={formData} />
+          
+          {/* Intelligent Features */}
+          <SmartRecommendationsEngine results={results} formData={formData} />
+          <AdvancedAnalyticsDashboard results={results} formData={formData} />
+          
           <ProfessionalExportTools results={results} formData={formData} />
           <LegalDisclaimer />
         </div>

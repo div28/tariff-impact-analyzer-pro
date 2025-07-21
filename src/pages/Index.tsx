@@ -4,6 +4,7 @@ import TariffCalculator from '@/components/TariffCalculator';
 import { HowItWorksSection, DataSourcesSection, FAQSection, FooterSection } from '@/components/ProfessionalSections';
 import { TimelineAwareness } from '@/components/EnterpriseFeatures';
 import { PWAInstallPrompt, registerSW } from '@/components/PWAFeatures';
+import { MethodologySection } from '@/components/UserExperienceFeatures';
 
 const Index = () => {
   const calculatorRef = useRef<HTMLDivElement>(null);
@@ -41,6 +42,7 @@ const Index = () => {
       
       {/* Professional Content Sections */}
       <HowItWorksSection />
+      <MethodologySection />
       <DataSourcesSection />
       <FAQSection />
       
