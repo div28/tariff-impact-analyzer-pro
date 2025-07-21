@@ -237,39 +237,39 @@ const SimpleTariffCalculator = () => {
 
           {/* Primary Results */}
           <div className="grid md:grid-cols-3 gap-6 mb-6">
-            <div className="text-center p-4 bg-slate-50 rounded-lg">
+            <div className="text-center p-4 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20">
               <div className="flex items-center justify-center gap-2 mb-2">
-                <TrendingUp className="w-5 h-5 text-red-600" />
-                <span className="font-semibold text-slate-700">Monthly Impact</span>
+                <TrendingUp className="w-5 h-5 text-red-400" />
+                <span className="font-semibold text-white">Monthly Impact</span>
               </div>
-              <div className="text-2xl font-bold text-slate-900 mb-1">
+              <div className="text-2xl font-bold text-white mb-1">
                 {formatCurrency(results.monthlyTariffCost, selectedCurrency)}
               </div>
-              <div className="text-sm text-slate-600">
+              <div className="text-sm text-blue-100">
                 +{results.percentageIncrease.toFixed(1)}% increase
               </div>
             </div>
 
-            <div className="text-center p-4 bg-slate-50 rounded-lg">
+            <div className="text-center p-4 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20">
               <div className="flex items-center justify-center gap-2 mb-2">
-                <DollarSign className="w-5 h-5 text-amber-600" />
-                <span className="font-semibold text-slate-700">Annual Impact</span>
+                <DollarSign className="w-5 h-5 text-amber-400" />
+                <span className="font-semibold text-white">Annual Impact</span>
               </div>
-              <div className="text-2xl font-bold text-slate-900 mb-1">
+              <div className="text-2xl font-bold text-white mb-1">
                 {formatCurrency(results.annualTariffCost, selectedCurrency)}
               </div>
-              <div className="text-sm text-slate-600">
+              <div className="text-sm text-blue-100">
                 12-month projection
               </div>
             </div>
 
-            <div className="text-center p-4 bg-slate-50 rounded-lg">
+            <div className="text-center p-4 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20">
               <div className="flex items-center justify-center gap-2 mb-2">
-                <Globe className="w-5 h-5 text-blue-600" />
-                <span className="font-semibold text-slate-700">Currency</span>
+                <Globe className="w-5 h-5 text-blue-400" />
+                <span className="font-semibold text-white">Currency</span>
               </div>
               <Select value={selectedCurrency} onValueChange={setSelectedCurrency}>
-                <SelectTrigger className="w-full">
+                <SelectTrigger className="w-full bg-white/20 border-white/30 text-white">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -280,7 +280,7 @@ const SimpleTariffCalculator = () => {
                   ))}
                 </SelectContent>
               </Select>
-              <div className="text-sm text-slate-600 mt-1">
+              <div className="text-sm text-blue-100 mt-1">
                 Real-time rates
               </div>
             </div>
