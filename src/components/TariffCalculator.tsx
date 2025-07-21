@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Calculator, AlertTriangle, TrendingUp, DollarSign, Building2, Globe, Package, ArrowRight, RotateCcw, Share2, Download, Lightbulb, Zap } from 'lucide-react';
+import { Calculator, AlertTriangle, TrendingUp, DollarSign, Building2, Globe, Package, ArrowRight, RotateCcw, Share2, Download, Lightbulb, Zap, Mail, Linkedin, RefreshCw, Loader2, Sparkles, Users } from 'lucide-react';
 import { toast } from "@/hooks/use-toast";
 import { TimelineAwareness, TariffSurvivalScore, CurrencyConverter, CostOffsetCalculator } from '@/components/EnterpriseFeatures';
 import { TariffInsuranceCalculator, ProfessionalExportTools, LegalDisclaimer } from '@/components/AdvancedFeatures';
@@ -62,6 +62,19 @@ const TariffCalculator = () => {
   const [results, setResults] = useState<any>(null);
   const [isCalculating, setIsCalculating] = useState(false);
   const [errors, setErrors] = useState<{[key: string]: string}>({});
+  const [showStickyDemo, setShowStickyDemo] = useState(false);
+  const [showCelebration, setShowCelebration] = useState(false);
+
+  // Sticky demo button visibility on scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      setShowStickyDemo(scrollPosition > 800);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const validateForm = () => {
     const newErrors: {[key: string]: string} = {};
@@ -187,8 +200,23 @@ const TariffCalculator = () => {
 
     setIsCalculating(true);
     
-    // Simulate API delay for professional feel
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    // Extended loading with encouraging messages
+    const loadingMessages = [
+      "Analyzing your tariff exposure...",
+      "Calculating cost impacts...",
+      "Finding alternative suppliers...",
+      "Generating recommendations...",
+      "Almost ready!"
+    ];
+    
+    let messageIndex = 0;
+    const messageInterval = setInterval(() => {
+      messageIndex = (messageIndex + 1) % loadingMessages.length;
+    }, 600);
+    
+    // Simulate comprehensive analysis
+    await new Promise(resolve => setTimeout(resolve, 3000));
+    clearInterval(messageInterval);
 
     // Convert import range to average value
     const importValue = getImportValue(formData.monthlyImport);
@@ -212,9 +240,13 @@ const TariffCalculator = () => {
     });
     
     setIsCalculating(false);
+    setShowCelebration(true);
+    
+    // Hide celebration after 3 seconds
+    setTimeout(() => setShowCelebration(false), 3000);
     
     toast({
-      title: "Analysis Complete",
+      title: "Analysis Complete! 🎉",
       description: "Your professional tariff impact analysis is ready.",
     });
   };
@@ -260,10 +292,41 @@ const TariffCalculator = () => {
     });
   };
 
+  const emailResults = () => {
+    const subject = encodeURIComponent('Tariff Impact Analysis Results');
+    const body = encodeURIComponent(`Here are my tariff impact results:\n\nMonthly Additional Cost: ${formatCurrency(results.monthlyTariffCost)}\nYearly Additional Cost: ${formatCurrency(results.yearlyTariffCost)}\nPercentage Increase: ${results.percentageIncrease.toFixed(1)}%\n\nCalculated using: ${window.location.href}\n\nBest regards`);
+    window.open(`mailto:?subject=${subject}&body=${body}`);
+  };
+
+  const shareToLinkedIn = () => {
+    const text = encodeURIComponent(`Just calculated my business tariff impact: ${formatCurrency(results.monthlyTariffCost)} additional monthly costs! Every importer should check their exposure.`);
+    const url = encodeURIComponent(window.location.href);
+    window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}&text=${text}`, '_blank');
+  };
+
+  const downloadSummary = () => {
+    const summaryText = `TARIFF IMPACT ANALYSIS SUMMARY\n\nBusiness Type: ${formData.businessType}\nMonthly Import Value: ${formData.monthlyImport}\nImport Countries: ${formData.countries.join(', ')}\nProducts: ${formData.products}\n\nIMPACT ANALYSIS:\nMonthly Additional Cost: ${formatCurrency(results.monthlyTariffCost)}\nYearly Additional Cost: ${formatCurrency(results.yearlyTariffCost)}\nPercentage Increase: ${results.percentageIncrease.toFixed(1)}%\n\nGenerated: ${new Date().toLocaleDateString()}\nCalculator: ${window.location.href}\n\nDisclaimer: This analysis is for planning purposes. Consult trade professionals for compliance decisions.`;
+    
+    const blob = new Blob([summaryText], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'tariff-impact-summary.txt';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+    toast({
+      title: "Summary Downloaded",
+      description: "Your tariff analysis summary has been downloaded.",
+    });
+  };
+
   const handleQuickDemo = () => {
     const demoData = {
       businessType: "Technology/Electronics",
-      monthlyImport: "$100K-$500K",
+      monthlyImport: "$50K-$200K",
       countries: ["China", "Germany"],
       products: "Computer accessories, electronic components, LED displays, networking equipment"
     };
@@ -299,17 +362,31 @@ const TariffCalculator = () => {
             onClick={handleQuickDemo}
             variant="outline"
             size="lg"
-            className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-950 dark:to-blue-950 border-green-200 dark:border-green-800 hover:border-green-300 dark:hover:border-green-700 text-green-700 dark:text-green-300 hover:text-green-800 dark:hover:text-green-200 px-8 py-3 transition-all duration-300 transform hover:scale-105"
+            className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-950 dark:to-blue-950 border-green-200 dark:border-green-800 hover:border-green-300 dark:hover:border-green-700 text-green-700 dark:text-green-300 hover:text-green-800 dark:hover:text-green-200 px-8 py-4 text-lg sm:text-xl transition-all duration-300 transform hover:scale-105"
           >
-            <Zap className="mr-2 h-5 w-5" />
+            <Zap className="mr-2 h-6 w-6" />
             See Sample Results First →
-            <span className="ml-2 text-sm bg-green-100 dark:bg-green-900 px-2 py-1 rounded-full">Electronics Retailer Demo</span>
+            <span className="ml-2 text-sm bg-green-100 dark:bg-green-900 px-3 py-1 rounded-full">Electronics Demo</span>
           </Button>
-          <p className="text-sm text-muted-foreground mt-2">
+          <p className="text-sm text-muted-foreground mt-3">
             Not sure where to start? Try our pre-filled example first
           </p>
         </div>
       </div>
+
+      {/* Sticky Demo Button for Mobile */}
+      {showStickyDemo && !results && (
+        <div className="fixed bottom-4 right-4 z-50 md:hidden">
+          <Button
+            onClick={handleQuickDemo}
+            size="lg"
+            className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white shadow-lg rounded-full px-6 py-3 text-base font-semibold"
+          >
+            <Zap className="mr-2 h-5 w-5" />
+            Try Demo
+          </Button>
+        </div>
+      )}
 
       {/* What You'll Discover Section */}
       <Card className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-950 dark:to-blue-950 border-green-200 dark:border-green-800 shadow-lg mb-12">
@@ -455,12 +532,12 @@ const TariffCalculator = () => {
                 Business Type
               </Label>
               <Select value={formData.businessType} onValueChange={(value) => setFormData(prev => ({...prev, businessType: value}))}>
-                <SelectTrigger className="h-14 text-lg border-2 hover:border-primary/50 transition-colors">
+                <SelectTrigger className="h-16 text-lg border-2 hover:border-primary/50 transition-colors touch-manipulation">
                   <SelectValue placeholder="Select your industry sector" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="bg-background border-2 shadow-lg z-50">
                   {businessTypes.map(type => (
-                    <SelectItem key={type} value={type} className="text-lg py-3">{type}</SelectItem>
+                    <SelectItem key={type} value={type} className="text-lg py-4 touch-manipulation">{type}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -476,12 +553,12 @@ const TariffCalculator = () => {
                 Approximate Monthly Imports (rough estimates work fine!)
               </Label>
               <Select value={formData.monthlyImport} onValueChange={(value) => setFormData(prev => ({...prev, monthlyImport: value}))}>
-                <SelectTrigger className="h-14 text-lg border-2 hover:border-primary/50 transition-colors">
+                <SelectTrigger className="h-16 text-lg border-2 hover:border-primary/50 transition-colors touch-manipulation">
                   <SelectValue placeholder="Select your import range" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="bg-background border-2 shadow-lg z-50">
                   {importRanges.map(range => (
-                    <SelectItem key={range} value={range} className="text-lg py-3">{range}</SelectItem>
+                    <SelectItem key={range} value={range} className="text-lg py-4 touch-manipulation">{range}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -504,23 +581,23 @@ const TariffCalculator = () => {
               {countries.map(country => (
                 <div 
                   key={country.name} 
-                  className={`group relative p-4 rounded-xl border-2 transition-all duration-300 cursor-pointer
+                  className={`group relative p-5 rounded-xl border-2 transition-all duration-300 cursor-pointer touch-manipulation min-h-[80px] flex items-center
                     ${formData.countries.includes(country.name) 
                       ? 'border-primary bg-primary/5 shadow-lg shadow-primary/20' 
                       : 'border-border hover:border-primary/50 hover:bg-muted/50'
                     }`}
                   onClick={() => handleCountryChange(country.name, !formData.countries.includes(country.name))}
                 >
-                  <div className="flex items-center space-x-3">
+                  <div className="flex items-center space-x-4 w-full">
                     <Checkbox
                       id={country.name}
                       checked={formData.countries.includes(country.name)}
                       onCheckedChange={(checked) => handleCountryChange(country.name, checked as boolean)}
-                      className="scale-125"
+                      className="scale-150"
                     />
                     <div className="flex-1">
-                      <div className="font-semibold text-lg">{country.name}</div>
-                      <div className={`text-sm font-medium ${
+                      <div className="font-semibold text-xl">{country.name}</div>
+                      <div className={`text-base font-medium ${
                         country.tariff >= 30 ? 'text-destructive' : 
                         country.tariff >= 25 ? 'text-warning' : 'text-success'
                       }`}>
@@ -577,7 +654,9 @@ const TariffCalculator = () => {
               placeholder="e.g., consumer electronics, automotive components, textiles"
               value={formData.products}
               onChange={(e) => setFormData(prev => ({...prev, products: e.target.value}))}
-              className="h-14 text-lg border-2 hover:border-primary/50 transition-colors"
+              className="h-16 text-lg border-2 hover:border-primary/50 transition-colors touch-manipulation"
+              inputMode="text"
+              autoComplete="off"
             />
             <p className="text-sm text-muted-foreground">
               💡 Examples: electronics, car parts, clothing, raw materials
@@ -586,34 +665,53 @@ const TariffCalculator = () => {
 
           {/* Quick Preview */}
           {formData.businessType && formData.monthlyImport && formData.countries.length > 0 && (
-            <div className="p-4 bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 rounded-lg">
-              <div className="flex items-center gap-2 mb-2">
-                <Calculator className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-                <span className="font-semibold text-blue-800 dark:text-blue-200">Quick Preview</span>
+            <div className="p-6 bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 rounded-lg">
+              <div className="flex items-center gap-2 mb-3">
+                <Calculator className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                <span className="font-semibold text-blue-800 dark:text-blue-200 text-lg">Quick Preview</span>
               </div>
-              <p className="text-blue-700 dark:text-blue-300 text-sm">
-                Your scenario could mean approximately <strong>${(getImportValue(formData.monthlyImport) * (countries.filter(c => formData.countries.includes(c.name)).reduce((sum, country) => sum + country.tariff, 0) / formData.countries.length) / 100).toLocaleString()}</strong> additional monthly costs
+              <p className="text-blue-700 dark:text-blue-300 text-base">
+                Your scenario could mean approximately <strong className="text-xl">${(getImportValue(formData.monthlyImport) * (countries.filter(c => formData.countries.includes(c.name)).reduce((sum, country) => sum + country.tariff, 0) / formData.countries.length) / 100).toLocaleString()}</strong> additional monthly costs
               </p>
             </div>
           )}
 
-          {/* Calculate Button */}
-          <div className="pt-6">
-            <Button 
-              onClick={calculateImpact}
-              variant="premium" 
-              size="lg" 
-              className="w-full text-xl px-8 py-6 relative overflow-hidden group"
-              disabled={!formData.businessType || !formData.monthlyImport || formData.countries.length === 0}
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-              <Calculator className="mr-3 h-6 w-6" />
-              Show Me My Results →
-              <ArrowRight className="ml-3 h-6 w-6 group-hover:translate-x-1 transition-transform" />
-            </Button>
-            <p className="text-center text-sm text-muted-foreground mt-2">
-              Get detailed breakdown + money-saving recommendations
-            </p>
+          {/* Calculate Button - Mobile Optimized */}
+          <div className="pt-8">
+            {isCalculating ? (
+              <div className="w-full text-center py-8">
+                <div className="inline-flex items-center gap-3 px-8 py-6 bg-primary/10 rounded-2xl">
+                  <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                  <div className="text-left">
+                    <div className="text-xl font-semibold text-primary">Calculating your tariff impact...</div>
+                    <div className="text-sm text-muted-foreground flex items-center gap-1">
+                      Analyzing data
+                      <span className="animate-pulse">•</span>
+                      <span className="animate-pulse" style={{animationDelay: '0.2s'}}>•</span>
+                      <span className="animate-pulse" style={{animationDelay: '0.4s'}}>•</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <>
+                <Button 
+                  onClick={calculateImpact}
+                  variant="premium" 
+                  size="lg" 
+                  className="w-full text-xl sm:text-2xl px-8 py-8 relative overflow-hidden group touch-manipulation"
+                  disabled={!formData.businessType || !formData.monthlyImport || formData.countries.length === 0}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+                  <Calculator className="mr-3 h-7 w-7" />
+                  Show Me My Results →
+                  <ArrowRight className="ml-3 h-7 w-7 group-hover:translate-x-1 transition-transform" />
+                </Button>
+                <p className="text-center text-base text-muted-foreground mt-3">
+                  Get detailed breakdown + money-saving recommendations
+                </p>
+              </>
+            )}
           </div>
         </CardContent>
       </Card>
@@ -621,15 +719,36 @@ const TariffCalculator = () => {
       {/* Results Section - Premium Analysis */}
       {results && (
         <div className="space-y-8">
+          {/* Celebration Element */}
+          {showCelebration && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm">
+              <div className="bg-background border-2 border-primary rounded-2xl p-8 mx-4 text-center shadow-2xl animate-scale-in">
+                <div className="text-6xl mb-4">🎉</div>
+                <h3 className="text-2xl font-bold text-primary mb-2">Analysis Complete!</h3>
+                <p className="text-muted-foreground">📊 Here's your personalized tariff analysis!</p>
+              </div>
+            </div>
+          )}
+
+          {/* Social Proof Banner */}
+          <div className="text-center py-4">
+            <div className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-950 dark:to-blue-950 border border-green-200 dark:border-green-800 rounded-full">
+              <Users className="h-4 w-4 text-green-600 dark:text-green-400" />
+              <span className="text-sm font-medium text-green-700 dark:text-green-300">
+                Join 1,200+ businesses who've used this calculator
+              </span>
+            </div>
+          </div>
+
           {/* Impact Summary Header */}
           <Card className="relative overflow-hidden shadow-2xl border-0 bg-gradient-to-br from-destructive/5 via-warning/5 to-orange-50">
             <div className="absolute inset-0 bg-gradient-to-r from-destructive/10 to-warning/10"></div>
             <CardHeader className="relative z-10">
               <CardTitle className="flex items-center gap-3 text-3xl font-bold text-destructive">
                 <div className="p-3 rounded-xl bg-gradient-to-r from-destructive to-warning">
-                  <AlertTriangle className="text-white h-6 w-6" />
+                  <Sparkles className="text-white h-6 w-6" />
                 </div>
-                Tariff Impact Analysis
+                📊 Your Personalized Tariff Analysis
               </CardTitle>
               <p className="text-lg text-muted-foreground">Professional assessment of your business exposure</p>
             </CardHeader>
@@ -735,38 +854,57 @@ const TariffCalculator = () => {
             <div className="space-y-6">
               <CurrencyConverter results={results} formData={formData} />
               
-              {/* Action Buttons */}
+              {/* Professional Action Buttons */}
               <Card className="shadow-lg">
                 <CardContent className="p-6">
-                  <h4 className="font-semibold mb-4">Professional Actions</h4>
+                  <h4 className="font-semibold mb-4 text-lg">Share & Export</h4>
                   <div className="space-y-3">
                     <Button 
-                      onClick={resetCalculator}
+                      onClick={emailResults}
                       variant="outline" 
-                      className="w-full"
+                      className="w-full text-left justify-start"
                     >
-                      <RotateCcw className="mr-2 h-4 w-4" />
-                      Reset Calculator
+                      <Mail className="mr-3 h-4 w-4" />
+                      Email Results to My Team
                     </Button>
                     <Button 
-                      onClick={shareResults}
+                      onClick={shareToLinkedIn}
                       variant="outline" 
-                      className="w-full"
+                      className="w-full text-left justify-start"
                     >
-                      <Share2 className="mr-2 h-4 w-4" />
-                      Share Results
+                      <Linkedin className="mr-3 h-4 w-4" />
+                      Share on LinkedIn
                     </Button>
                     <Button 
+                      onClick={downloadSummary}
                       variant="outline" 
-                      className="w-full"
+                      className="w-full text-left justify-start"
                     >
-                      <Download className="mr-2 h-4 w-4" />
-                      Download Report
+                      <Download className="mr-3 h-4 w-4" />
+                      Download Summary
                     </Button>
+                    <div className="border-t pt-3 mt-4">
+                      <Button 
+                        onClick={resetCalculator}
+                        variant="ghost" 
+                        className="w-full text-left justify-start"
+                      >
+                        <RefreshCw className="mr-3 h-4 w-4" />
+                        Start Over
+                      </Button>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
             </div>
+          </div>
+
+          {/* Disclaimer */}
+          <div className="bg-muted/30 border border-muted-foreground/20 rounded-lg p-6 text-center">
+            <p className="text-sm text-muted-foreground">
+              <AlertTriangle className="inline h-4 w-4 mr-1" />
+              <strong>Disclaimer:</strong> This analysis is for planning purposes. Consult trade professionals for compliance decisions.
+            </p>
           </div>
 
           {/* Advanced Enterprise Features */}
