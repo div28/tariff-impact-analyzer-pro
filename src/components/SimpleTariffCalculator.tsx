@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { TrendingUp, AlertTriangle, ArrowRight, RefreshCw, HelpCircle, ChevronDown, Lightbulb, Zap, DollarSign, Shield, Brain, Target, ExternalLink, Globe } from 'lucide-react';
+import { TrendingUp, AlertTriangle, ArrowRight, RefreshCw, HelpCircle, ChevronDown, Lightbulb, Zap, DollarSign, Shield, Brain, Target, ExternalLink, Globe, Star } from 'lucide-react';
 
 interface FormData {
   imports: string;
@@ -224,118 +224,175 @@ const SimpleTariffCalculator = () => {
     return (
       <div className="max-w-5xl mx-auto space-y-6">
         
-        {/* Primary Results - Multi-Currency */}
-        <Card className="p-6 md:p-8 border-0 shadow-lg bg-gradient-to-br from-red-50 to-red-100">
-          <div className="space-y-6">
-            {/* Main Impact */}
-            <div className="text-center">
-              <div className="flex items-center justify-center gap-2 mb-4">
-                <TrendingUp className="w-6 h-6 text-red-600" />
-                <span className="text-lg font-semibold text-red-700">Your Impact Analysis</span>
-              </div>
-              
-              <div className="space-y-2 mb-6">
-                <div className="text-4xl md:text-5xl font-bold text-red-600">
-                  {formatCurrency(results.annualTariffCost, selectedCurrency)}
-                </div>
-                <div className="text-lg text-red-700 font-medium">
-                  additional cost per year
-                </div>
-                <div className="text-sm text-red-600">
-                  {results.percentageIncrease.toFixed(1)}% increase • Starting {results.deadlineDate}
-                </div>
-              </div>
-
-              {/* Multi-Currency Display */}
-              <div className="flex flex-wrap justify-center gap-4 mb-6">
-                {currencies.map((currency) => (
-                  <div 
-                    key={currency.code}
-                    className={`px-3 py-2 rounded-lg border transition-colors cursor-pointer ${
-                      selectedCurrency === currency.code 
-                        ? 'bg-red-600 text-white border-red-600' 
-                        : 'bg-white/70 text-slate-700 border-slate-300 hover:border-red-300'
-                    }`}
-                    onClick={() => setSelectedCurrency(currency.code)}
-                  >
-                    <div className="text-sm font-medium">
-                      {formatCurrency(results.annualTariffCost, currency.code)} {currency.code}
-                    </div>
+        {/* Premium Primary Results */}
+        <div className="relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-red-500/20 via-orange-500/20 to-yellow-500/20 rounded-2xl"></div>
+          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-yellow-400/30 to-transparent rounded-2xl"></div>
+          <div className="relative bg-white/95 backdrop-blur-sm border-0 shadow-2xl rounded-2xl p-6 md:p-8">
+            <div className="space-y-6">
+              {/* Success Header */}
+              <div className="text-center">
+                <div className="flex items-center justify-center gap-3 mb-4">
+                  <div className="w-12 h-12 bg-gradient-to-r from-emerald-500 to-green-600 rounded-full flex items-center justify-center shadow-lg">
+                    <TrendingUp className="w-6 h-6 text-white" />
                   </div>
-                ))}
-              </div>
-
-              {/* What This Means */}
-              <div className="bg-white/70 rounded-lg p-4">
-                <p className="text-sm text-slate-700">
-                  <strong>What this means:</strong> {results.explanation}
-                </p>
-              </div>
-            </div>
-          </div>
-        </Card>
-
-        {/* Margin Protection Strategy */}
-        <Card className="p-6 border-0 shadow-lg">
-          <div className="flex items-center gap-2 mb-4">
-            <Shield className="w-5 h-5 text-blue-600" />
-            <h3 className="text-xl font-bold text-slate-900">Protect Your Margins</h3>
-          </div>
-          
-          <div className="grid md:grid-cols-3 gap-4">
-            <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-              <div className="text-sm font-semibold text-blue-700 mb-2">Price Strategy</div>
-              <p className="text-sm text-blue-800">{results.marginProtection.priceIncrease}</p>
-            </div>
-            <div className="p-4 bg-green-50 rounded-lg border border-green-200">
-              <div className="text-sm font-semibold text-green-700 mb-2">Cost Reduction</div>
-              <p className="text-sm text-green-800">{results.marginProtection.costSavings}</p>
-            </div>
-            <div className="p-4 bg-amber-50 rounded-lg border border-amber-200">
-              <div className="text-sm font-semibold text-amber-700 mb-2">Timing Strategy</div>
-              <p className="text-sm text-amber-800">{results.marginProtection.inventoryStrategy}</p>
-            </div>
-          </div>
-        </Card>
-
-        {/* AI Recommendations */}
-        <Card className="p-6 border-0 shadow-lg">
-          <div className="flex items-center gap-2 mb-4">
-            <Brain className="w-5 h-5 text-purple-600" />
-            <h3 className="text-xl font-bold text-slate-900">AI Analysis</h3>
-            <span className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full">
-              Based on your {formData.imports} imports from {formData.countries.join(', ')}
-            </span>
-          </div>
-          
-          <div className="space-y-4">
-            {results.aiRecommendations.map((rec: any, index: number) => (
-              <div key={index} className="flex items-start gap-4 p-4 bg-slate-50 rounded-lg border">
-                <div className="flex-shrink-0">
-                  <div className="w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold text-sm">
-                    {index + 1}
-                  </div>
-                  <div className="text-xs text-center mt-1 text-slate-500">{rec.difficulty}</div>
+                  <span className="text-xl font-bold bg-gradient-to-r from-emerald-600 to-green-700 bg-clip-text text-transparent">
+                    Your Competitive Intelligence
+                  </span>
                 </div>
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="font-semibold text-slate-900">{rec.action}</span>
-                    <span className={`text-xs px-2 py-1 rounded-full ${
-                      rec.priority === 'High Impact' ? 'bg-red-100 text-red-700' :
-                      rec.priority === 'Easy Win' ? 'bg-green-100 text-green-700' :
-                      'bg-blue-100 text-blue-700'
-                    }`}>
-                      {rec.priority}
+                
+                <div className="space-y-3 mb-6">
+                  <div className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-red-600 via-orange-600 to-yellow-600 bg-clip-text text-transparent animate-pulse">
+                    {formatCurrency(results.annualTariffCost, selectedCurrency)}
+                  </div>
+                  <div className="text-xl font-semibold text-slate-700">
+                    additional cost annually
+                  </div>
+                  <div className="inline-flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-red-100 to-orange-100 rounded-full border-2 border-red-200">
+                    <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+                    <span className="text-red-700 font-bold">
+                      {results.percentageIncrease.toFixed(1)}% cost increase starting {results.deadlineDate}
                     </span>
                   </div>
-                  <p className="text-sm text-slate-600 mb-1">{rec.benefit}</p>
-                  <p className="text-xs text-slate-500">{rec.timeline}</p>
                 </div>
-                <ArrowRight className="w-4 h-4 text-purple-600 mt-2 flex-shrink-0" />
+
+                {/* Premium Multi-Currency Display */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+                  {currencies.map((currency) => (
+                    <div 
+                      key={currency.code}
+                      className={`group p-3 rounded-xl border-2 transition-all cursor-pointer transform hover:scale-105 ${
+                        selectedCurrency === currency.code 
+                          ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white border-blue-500 shadow-lg' 
+                          : 'bg-white/80 text-slate-700 border-slate-200 hover:border-blue-300 hover:shadow-md'
+                      }`}
+                      onClick={() => setSelectedCurrency(currency.code)}
+                    >
+                      <div className="text-sm font-bold">
+                        {formatCurrency(results.annualTariffCost, currency.code)}
+                      </div>
+                      <div className="text-xs opacity-80">{currency.code}</div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Success Insight */}
+                <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-4 border-2 border-blue-200">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Star className="w-5 h-5 text-yellow-500" />
+                    <span className="font-semibold text-blue-900">Strategic Insight</span>
+                  </div>
+                  <p className="text-sm text-blue-800">
+                    {results.explanation} Our AI has identified <strong>3 profit-protection strategies</strong> below.
+                  </p>
+                </div>
               </div>
-            ))}
+            </div>
           </div>
-        </Card>
+        </div>
+
+        {/* Premium Margin Protection */}
+        <div className="relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 via-green-500/10 to-blue-500/10 rounded-xl"></div>
+          <div className="relative bg-white/95 backdrop-blur-sm border-0 shadow-xl rounded-xl p-6">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 bg-gradient-to-r from-emerald-500 to-green-600 rounded-full flex items-center justify-center shadow-lg">
+                <Shield className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-slate-900">Profit Protection Suite</h3>
+                <p className="text-sm text-slate-600">Turn challenges into competitive advantages</p>
+              </div>
+            </div>
+            
+            <div className="grid md:grid-cols-3 gap-4">
+              <div className="group p-4 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg border-2 border-blue-200 hover:shadow-lg transition-all transform hover:-translate-y-1">
+                <div className="flex items-center gap-2 mb-3">
+                  <DollarSign className="w-5 h-5 text-blue-600" />
+                  <div className="text-sm font-bold text-blue-700">Smart Pricing</div>
+                </div>
+                <p className="text-sm text-blue-800">{results.marginProtection.priceIncrease}</p>
+              </div>
+              <div className="group p-4 bg-gradient-to-br from-green-50 to-emerald-100 rounded-lg border-2 border-green-200 hover:shadow-lg transition-all transform hover:-translate-y-1">
+                <div className="flex items-center gap-2 mb-3">
+                  <Target className="w-5 h-5 text-green-600" />
+                  <div className="text-sm font-bold text-green-700">Cost Optimization</div>
+                </div>
+                <p className="text-sm text-green-800">{results.marginProtection.costSavings}</p>
+              </div>
+              <div className="group p-4 bg-gradient-to-br from-amber-50 to-orange-100 rounded-lg border-2 border-amber-200 hover:shadow-lg transition-all transform hover:-translate-y-1">
+                <div className="flex items-center gap-2 mb-3">
+                  <Zap className="w-5 h-5 text-amber-600" />
+                  <div className="text-sm font-bold text-amber-700">Strategic Timing</div>
+                </div>
+                <p className="text-sm text-amber-800">{results.marginProtection.inventoryStrategy}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Premium AI Recommendations */}
+        <div className="relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-blue-500/10 to-indigo-500/10 rounded-xl"></div>
+          <div className="absolute top-0 left-0 w-24 h-24 bg-gradient-to-br from-purple-400/20 to-transparent rounded-xl"></div>
+          <div className="relative bg-white/95 backdrop-blur-sm border-0 shadow-xl rounded-xl p-6">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-600 rounded-full flex items-center justify-center shadow-lg">
+                <Brain className="w-5 h-5 text-white" />
+              </div>
+              <div className="flex-1">
+                <h3 className="text-xl font-bold text-slate-900">AI Strategic Analysis</h3>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs bg-gradient-to-r from-purple-100 to-blue-100 text-purple-700 px-3 py-1 rounded-full border border-purple-200">
+                    🧠 Powered by Advanced AI
+                  </span>
+                  <span className="text-xs text-slate-500">
+                    Based on {formData.imports} from {formData.countries.join(', ')}
+                  </span>
+                </div>
+              </div>
+            </div>
+            
+            <div className="space-y-4">
+              {results.aiRecommendations.map((rec: any, index: number) => (
+                <div key={index} className="group relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-r from-slate-50 to-slate-100 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                  <div className="relative flex items-start gap-4 p-4 bg-white/80 rounded-lg border-2 border-slate-200 hover:border-purple-300 transition-all">
+                    <div className="flex-shrink-0">
+                      <div className="w-10 h-10 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-full flex items-center justify-center font-bold shadow-lg">
+                        {index + 1}
+                      </div>
+                      <div className="text-center mt-2">
+                        <span className={`text-xs px-2 py-1 rounded-full font-medium ${
+                          rec.priority === 'High Impact' ? 'bg-red-100 text-red-700' :
+                          rec.priority === 'Easy Win' ? 'bg-green-100 text-green-700' :
+                          'bg-blue-100 text-blue-700'
+                        }`}>
+                          {rec.priority}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="font-bold text-slate-900">{rec.action}</span>
+                        <span className={`text-xs px-2 py-1 rounded-full ${
+                          rec.difficulty === 'Easy' ? 'bg-green-100 text-green-700' :
+                          rec.difficulty === 'Moderate' ? 'bg-yellow-100 text-yellow-700' :
+                          'bg-red-100 text-red-700'
+                        }`}>
+                          {rec.difficulty}
+                        </span>
+                      </div>
+                      <p className="text-sm text-emerald-700 font-semibold mb-1">💰 {rec.benefit}</p>
+                      <p className="text-xs text-slate-600">⏱️ {rec.timeline}</p>
+                    </div>
+                    <ArrowRight className="w-5 h-5 text-purple-600 mt-2 flex-shrink-0 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
 
         {/* Detailed Analysis - Progressive Disclosure */}
         <div className="space-y-4">
@@ -493,36 +550,57 @@ const SimpleTariffCalculator = () => {
           </Button>
         </div>
 
-        {/* Legal Disclaimer & Data Sources */}
-        <div className="border-t border-slate-200 pt-6 mt-8">
-          <div className="text-center space-y-3">
-            <div className="flex flex-wrap justify-center gap-4 text-xs text-slate-500">
-              <span>Tariff rates: USTR.gov</span>
-              <span>•</span>
-              <span>Exchange rates: Federal Reserve</span>
-              <span>•</span>
-              <span>Updated: {results.timestamp}</span>
-            </div>
-            
-            <div className="flex flex-wrap justify-center gap-4 text-xs">
-              <a 
-                href="https://ustr.gov" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-blue-600 hover:text-blue-700 inline-flex items-center gap-1"
-              >
-                View official sources <ExternalLink className="w-3 h-3" />
-              </a>
-              <span className="text-slate-300">•</span>
-              <span className="text-slate-500">No data stored • Calculations in browser</span>
-            </div>
-            
-            <div className="max-w-4xl mx-auto">
-              <p className="text-xs text-slate-500 leading-relaxed">
-                <strong>Disclaimer:</strong> This calculator provides estimates for business planning purposes. 
-                Actual tariff impacts may vary based on HS codes, country of origin, and trade agreements. 
-                Consult qualified trade compliance professionals for official determinations.
-              </p>
+        {/* Enhanced Legal Disclaimer & Data Sources */}
+        <div className="border-t-2 border-gradient-to-r from-slate-200 to-slate-300 pt-6 mt-8">
+          <div className="bg-gradient-to-r from-slate-50 to-slate-100 rounded-xl p-6 border border-slate-200">
+            <div className="text-center space-y-4">
+              <div className="flex justify-center gap-2 items-center mb-3">
+                <div className="w-6 h-6 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center">
+                  <Shield className="w-3 h-3 text-white" />
+                </div>
+                <span className="font-semibold text-slate-700">Enterprise-Grade Data Sources</span>
+                <div className="w-6 h-6 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center">
+                  <Shield className="w-3 h-3 text-white" />
+                </div>
+              </div>
+              
+              <div className="flex flex-wrap justify-center gap-4 text-xs text-slate-600">
+                <div className="flex items-center gap-1">
+                  <Globe className="w-3 h-3 text-blue-500" />
+                  <span>Tariff rates: USTR.gov</span>
+                </div>
+                <span>•</span>
+                <div className="flex items-center gap-1">
+                  <DollarSign className="w-3 h-3 text-green-500" />
+                  <span>Exchange rates: Federal Reserve</span>
+                </div>
+                <span>•</span>
+                <span>Updated: {results.timestamp}</span>
+              </div>
+              
+              <div className="flex flex-wrap justify-center gap-4 text-xs">
+                <a 
+                  href="https://ustr.gov" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:text-blue-700 inline-flex items-center gap-1 font-medium"
+                >
+                  View official sources <ExternalLink className="w-3 h-3" />
+                </a>
+                <span className="text-slate-300">•</span>
+                <div className="flex items-center gap-1">
+                  <Shield className="w-3 h-3 text-green-500" />
+                  <span className="text-slate-600">No data stored • Browser calculations</span>
+                </div>
+              </div>
+              
+              <div className="max-w-4xl mx-auto bg-white/80 rounded-lg p-4 border border-slate-200">
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  <strong className="text-slate-800">Legal Disclaimer:</strong> This calculator provides estimates for strategic business planning. 
+                  Actual tariff impacts may vary based on HS codes, country of origin, trade agreements, and regulatory changes. 
+                  Consult qualified trade compliance professionals and legal advisors for official determinations and compliance decisions.
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -533,44 +611,54 @@ const SimpleTariffCalculator = () => {
 
   return (
     <TooltipProvider>
-      <Card className="p-6 md:p-8 border-0 shadow-xl">
-        <div className="space-y-6">
-          
-          {/* Currency Selector */}
-          <div className="flex justify-between items-center">
-            <div className="text-sm text-slate-600">Display currency:</div>
-            <Select value={selectedCurrency} onValueChange={setSelectedCurrency}>
-              <SelectTrigger className="w-32">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {currencies.map((currency) => (
-                  <SelectItem key={currency.code} value={currency.code}>
-                    {currency.symbol} {currency.code}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          
-          {/* Empty State Guidance */}
-          {isFormEmpty && (
-            <div className="text-center py-4 mb-6">
-              <div className="inline-flex items-center gap-2 text-slate-500 mb-3">
-                <Lightbulb className="w-5 h-5" />
-                <span>Select your import countries to see impact</span>
+      <div className="relative overflow-hidden">
+        {/* Premium Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-white via-blue-50/30 to-purple-50/30 rounded-2xl"></div>
+        <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-bl from-blue-400/10 to-transparent rounded-2xl"></div>
+        
+        <div className="relative bg-white/90 backdrop-blur-sm border-0 shadow-2xl rounded-2xl p-6 md:p-8">
+          <div className="space-y-6">
+            
+            {/* Premium Currency Selector */}
+            <div className="flex justify-between items-center p-4 bg-gradient-to-r from-slate-50 to-blue-50 rounded-xl border border-slate-200">
+              <div className="flex items-center gap-2">
+                <Globe className="w-5 h-5 text-blue-600" />
+                <span className="text-sm font-semibold text-slate-700">Display currency:</span>
               </div>
-              <Button 
-                onClick={loadSampleData}
-                variant="outline"
-                size="sm"
-                className="inline-flex items-center gap-2"
-              >
-                <Zap className="w-4 h-4" />
-                Try with sample data
-              </Button>
+              <Select value={selectedCurrency} onValueChange={setSelectedCurrency}>
+                <SelectTrigger className="w-32 border-2 border-blue-200 bg-white/80">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {currencies.map((currency) => (
+                    <SelectItem key={currency.code} value={currency.code}>
+                      {currency.symbol} {currency.code}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
-          )}
+          
+            {/* Enhanced Empty State */}
+            {isFormEmpty && (
+              <div className="text-center py-6 mb-6">
+                <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                  <Lightbulb className="w-8 h-8 text-white" />
+                </div>
+                <div className="mb-4">
+                  <h3 className="text-lg font-bold text-slate-800 mb-2">Ready to Optimize Your Imports?</h3>
+                  <p className="text-slate-600">Select your import countries to see potential savings</p>
+                </div>
+                <Button 
+                  onClick={loadSampleData}
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all"
+                  size="lg"
+                >
+                  <Zap className="w-4 h-4 mr-2" />
+                  Try with sample data
+                </Button>
+              </div>
+            )}
           
           {/* What do you import? */}
           <div className="space-y-3">
@@ -687,30 +775,38 @@ const SimpleTariffCalculator = () => {
             </div>
           </div>
 
-          {/* Calculate Button */}
-          <div className="pt-4">
-            <Button
-              onClick={calculateImpact}
-              disabled={!isFormValid || isCalculating}
-              className={`w-full h-14 rounded-lg font-semibold text-lg transition-all ${
-                isFormValid && !isCalculating
-                  ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl'
-                  : 'bg-slate-200 text-slate-400 cursor-not-allowed'
-              }`}
-            >
-              {isCalculating ? (
-                <div className="flex items-center justify-center gap-2">
-                  <div className="w-5 h-5 border-2 border-blue-300 border-t-white rounded-full animate-spin" />
-                  Calculating Impact...
-                </div>
-              ) : (
-                'Calculate Impact'
-              )}
-            </Button>
-          </div>
+            {/* Premium Calculate Button */}
+            <div className="pt-6">
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg blur opacity-75"></div>
+                <Button
+                  onClick={calculateImpact}
+                  disabled={!isFormValid || isCalculating}
+                  className={`relative w-full h-16 rounded-lg font-bold text-lg transition-all transform ${
+                    isFormValid && !isCalculating
+                      ? 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-2xl hover:shadow-3xl hover:scale-105'
+                      : 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                  }`}
+                >
+                  {isCalculating ? (
+                    <div className="flex items-center justify-center gap-3">
+                      <div className="w-6 h-6 border-3 border-white/30 border-t-white rounded-full animate-spin" />
+                      <span>Analyzing Your Business Impact...</span>
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-center gap-3">
+                      <Brain className="w-6 h-6" />
+                      <span>Calculate My Competitive Advantage</span>
+                      <ArrowRight className="w-6 h-6" />
+                    </div>
+                  )}
+                </Button>
+              </div>
+            </div>
 
+          </div>
         </div>
-      </Card>
+      </div>
     </TooltipProvider>
   );
 };
