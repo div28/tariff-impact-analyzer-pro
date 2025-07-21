@@ -8,6 +8,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Calculator, AlertTriangle, TrendingUp, DollarSign, Building2, Globe, Package, ArrowRight, RotateCcw, Share2, Download, Lightbulb } from 'lucide-react';
 import { toast } from "@/hooks/use-toast";
 import { TimelineAwareness, TariffSurvivalScore, CurrencyConverter, CostOffsetCalculator } from '@/components/EnterpriseFeatures';
+import { TariffInsuranceCalculator, ProfessionalExportTools, LegalDisclaimer } from '@/components/AdvancedFeatures';
 
 interface Country {
   name: string;
@@ -529,6 +530,11 @@ const TariffCalculator = () => {
               </Card>
             </div>
           </div>
+
+          {/* Advanced Enterprise Features */}
+          <TariffInsuranceCalculator results={results} formData={formData} />
+          <ProfessionalExportTools results={results} formData={formData} />
+          <LegalDisclaimer />
         </div>
       )}
     </div>

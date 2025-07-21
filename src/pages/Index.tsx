@@ -1,11 +1,17 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import HeroSection from '@/components/HeroSection';
 import TariffCalculator from '@/components/TariffCalculator';
 import { HowItWorksSection, DataSourcesSection, FAQSection, FooterSection } from '@/components/ProfessionalSections';
 import { TimelineAwareness } from '@/components/EnterpriseFeatures';
+import { PWAInstallPrompt, registerSW } from '@/components/PWAFeatures';
 
 const Index = () => {
   const calculatorRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Register service worker for PWA functionality
+    registerSW();
+  }, []);
 
   const scrollToCalculator = () => {
     calculatorRef.current?.scrollIntoView({ 
@@ -40,6 +46,9 @@ const Index = () => {
       
       {/* Professional Footer */}
       <FooterSection />
+      
+      {/* PWA Install Prompt */}
+      <PWAInstallPrompt />
     </div>
   );
 };
