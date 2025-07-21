@@ -55,6 +55,61 @@ const TariffCalculator = () => {
   });
   
   const [results, setResults] = useState<any>(null);
+  const [isCalculating, setIsCalculating] = useState(false);
+
+  const getRecommendations = () => {
+    const recommendations = [];
+    
+    // Country-specific recommendations
+    if (formData.countries.includes('China')) {
+      recommendations.push({
+        type: 'alternative',
+        title: 'Consider Alternative Suppliers',
+        description: 'Vietnam (20% tariff) or Malaysia (25% tariff) offer lower rates than China\'s 30%',
+        icon: '🌏'
+      });
+    }
+    
+    if (formData.countries.includes('Germany')) {
+      recommendations.push({
+        type: 'alternative',
+        title: 'UK Trade Opportunity',
+        description: 'UK offers reduced 10% tariff after recent trade agreement',
+        icon: '🇬🇧'
+      });
+    }
+
+    // Volume-based recommendations
+    if (['$200K-$1M', 'Over $1M'].includes(formData.monthlyImport)) {
+      recommendations.push({
+        type: 'timing',
+        title: 'Strategic Inventory Build',
+        description: 'Consider increasing inventory before August 1st deadline to lock in current rates',
+        icon: '⏰'
+      });
+    }
+
+    // Industry-specific recommendations
+    if (formData.businessType === 'Technology/Electronics') {
+      recommendations.push({
+        type: 'strategy',
+        title: 'Domestic Sourcing Options',
+        description: 'Explore US-based suppliers or tariff-free countries for tech components',
+        icon: '🔧'
+      });
+    }
+
+    if (formData.businessType === 'Manufacturing') {
+      recommendations.push({
+        type: 'strategy',
+        title: 'Supply Chain Diversification',
+        description: 'Distribute sourcing across multiple countries to reduce tariff exposure',
+        icon: '🏭'
+      });
+    }
+
+    return recommendations;
+  };
 
   const handleCountryChange = (countryName: string, checked: boolean) => {
     setFormData(prev => ({
