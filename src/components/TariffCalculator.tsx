@@ -353,13 +353,16 @@ const TariffCalculator = () => {
                   ))}
                 </SelectContent>
               </Select>
+              <p className="text-sm text-muted-foreground">
+                💡 Choose the closest match - we'll adjust recommendations
+              </p>
             </div>
 
             {/* Monthly Import Value */}
             <div className="space-y-3">
               <Label className="flex items-center gap-2 text-lg font-semibold">
                 <DollarSign className="h-5 w-5 text-primary" />
-                Monthly Import Volume
+                Approximate Monthly Imports (rough estimates work fine!)
               </Label>
               <Select value={formData.monthlyImport} onValueChange={(value) => setFormData(prev => ({...prev, monthlyImport: value}))}>
                 <SelectTrigger className="h-14 text-lg border-2 hover:border-primary/50 transition-colors">
@@ -371,6 +374,9 @@ const TariffCalculator = () => {
                   ))}
                 </SelectContent>
               </Select>
+              <p className="text-sm text-muted-foreground">
+                💡 Include product costs + shipping - estimates are perfectly fine
+              </p>
             </div>
           </div>
 
@@ -380,6 +386,9 @@ const TariffCalculator = () => {
               <Globe className="h-5 w-5 text-primary" />
               Import Countries & Tariff Rates
             </Label>
+            <p className="text-sm text-muted-foreground">
+              💡 Select all countries you currently import from
+            </p>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {countries.map(country => (
                 <div 
@@ -414,6 +423,36 @@ const TariffCalculator = () => {
                 </div>
               ))}
             </div>
+            
+            {/* Instant Preview Warnings */}
+            {formData.countries.length > 0 && (
+              <div className="mt-4 space-y-2">
+                {formData.countries.includes('China') && (
+                  <div className="flex items-center gap-2 p-3 bg-destructive/10 border border-destructive/20 rounded-lg">
+                    <AlertTriangle className="h-4 w-4 text-destructive" />
+                    <span className="text-sm font-medium text-destructive">
+                      ⚠️ China imports face 30% tariffs starting Aug 1st
+                    </span>
+                  </div>
+                )}
+                {formData.countries.includes('Germany') && (
+                  <div className="flex items-center gap-2 p-3 bg-warning/10 border border-warning/20 rounded-lg">
+                    <AlertTriangle className="h-4 w-4 text-warning" />
+                    <span className="text-sm font-medium text-warning">
+                      ⚠️ Germany imports face 40% tariffs
+                    </span>
+                  </div>
+                )}
+                {formData.countries.includes('Mexico') && (
+                  <div className="flex items-center gap-2 p-3 bg-orange-100 dark:bg-orange-950 border border-orange-200 dark:border-orange-800 rounded-lg">
+                    <AlertTriangle className="h-4 w-4 text-orange-600 dark:text-orange-400" />
+                    <span className="text-sm font-medium text-orange-700 dark:text-orange-300">
+                      ⚠️ Mexico imports face 25% tariffs
+                    </span>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Primary Products */}
@@ -429,7 +468,23 @@ const TariffCalculator = () => {
               onChange={(e) => setFormData(prev => ({...prev, products: e.target.value}))}
               className="h-14 text-lg border-2 hover:border-primary/50 transition-colors"
             />
+            <p className="text-sm text-muted-foreground">
+              💡 Examples: electronics, car parts, clothing, raw materials
+            </p>
           </div>
+
+          {/* Quick Preview */}
+          {formData.businessType && formData.monthlyImport && formData.countries.length > 0 && (
+            <div className="p-4 bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 rounded-lg">
+              <div className="flex items-center gap-2 mb-2">
+                <Calculator className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                <span className="font-semibold text-blue-800 dark:text-blue-200">Quick Preview</span>
+              </div>
+              <p className="text-blue-700 dark:text-blue-300 text-sm">
+                Your scenario could mean approximately <strong>${(getImportValue(formData.monthlyImport) * (countries.filter(c => formData.countries.includes(c.name)).reduce((sum, country) => sum + country.tariff, 0) / formData.countries.length) / 100).toLocaleString()}</strong> additional monthly costs
+              </p>
+            </div>
+          )}
 
           {/* Calculate Button */}
           <div className="pt-6">
@@ -442,9 +497,12 @@ const TariffCalculator = () => {
             >
               <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
               <Calculator className="mr-3 h-6 w-6" />
-              Generate Professional Analysis
+              Show Me My Results →
               <ArrowRight className="ml-3 h-6 w-6 group-hover:translate-x-1 transition-transform" />
             </Button>
+            <p className="text-center text-sm text-muted-foreground mt-2">
+              Get detailed breakdown + money-saving recommendations
+            </p>
           </div>
         </CardContent>
       </Card>
