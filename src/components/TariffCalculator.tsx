@@ -5,7 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Calculator, AlertTriangle, TrendingUp, DollarSign } from 'lucide-react';
+import { Calculator, AlertTriangle, TrendingUp, DollarSign, Building2, Globe, Package, ArrowRight } from 'lucide-react';
 
 interface Country {
   name: string;
@@ -113,149 +113,256 @@ const TariffCalculator = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6 space-y-8">
-      {/* Form Section */}
-      <Card className="shadow-xl border-l-4 border-l-primary">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-2xl">
-            <Calculator className="text-primary" />
-            Calculate Your Tariff Impact
+    <div className="max-w-7xl mx-auto p-6 space-y-12">
+      {/* Header Section */}
+      <div className="text-center mb-12">
+        <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+          Professional Impact Analysis
+        </h2>
+        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          Enterprise-grade tariff calculations with real-time market data
+        </p>
+      </div>
+
+      {/* Form Section - Premium Design */}
+      <Card className="relative overflow-hidden shadow-2xl border-0 bg-gradient-to-br from-card via-card to-muted/30">
+        {/* Decorative Elements */}
+        <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-accent/20 to-transparent rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-primary/20 to-transparent rounded-full blur-2xl"></div>
+        
+        <CardHeader className="relative z-10 pb-8">
+          <CardTitle className="flex items-center gap-3 text-3xl font-bold">
+            <div className="p-3 rounded-xl bg-gradient-to-r from-primary to-accent">
+              <Calculator className="text-white h-6 w-6" />
+            </div>
+            Business Impact Calculator
           </CardTitle>
+          <p className="text-muted-foreground text-lg mt-2">Configure your business parameters for precise analysis</p>
         </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="grid md:grid-cols-2 gap-6">
+        
+        <CardContent className="relative z-10 space-y-8">
+          {/* Business Configuration Row */}
+          <div className="grid lg:grid-cols-2 gap-8">
             {/* Business Type */}
-            <div className="space-y-2">
-              <Label htmlFor="businessType" className="text-base font-semibold">Business Type</Label>
+            <div className="space-y-3">
+              <Label className="flex items-center gap-2 text-lg font-semibold">
+                <Building2 className="h-5 w-5 text-primary" />
+                Business Type
+              </Label>
               <Select value={formData.businessType} onValueChange={(value) => setFormData(prev => ({...prev, businessType: value}))}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select your business type" />
+                <SelectTrigger className="h-14 text-lg border-2 hover:border-primary/50 transition-colors">
+                  <SelectValue placeholder="Select your industry sector" />
                 </SelectTrigger>
                 <SelectContent>
                   {businessTypes.map(type => (
-                    <SelectItem key={type} value={type}>{type}</SelectItem>
+                    <SelectItem key={type} value={type} className="text-lg py-3">{type}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </div>
 
             {/* Monthly Import Value */}
-            <div className="space-y-2">
-              <Label htmlFor="monthlyImport" className="text-base font-semibold">Monthly Import Value</Label>
+            <div className="space-y-3">
+              <Label className="flex items-center gap-2 text-lg font-semibold">
+                <DollarSign className="h-5 w-5 text-primary" />
+                Monthly Import Volume
+              </Label>
               <Select value={formData.monthlyImport} onValueChange={(value) => setFormData(prev => ({...prev, monthlyImport: value}))}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select import range" />
+                <SelectTrigger className="h-14 text-lg border-2 hover:border-primary/50 transition-colors">
+                  <SelectValue placeholder="Select your import range" />
                 </SelectTrigger>
                 <SelectContent>
                   {importRanges.map(range => (
-                    <SelectItem key={range} value={range}>{range}</SelectItem>
+                    <SelectItem key={range} value={range} className="text-lg py-3">{range}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </div>
           </div>
 
-          {/* Import Countries */}
-          <div className="space-y-3">
-            <Label className="text-base font-semibold">Import Countries (with proposed tariff rates)</Label>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          {/* Import Countries - Premium Grid */}
+          <div className="space-y-4">
+            <Label className="flex items-center gap-2 text-lg font-semibold">
+              <Globe className="h-5 w-5 text-primary" />
+              Import Countries & Tariff Rates
+            </Label>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {countries.map(country => (
-                <div key={country.name} className="flex items-center space-x-2 p-2 rounded-lg border hover:bg-muted/50">
-                  <Checkbox
-                    id={country.name}
-                    checked={formData.countries.includes(country.name)}
-                    onCheckedChange={(checked) => handleCountryChange(country.name, checked as boolean)}
-                  />
-                  <Label htmlFor={country.name} className="cursor-pointer flex-1">
-                    {country.name} ({country.tariff}%)
-                  </Label>
+                <div 
+                  key={country.name} 
+                  className={`group relative p-4 rounded-xl border-2 transition-all duration-300 cursor-pointer
+                    ${formData.countries.includes(country.name) 
+                      ? 'border-primary bg-primary/5 shadow-lg shadow-primary/20' 
+                      : 'border-border hover:border-primary/50 hover:bg-muted/50'
+                    }`}
+                  onClick={() => handleCountryChange(country.name, !formData.countries.includes(country.name))}
+                >
+                  <div className="flex items-center space-x-3">
+                    <Checkbox
+                      id={country.name}
+                      checked={formData.countries.includes(country.name)}
+                      onCheckedChange={(checked) => handleCountryChange(country.name, checked as boolean)}
+                      className="scale-125"
+                    />
+                    <div className="flex-1">
+                      <div className="font-semibold text-lg">{country.name}</div>
+                      <div className={`text-sm font-medium ${
+                        country.tariff >= 30 ? 'text-destructive' : 
+                        country.tariff >= 25 ? 'text-warning' : 'text-success'
+                      }`}>
+                        {country.tariff}% tariff rate
+                      </div>
+                    </div>
+                  </div>
+                  {formData.countries.includes(country.name) && (
+                    <div className="absolute top-2 right-2 w-3 h-3 bg-primary rounded-full animate-pulse"></div>
+                  )}
                 </div>
               ))}
             </div>
           </div>
 
           {/* Primary Products */}
-          <div className="space-y-2">
-            <Label htmlFor="products" className="text-base font-semibold">Primary Products</Label>
+          <div className="space-y-3">
+            <Label className="flex items-center gap-2 text-lg font-semibold">
+              <Package className="h-5 w-5 text-primary" />
+              Primary Products
+            </Label>
             <Input
               id="products"
-              placeholder="e.g., electronics, car parts, clothing"
+              placeholder="e.g., consumer electronics, automotive components, textiles"
               value={formData.products}
               onChange={(e) => setFormData(prev => ({...prev, products: e.target.value}))}
-              className="text-base"
+              className="h-14 text-lg border-2 hover:border-primary/50 transition-colors"
             />
           </div>
 
-          <Button 
-            onClick={calculateImpact}
-            variant="hero" 
-            size="lg" 
-            className="w-full md:w-auto text-lg px-8 py-6"
-          >
-            <Calculator className="mr-2" />
-            Calculate Impact
-          </Button>
+          {/* Calculate Button */}
+          <div className="pt-6">
+            <Button 
+              onClick={calculateImpact}
+              variant="premium" 
+              size="lg" 
+              className="w-full text-xl px-8 py-6 relative overflow-hidden group"
+              disabled={!formData.businessType || !formData.monthlyImport || formData.countries.length === 0}
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+              <Calculator className="mr-3 h-6 w-6" />
+              Generate Professional Analysis
+              <ArrowRight className="ml-3 h-6 w-6 group-hover:translate-x-1 transition-transform" />
+            </Button>
+          </div>
         </CardContent>
       </Card>
 
-      {/* Results Section */}
+      {/* Results Section - Premium Analysis */}
       {results && (
-        <Card className="shadow-xl border-l-4 border-l-warning bg-gradient-to-r from-red-50 to-orange-50">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-2xl text-destructive">
-              <AlertTriangle className="text-warning" />
-              Your Tariff Impact Analysis
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid md:grid-cols-3 gap-6">
-              {/* Monthly Cost */}
-              <Card className="text-center p-4 bg-white shadow-lg">
-                <div className="flex justify-center mb-2">
-                  <DollarSign className="h-8 w-8 text-destructive" />
+        <div className="space-y-8">
+          {/* Impact Summary Header */}
+          <Card className="relative overflow-hidden shadow-2xl border-0 bg-gradient-to-br from-destructive/5 via-warning/5 to-orange-50">
+            <div className="absolute inset-0 bg-gradient-to-r from-destructive/10 to-warning/10"></div>
+            <CardHeader className="relative z-10">
+              <CardTitle className="flex items-center gap-3 text-3xl font-bold text-destructive">
+                <div className="p-3 rounded-xl bg-gradient-to-r from-destructive to-warning">
+                  <AlertTriangle className="text-white h-6 w-6" />
                 </div>
-                <div className="text-3xl font-bold text-destructive mb-1">
+                Tariff Impact Analysis
+              </CardTitle>
+              <p className="text-lg text-muted-foreground">Professional assessment of your business exposure</p>
+            </CardHeader>
+          </Card>
+
+          {/* Key Metrics Grid */}
+          <div className="grid md:grid-cols-3 gap-6">
+            {/* Monthly Cost */}
+            <Card className="relative overflow-hidden shadow-xl bg-gradient-to-br from-card to-muted/30 border-2 border-destructive/20">
+              <div className="absolute top-0 right-0 w-20 h-20 bg-destructive/10 rounded-full blur-2xl"></div>
+              <CardContent className="relative z-10 text-center p-8">
+                <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-destructive to-red-600 flex items-center justify-center">
+                  <DollarSign className="h-8 w-8 text-white" />
+                </div>
+                <div className="text-4xl font-bold text-destructive mb-2">
                   {formatCurrency(results.monthlyTariffCost)}
                 </div>
-                <div className="text-sm text-muted-foreground">Additional Monthly Cost</div>
-              </Card>
+                <div className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Additional Monthly Cost</div>
+              </CardContent>
+            </Card>
 
-              {/* Yearly Cost */}
-              <Card className="text-center p-4 bg-white shadow-lg">
-                <div className="flex justify-center mb-2">
-                  <TrendingUp className="h-8 w-8 text-destructive" />
+            {/* Yearly Cost */}
+            <Card className="relative overflow-hidden shadow-xl bg-gradient-to-br from-card to-muted/30 border-2 border-warning/20">
+              <div className="absolute top-0 right-0 w-20 h-20 bg-warning/10 rounded-full blur-2xl"></div>
+              <CardContent className="relative z-10 text-center p-8">
+                <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-warning to-orange-500 flex items-center justify-center">
+                  <TrendingUp className="h-8 w-8 text-white" />
                 </div>
-                <div className="text-3xl font-bold text-destructive mb-1">
+                <div className="text-4xl font-bold text-warning mb-2">
                   {formatCurrency(results.yearlyTariffCost)}
                 </div>
-                <div className="text-sm text-muted-foreground">Additional Yearly Cost</div>
-              </Card>
+                <div className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Annual Impact</div>
+              </CardContent>
+            </Card>
 
-              {/* Percentage Increase */}
-              <Card className="text-center p-4 bg-white shadow-lg">
-                <div className="flex justify-center mb-2">
-                  <AlertTriangle className="h-8 w-8 text-warning" />
+            {/* Percentage Increase */}
+            <Card className="relative overflow-hidden shadow-xl bg-gradient-to-br from-card to-muted/30 border-2 border-orange-500/20">
+              <div className="absolute top-0 right-0 w-20 h-20 bg-orange-500/10 rounded-full blur-2xl"></div>
+              <CardContent className="relative z-10 text-center p-8">
+                <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center">
+                  <AlertTriangle className="h-8 w-8 text-white" />
                 </div>
-                <div className="text-3xl font-bold text-warning mb-1">
+                <div className="text-4xl font-bold text-orange-600 mb-2">
                   {results.percentageIncrease.toFixed(1)}%
                 </div>
-                <div className="text-sm text-muted-foreground">Avg. Cost Increase</div>
-              </Card>
-            </div>
+                <div className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Cost Increase Rate</div>
+              </CardContent>
+            </Card>
+          </div>
 
-            {/* Details */}
-            <div className="mt-6 p-4 bg-white rounded-lg border">
-              <h4 className="font-semibold mb-2">Calculation Details:</h4>
-              <ul className="text-sm space-y-1 text-muted-foreground">
-                <li>• Business Type: {formData.businessType}</li>
-                <li>• Monthly Import Range: {formData.monthlyImport}</li>
-                <li>• Import Countries: {results.selectedCountries}</li>
-                <li>• Average Tariff Rate: {results.avgTariff.toFixed(1)}%</li>
-                <li>• Products: {formData.products || 'Not specified'}</li>
-              </ul>
-            </div>
-          </CardContent>
-        </Card>
+          {/* Detailed Analysis */}
+          <Card className="shadow-xl border-0 bg-gradient-to-br from-card via-card to-muted/20">
+            <CardHeader>
+              <CardTitle className="text-2xl font-bold">Analysis Breakdown</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid md:grid-cols-2 gap-8">
+                <div className="space-y-4">
+                  <h4 className="text-lg font-semibold text-primary">Business Configuration</h4>
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center p-3 rounded-lg bg-muted/50">
+                      <span className="font-medium">Industry Sector</span>
+                      <span className="text-primary font-semibold">{formData.businessType}</span>
+                    </div>
+                    <div className="flex justify-between items-center p-3 rounded-lg bg-muted/50">
+                      <span className="font-medium">Import Volume</span>
+                      <span className="text-primary font-semibold">{formData.monthlyImport}</span>
+                    </div>
+                    <div className="flex justify-between items-center p-3 rounded-lg bg-muted/50">
+                      <span className="font-medium">Product Categories</span>
+                      <span className="text-primary font-semibold">{formData.products || 'Not specified'}</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="space-y-4">
+                  <h4 className="text-lg font-semibold text-primary">Tariff Analysis</h4>
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center p-3 rounded-lg bg-muted/50">
+                      <span className="font-medium">Source Countries</span>
+                      <span className="text-primary font-semibold">{results.selectedCountries}</span>
+                    </div>
+                    <div className="flex justify-between items-center p-3 rounded-lg bg-muted/50">
+                      <span className="font-medium">Weighted Avg. Rate</span>
+                      <span className="text-destructive font-semibold">{results.avgTariff.toFixed(1)}%</span>
+                    </div>
+                    <div className="flex justify-between items-center p-3 rounded-lg bg-muted/50">
+                      <span className="font-medium">Calculation Base</span>
+                      <span className="text-primary font-semibold">{formatCurrency(results.importValue)}/month</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       )}
     </div>
   );
