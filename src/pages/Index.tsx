@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import HeroSection from '@/components/HeroSection';
 import TariffCalculator from '@/components/TariffCalculator';
+import { HowItWorksSection, DataSourcesSection, FAQSection, FooterSection } from '@/components/ProfessionalSections';
 
 const Index = () => {
   const calculatorRef = useRef<HTMLDivElement>(null);
@@ -24,17 +25,13 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Footer */}
-      <footer className="bg-primary text-primary-foreground py-8">
-        <div className="container mx-auto px-6 text-center">
-          <p className="text-sm opacity-90">
-            © 2025 Trump Tariff Impact Calculator. Educational tool for business planning.
-          </p>
-          <p className="text-xs opacity-75 mt-2">
-            Tariff rates based on proposed 2025 policies. Consult professional advisors for business decisions.
-          </p>
-        </div>
-      </footer>
+      {/* Professional Content Sections */}
+      <HowItWorksSection />
+      <DataSourcesSection />
+      <FAQSection />
+      
+      {/* Professional Footer */}
+      <FooterSection />
     </div>
   );
 };

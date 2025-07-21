@@ -5,7 +5,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Calculator, AlertTriangle, TrendingUp, DollarSign, Building2, Globe, Package, ArrowRight } from 'lucide-react';
+import { Calculator, AlertTriangle, TrendingUp, DollarSign, Building2, Globe, Package, ArrowRight, RotateCcw, Share2, Download, Lightbulb } from 'lucide-react';
+import { toast } from "@/hooks/use-toast";
 
 interface Country {
   name: string;
@@ -56,6 +57,56 @@ const TariffCalculator = () => {
   
   const [results, setResults] = useState<any>(null);
   const [isCalculating, setIsCalculating] = useState(false);
+  const [errors, setErrors] = useState<{[key: string]: string}>({});
+
+  const validateForm = () => {
+    const newErrors: {[key: string]: string} = {};
+    
+    if (!formData.businessType) {
+      newErrors.businessType = 'Please select your business type';
+    }
+    if (!formData.monthlyImport) {
+      newErrors.monthlyImport = 'Please select your import volume';
+    }
+    if (formData.countries.length === 0) {
+      newErrors.countries = 'Please select at least one import country';
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const resetCalculator = () => {
+    setFormData({
+      businessType: '',
+      monthlyImport: '',
+      countries: [],
+      products: ''
+    });
+    setResults(null);
+    setErrors({});
+    toast({
+      title: "Calculator Reset",
+      description: "All fields have been cleared.",
+    });
+  };
+
+  const shareResults = () => {
+    const shareText = `Trump Tariff Impact: My business will face ${formatCurrency(results.monthlyTariffCost)} in additional monthly costs (${results.percentageIncrease.toFixed(1)}% increase). Calculate yours at ${window.location.href}`;
+    if (navigator.share) {
+      navigator.share({
+        title: 'Trump Tariff Impact Calculator Results',
+        text: shareText,
+        url: window.location.href
+      });
+    } else {
+      navigator.clipboard.writeText(shareText);
+      toast({
+        title: "Results Copied",
+        description: "Share text copied to clipboard.",
+      });
+    }
+  };
 
   const getRecommendations = () => {
     const recommendations = [];
