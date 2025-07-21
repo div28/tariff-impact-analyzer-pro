@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Calculator, AlertTriangle, TrendingUp, DollarSign, Building2, Globe, Package, ArrowRight, RotateCcw, Share2, Download, Lightbulb } from 'lucide-react';
 import { toast } from "@/hooks/use-toast";
+import { TimelineAwareness, TariffSurvivalScore, CurrencyConverter, CostOffsetCalculator } from '@/components/EnterpriseFeatures';
 
 interface Country {
   name: string;
@@ -171,10 +172,20 @@ const TariffCalculator = () => {
     }));
   };
 
-  const calculateImpact = () => {
-    if (!formData.businessType || !formData.monthlyImport || formData.countries.length === 0) {
+  const calculateImpact = async () => {
+    if (!validateForm()) {
+      toast({
+        title: "Validation Error",
+        description: "Please fill in all required fields.",
+        variant: "destructive"
+      });
       return;
     }
+
+    setIsCalculating(true);
+    
+    // Simulate API delay for professional feel
+    await new Promise(resolve => setTimeout(resolve, 1500));
 
     // Convert import range to average value
     const importValue = getImportValue(formData.monthlyImport);
@@ -195,6 +206,13 @@ const TariffCalculator = () => {
       avgTariff,
       importValue,
       selectedCountries: selectedCountries.map(c => c.name).join(', ')
+    });
+    
+    setIsCalculating(false);
+    
+    toast({
+      title: "Analysis Complete",
+      description: "Your professional tariff impact analysis is ready.",
     });
   };
 
@@ -468,6 +486,49 @@ const TariffCalculator = () => {
               </div>
             </CardContent>
           </Card>
+
+          {/* Enterprise Features Grid */}
+          <div className="grid lg:grid-cols-2 gap-8">
+            <div className="space-y-6">
+              <TariffSurvivalScore results={results} formData={formData} />
+              <CostOffsetCalculator results={results} formData={formData} />
+            </div>
+            <div className="space-y-6">
+              <CurrencyConverter results={results} formData={formData} />
+              
+              {/* Action Buttons */}
+              <Card className="shadow-lg">
+                <CardContent className="p-6">
+                  <h4 className="font-semibold mb-4">Professional Actions</h4>
+                  <div className="space-y-3">
+                    <Button 
+                      onClick={resetCalculator}
+                      variant="outline" 
+                      className="w-full"
+                    >
+                      <RotateCcw className="mr-2 h-4 w-4" />
+                      Reset Calculator
+                    </Button>
+                    <Button 
+                      onClick={shareResults}
+                      variant="outline" 
+                      className="w-full"
+                    >
+                      <Share2 className="mr-2 h-4 w-4" />
+                      Share Results
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      className="w-full"
+                    >
+                      <Download className="mr-2 h-4 w-4" />
+                      Download Report
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
         </div>
       )}
     </div>

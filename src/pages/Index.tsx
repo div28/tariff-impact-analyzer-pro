@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import HeroSection from '@/components/HeroSection';
 import TariffCalculator from '@/components/TariffCalculator';
 import { HowItWorksSection, DataSourcesSection, FAQSection, FooterSection } from '@/components/ProfessionalSections';
+import { TimelineAwareness } from '@/components/EnterpriseFeatures';
 
 const Index = () => {
   const calculatorRef = useRef<HTMLDivElement>(null);
@@ -18,6 +19,13 @@ const Index = () => {
       {/* Hero Section */}
       <HeroSection onScrollToCalculator={scrollToCalculator} />
       
+      {/* Timeline Awareness Section */}
+      <section className="py-8 bg-gradient-to-br from-background to-muted/20">
+        <div className="container mx-auto px-6">
+          <TimelineAwareness />
+        </div>
+      </section>
+
       {/* Calculator Section */}
       <section ref={calculatorRef} className="py-16 bg-gradient-to-br from-background to-muted/30">
         <div className="container mx-auto">
