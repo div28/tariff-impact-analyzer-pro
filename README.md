@@ -69,6 +69,26 @@ Hosted web app with option to share results (link, social, copy)
 ### 📚 **Citation of Data Sources**
 Visible, credible references next to every tariff result, with links to official USTR/Federal Register information
 
+## ✨ Enhanced Features (Updated)
+
+### 🎯 **User-Friendly Experience**
+- One-click demo with realistic sample data
+- Smart form guidance with helpful tooltips
+- Instant previews as you select options
+- Trust signals and credibility indicators
+
+### 📊 **Advanced Calculations** 
+- Real-time tariff impact calculations
+- Timeline-aware cost projections (before/after Aug 1st)
+- Alternative supplier recommendations
+- Money-saving strategy suggestions
+
+### 📱 **Professional Polish**
+- Mobile-first responsive design
+- Fast loading and smooth interactions
+- Shareable results and download options
+- FAQ section addressing common concerns
+
 ## 🎯 Target Users
 
 - **Primary**: Small/medium US importers ($50K-$5M annual imports)
