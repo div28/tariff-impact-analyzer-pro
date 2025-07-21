@@ -3,9 +3,10 @@ import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { TrendingUp, AlertTriangle, ArrowRight, RefreshCw, HelpCircle, ChevronDown, Lightbulb, Zap } from 'lucide-react';
+import { TrendingUp, AlertTriangle, ArrowRight, RefreshCw, HelpCircle, ChevronDown, Lightbulb, Zap, DollarSign, Shield, Brain, Target, ExternalLink, Globe } from 'lucide-react';
 
 interface FormData {
   imports: string;
@@ -14,11 +15,11 @@ interface FormData {
 }
 
 const countries = [
-  { name: 'China', tariff: 30, flag: '🇨🇳', note: '30% tariff starting Aug 1st' },
-  { name: 'Germany', tariff: 40, flag: '🇩🇪', note: 'Highest rate announced' },
-  { name: 'Mexico', tariff: 25, flag: '🇲🇽', note: 'Major trade partner' },
-  { name: 'India', tariff: 20, flag: '🇮🇳', note: 'Growing alternative source' },
-  { name: 'Other', tariff: 25, flag: '🌐', note: 'Average rate for other countries' }
+  { name: 'China', tariff: 30, flag: '🇨🇳', note: '30% tariff starting Aug 1st', risk: 'High' },
+  { name: 'Germany', tariff: 40, flag: '🇩🇪', note: 'Highest rate announced', risk: 'High' },
+  { name: 'Mexico', tariff: 25, flag: '🇲🇽', note: 'USMCA trade partner', risk: 'Medium' },
+  { name: 'India', tariff: 20, flag: '🇮🇳', note: 'Growing alternative source', risk: 'Low' },
+  { name: 'Other', tariff: 25, flag: '🌐', note: 'Average rate for other countries', risk: 'Medium' }
 ];
 
 const valueRanges = [
@@ -26,6 +27,13 @@ const valueRanges = [
   { label: '$50-200K', value: '125000', display: '$50K - $200K', context: 'Medium business' },
   { label: '$200K-1M', value: '600000', display: '$200K - $1M', context: 'Large operation' },
   { label: '>$1M', value: '2000000', display: 'Over $1M', context: 'Enterprise scale' }
+];
+
+const currencies = [
+  { code: 'USD', symbol: '$', rate: 1.0, name: 'US Dollar' },
+  { code: 'EUR', symbol: '€', rate: 0.92, name: 'Euro' },
+  { code: 'GBP', symbol: '£', rate: 0.79, name: 'British Pound' },
+  { code: 'CAD', symbol: 'C$', rate: 1.36, name: 'Canadian Dollar' }
 ];
 
 const sampleScenario = {
@@ -43,7 +51,10 @@ const SimpleTariffCalculator = () => {
   
   const [results, setResults] = useState<any>(null);
   const [isCalculating, setIsCalculating] = useState(false);
+  const [selectedCurrency, setSelectedCurrency] = useState('USD');
   const [showDetailedBreakdown, setShowDetailedBreakdown] = useState(false);
+  const [showTimelineAnalysis, setShowTimelineAnalysis] = useState(false);
+  const [showSupplierAnalysis, setShowSupplierAnalysis] = useState(false);
   const [selectedCountryNote, setSelectedCountryNote] = useState('');
 
   const handleCountryChange = (countryName: string, checked: boolean) => {
@@ -71,6 +82,82 @@ const SimpleTariffCalculator = () => {
     setFormData(sampleScenario);
   };
 
+  const formatCurrency = (amount: number, currencyCode: string) => {
+    const currency = currencies.find(c => c.code === currencyCode);
+    const convertedAmount = amount * (currency?.rate || 1);
+    return `${currency?.symbol}${convertedAmount.toLocaleString('en-US', { 
+      minimumFractionDigits: 0, 
+      maximumFractionDigits: 0 
+    })}`;
+  };
+
+  const generateAIRecommendations = (results: any) => {
+    const hasChina = formData.countries.includes('China');
+    const hasHighValueImports = results.importValue > 500000;
+    const isElectronics = formData.imports.toLowerCase().includes('electron');
+    
+    const recommendations = [];
+
+    if (hasChina) {
+      const vietnamSavings = Math.round(results.annualTariffCost * 0.35);
+      recommendations.push({
+        type: 'Supplier Diversification',
+        priority: 'High Impact',
+        action: `Switch 60% of sourcing to Vietnam`,
+        benefit: `Save $${vietnamSavings.toLocaleString()}/year`,
+        timeline: '3-6 months implementation',
+        difficulty: 'Complex'
+      });
+    }
+
+    if (hasHighValueImports) {
+      const inventorySavings = Math.round(results.monthlyTariffCost * 4);
+      recommendations.push({
+        type: 'Inventory Strategy',
+        priority: 'Easy Win',
+        action: `Pre-order 4 months inventory before Aug 1st`,
+        benefit: `Avoid $${inventorySavings.toLocaleString()} in Q4 tariffs`,
+        timeline: 'Order by July 15th',
+        difficulty: 'Easy'
+      });
+    }
+
+    if (isElectronics) {
+      recommendations.push({
+        type: 'Supply Chain',
+        priority: 'Medium Impact',
+        action: `Consider Malaysia suppliers for electronics`,
+        benefit: `25% vs 30% tariff = 17% savings`,
+        timeline: '6-12 months',
+        difficulty: 'Moderate'
+      });
+    } else {
+      const costReduction = Math.round(results.annualTariffCost * 0.4);
+      recommendations.push({
+        type: 'Cost Optimization',
+        priority: 'Medium Impact',
+        action: `Negotiate volume discounts with existing suppliers`,
+        benefit: `Target $${costReduction.toLocaleString()} cost reduction`,
+        timeline: '1-3 months',
+        difficulty: 'Easy'
+      });
+    }
+
+    return recommendations.slice(0, 3);
+  };
+
+  const calculateMarginProtection = (results: any) => {
+    const priceIncreasePercent = (results.percentageIncrease * 0.25).toFixed(1);
+    const breakEvenInventory = Math.round(results.importValue * 3);
+    const costSavingsTarget = Math.round(results.annualTariffCost * 0.6);
+
+    return {
+      priceIncrease: `Raise prices by ${priceIncreasePercent}% to maintain current margins`,
+      costSavings: `Find $${costSavingsTarget.toLocaleString()} in other cost savings to absorb impact`,
+      inventoryStrategy: `Order $${breakEvenInventory.toLocaleString()} inventory before Aug 1st to avoid tariffs`
+    };
+  };
+
   const calculateImpact = async () => {
     if (!formData.imports || formData.countries.length === 0 || !formData.monthlyValue) {
       return;
@@ -89,33 +176,32 @@ const SimpleTariffCalculator = () => {
     const annualTariffCost = monthlyTariffCost * 12;
     const percentageIncrease = weightedTariff;
 
-    // Generate smart recommendations
-    const hasChina = formData.countries.includes('China');
-    const hasHighValueImports = importValue > 500000;
-    
-    const recommendations = [
-      hasChina 
-        ? `Switch to Vietnam suppliers (save $${Math.round(annualTariffCost * 0.3).toLocaleString()}/year)`
-        : `Diversify suppliers to reduce risk`,
-      hasHighValueImports
-        ? `Order 6+ months inventory before Aug 1st`
-        : `Consider pre-ordering 3 months inventory`,
-      `Increase product prices by ${Math.round(percentageIncrease * 0.3)}% to maintain margins`
-    ];
-
-    setResults({
+    const calculationResults: any = {
       monthlyTariffCost,
       annualTariffCost,
       percentageIncrease,
       importValue,
       selectedCountries,
-      recommendations,
       currentMonthlyCost: importValue,
       newMonthlyCost: importValue + monthlyTariffCost,
       deadlineDate: 'August 1st, 2025',
-      explanation: `Your costs increase ${percentageIncrease.toFixed(1)}% due to new tariff rates on imports from ${formData.countries.join(' and ')}.`
-    });
+      explanation: `Your costs increase ${percentageIncrease.toFixed(1)}% due to new tariff rates on imports from ${formData.countries.join(' and ')}.`,
+      riskLevel: selectedCountries.some(c => c.risk === 'High') ? 'High' : selectedCountries.some(c => c.risk === 'Medium') ? 'Medium' : 'Low',
+      timestamp: new Date().toLocaleString(),
+      aiRecommendations: generateAIRecommendations({
+        monthlyTariffCost,
+        annualTariffCost,
+        percentageIncrease,
+        importValue
+      }),
+      marginProtection: calculateMarginProtection({
+        percentageIncrease,
+        importValue,
+        annualTariffCost
+      })
+    };
     
+    setResults(calculationResults);
     setIsCalculating(false);
   };
 
@@ -127,6 +213,8 @@ const SimpleTariffCalculator = () => {
       monthlyValue: ''
     });
     setShowDetailedBreakdown(false);
+    setShowTimelineAnalysis(false);
+    setShowSupplierAnalysis(false);
   };
 
   const isFormValid = formData.imports && formData.countries.length > 0 && formData.monthlyValue;
@@ -134,129 +222,266 @@ const SimpleTariffCalculator = () => {
 
   if (results) {
     return (
-      <div className="max-w-4xl mx-auto space-y-6">
+      <div className="max-w-5xl mx-auto space-y-6">
         
-        {/* Top Section - The Number That Matters */}
+        {/* Primary Results - Multi-Currency */}
         <Card className="p-6 md:p-8 border-0 shadow-lg bg-gradient-to-br from-red-50 to-red-100">
-          <div className="text-center space-y-4">
-            <div className="flex items-center justify-center gap-2 mb-4">
-              <TrendingUp className="w-6 h-6 text-red-600" />
-              <span className="text-lg font-semibold text-red-700">Your Impact Analysis</span>
-            </div>
-            
-            <div className="space-y-2">
-              <div className="text-4xl md:text-5xl font-bold text-red-600">
-                ${results.annualTariffCost.toLocaleString()}
+          <div className="space-y-6">
+            {/* Main Impact */}
+            <div className="text-center">
+              <div className="flex items-center justify-center gap-2 mb-4">
+                <TrendingUp className="w-6 h-6 text-red-600" />
+                <span className="text-lg font-semibold text-red-700">Your Impact Analysis</span>
               </div>
-              <div className="text-lg text-red-700 font-medium">
-                additional cost per year
+              
+              <div className="space-y-2 mb-6">
+                <div className="text-4xl md:text-5xl font-bold text-red-600">
+                  {formatCurrency(results.annualTariffCost, selectedCurrency)}
+                </div>
+                <div className="text-lg text-red-700 font-medium">
+                  additional cost per year
+                </div>
+                <div className="text-sm text-red-600">
+                  {results.percentageIncrease.toFixed(1)}% increase • Starting {results.deadlineDate}
+                </div>
               </div>
-            </div>
-            
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-base">
-              <div className="text-red-600 font-semibold">
-                {results.percentageIncrease.toFixed(1)}% increase
-              </div>
-              <div className="hidden sm:block text-slate-400">•</div>
-              <div className="text-slate-600">
-                Starting {results.deadlineDate}
-              </div>
-            </div>
 
-            {/* What This Means - For Newcomers */}
-            <div className="bg-white/70 rounded-lg p-4 mt-6">
-              <p className="text-sm text-slate-700">
-                <strong>What this means:</strong> {results.explanation}
-              </p>
+              {/* Multi-Currency Display */}
+              <div className="flex flex-wrap justify-center gap-4 mb-6">
+                {currencies.map((currency) => (
+                  <div 
+                    key={currency.code}
+                    className={`px-3 py-2 rounded-lg border transition-colors cursor-pointer ${
+                      selectedCurrency === currency.code 
+                        ? 'bg-red-600 text-white border-red-600' 
+                        : 'bg-white/70 text-slate-700 border-slate-300 hover:border-red-300'
+                    }`}
+                    onClick={() => setSelectedCurrency(currency.code)}
+                  >
+                    <div className="text-sm font-medium">
+                      {formatCurrency(results.annualTariffCost, currency.code)} {currency.code}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* What This Means */}
+              <div className="bg-white/70 rounded-lg p-4">
+                <p className="text-sm text-slate-700">
+                  <strong>What this means:</strong> {results.explanation}
+                </p>
+              </div>
             </div>
           </div>
         </Card>
 
-        {/* Quick Actions - Primary */}
+        {/* Margin Protection Strategy */}
         <Card className="p-6 border-0 shadow-lg">
-          <h3 className="text-xl font-bold text-slate-900 mb-4">Recommended Actions</h3>
+          <div className="flex items-center gap-2 mb-4">
+            <Shield className="w-5 h-5 text-blue-600" />
+            <h3 className="text-xl font-bold text-slate-900">Protect Your Margins</h3>
+          </div>
           
-          <div className="space-y-3">
-            {results.recommendations.map((rec: string, index: number) => (
-              <div key={index} className="flex items-start gap-3 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">
-                  {index + 1}
+          <div className="grid md:grid-cols-3 gap-4">
+            <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+              <div className="text-sm font-semibold text-blue-700 mb-2">Price Strategy</div>
+              <p className="text-sm text-blue-800">{results.marginProtection.priceIncrease}</p>
+            </div>
+            <div className="p-4 bg-green-50 rounded-lg border border-green-200">
+              <div className="text-sm font-semibold text-green-700 mb-2">Cost Reduction</div>
+              <p className="text-sm text-green-800">{results.marginProtection.costSavings}</p>
+            </div>
+            <div className="p-4 bg-amber-50 rounded-lg border border-amber-200">
+              <div className="text-sm font-semibold text-amber-700 mb-2">Timing Strategy</div>
+              <p className="text-sm text-amber-800">{results.marginProtection.inventoryStrategy}</p>
+            </div>
+          </div>
+        </Card>
+
+        {/* AI Recommendations */}
+        <Card className="p-6 border-0 shadow-lg">
+          <div className="flex items-center gap-2 mb-4">
+            <Brain className="w-5 h-5 text-purple-600" />
+            <h3 className="text-xl font-bold text-slate-900">AI Analysis</h3>
+            <span className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full">
+              Based on your {formData.imports} imports from {formData.countries.join(', ')}
+            </span>
+          </div>
+          
+          <div className="space-y-4">
+            {results.aiRecommendations.map((rec: any, index: number) => (
+              <div key={index} className="flex items-start gap-4 p-4 bg-slate-50 rounded-lg border">
+                <div className="flex-shrink-0">
+                  <div className="w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold text-sm">
+                    {index + 1}
+                  </div>
+                  <div className="text-xs text-center mt-1 text-slate-500">{rec.difficulty}</div>
                 </div>
                 <div className="flex-1">
-                  <p className="text-slate-700 font-medium">{rec}</p>
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="font-semibold text-slate-900">{rec.action}</span>
+                    <span className={`text-xs px-2 py-1 rounded-full ${
+                      rec.priority === 'High Impact' ? 'bg-red-100 text-red-700' :
+                      rec.priority === 'Easy Win' ? 'bg-green-100 text-green-700' :
+                      'bg-blue-100 text-blue-700'
+                    }`}>
+                      {rec.priority}
+                    </span>
+                  </div>
+                  <p className="text-sm text-slate-600 mb-1">{rec.benefit}</p>
+                  <p className="text-xs text-slate-500">{rec.timeline}</p>
                 </div>
-                <ArrowRight className="w-4 h-4 text-blue-600 mt-1 flex-shrink-0" />
+                <ArrowRight className="w-4 h-4 text-purple-600 mt-2 flex-shrink-0" />
               </div>
             ))}
           </div>
         </Card>
 
-        {/* Detailed Breakdown - Progressive Disclosure */}
-        <div>
+        {/* Detailed Analysis - Progressive Disclosure */}
+        <div className="space-y-4">
+          
+          {/* Cost Breakdown */}
           <Collapsible open={showDetailedBreakdown} onOpenChange={setShowDetailedBreakdown}>
-            <CollapsibleTrigger className="flex items-center gap-2 text-slate-600 hover:text-slate-800 font-medium mx-auto">
+            <CollapsibleTrigger className="flex items-center gap-2 text-slate-600 hover:text-slate-800 font-medium w-full">
               <ChevronDown className={`w-4 h-4 transition-transform ${showDetailedBreakdown ? 'rotate-180' : ''}`} />
-              See detailed breakdown
+              Cost Breakdown
             </CollapsibleTrigger>
             <CollapsibleContent>
-              <Card className="p-6 border-0 shadow-lg mt-4">
-                <h3 className="text-lg font-bold text-slate-900 mb-4">Cost Breakdown</h3>
-                
+              <Card className="p-6 border-0 shadow-lg mt-2">
                 <div className="overflow-x-auto">
                   <table className="w-full">
                     <thead>
                       <tr className="border-b border-slate-200">
-                        <th className="text-left py-3 text-slate-600 font-medium">Source</th>
+                        <th className="text-left py-3 text-slate-600 font-medium">Component</th>
                         <th className="text-right py-3 text-slate-600 font-medium">Current</th>
                         <th className="text-right py-3 text-slate-600 font-medium">After Tariffs</th>
-                        <th className="text-right py-3 text-slate-600 font-medium">Increase</th>
+                        <th className="text-right py-3 text-slate-600 font-medium">Impact</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr className="border-b border-slate-100">
-                        <td className="py-4 font-medium">Monthly Total</td>
-                        <td className="text-right py-4">${results.currentMonthlyCost.toLocaleString()}</td>
-                        <td className="text-right py-4 font-semibold">${results.newMonthlyCost.toLocaleString()}</td>
+                        <td className="py-4 font-medium">Product Cost</td>
+                        <td className="text-right py-4">{formatCurrency(results.currentMonthlyCost * 0.85, selectedCurrency)}</td>
+                        <td className="text-right py-4">{formatCurrency(results.currentMonthlyCost * 0.85, selectedCurrency)}</td>
+                        <td className="text-right py-4 text-green-600">No change</td>
+                      </tr>
+                      <tr className="border-b border-slate-100">
+                        <td className="py-4 font-medium">Shipping</td>
+                        <td className="text-right py-4">{formatCurrency(results.currentMonthlyCost * 0.15, selectedCurrency)}</td>
+                        <td className="text-right py-4">{formatCurrency(results.currentMonthlyCost * 0.15, selectedCurrency)}</td>
+                        <td className="text-right py-4 text-green-600">No change</td>
+                      </tr>
+                      <tr className="border-b border-slate-100">
+                        <td className="py-4 font-medium">Tariffs</td>
+                        <td className="text-right py-4">{formatCurrency(0, selectedCurrency)}</td>
+                        <td className="text-right py-4 font-semibold text-red-600">{formatCurrency(results.monthlyTariffCost, selectedCurrency)}</td>
                         <td className="text-right py-4 text-red-600 font-bold">
-                          +${results.monthlyTariffCost.toLocaleString()}
+                          +{formatCurrency(results.monthlyTariffCost, selectedCurrency)}
                         </td>
                       </tr>
-                      {results.selectedCountries.map((country: any) => (
-                        <tr key={country.name} className="border-b border-slate-50">
-                          <td className="py-3 text-sm text-slate-600">
-                            {country.flag} {country.name}
-                          </td>
-                          <td className="text-right py-3 text-sm text-slate-600">—</td>
-                          <td className="text-right py-3 text-sm text-slate-600">—</td>
-                          <td className="text-right py-3 text-sm text-red-600 font-medium">
-                            +{country.tariff}%
-                          </td>
-                        </tr>
-                      ))}
+                      <tr className="border-t-2 border-slate-300 bg-slate-50">
+                        <td className="py-4 font-bold">Total Monthly</td>
+                        <td className="text-right py-4 font-bold">{formatCurrency(results.currentMonthlyCost, selectedCurrency)}</td>
+                        <td className="text-right py-4 font-bold">{formatCurrency(results.newMonthlyCost, selectedCurrency)}</td>
+                        <td className="text-right py-4 text-red-600 font-bold">
+                          +{results.percentageIncrease.toFixed(1)}%
+                        </td>
+                      </tr>
                     </tbody>
                   </table>
-                </div>
-
-                {/* Educational Content */}
-                <div className="mt-6 p-4 bg-slate-50 rounded-lg">
-                  <h4 className="font-semibold text-slate-900 mb-2">Why this happens:</h4>
-                  <p className="text-sm text-slate-600 mb-3">
-                    Trump&apos;s 2025 tariff policy adds taxes on imports to protect domestic industries and generate revenue.
-                  </p>
-                  <h4 className="font-semibold text-slate-900 mb-2">What successful importers do:</h4>
-                  <ul className="text-sm text-slate-600 space-y-1">
-                    <li>• Diversify supplier base to lower-tariff countries</li>
-                    <li>• Build inventory before tariff deadlines</li>
-                    <li>• Negotiate price adjustments with customers</li>
-                    <li>• Explore domestic sourcing alternatives</li>
-                  </ul>
                 </div>
               </Card>
             </CollapsibleContent>
           </Collapsible>
+
+          {/* Timeline Analysis */}
+          <Collapsible open={showTimelineAnalysis} onOpenChange={setShowTimelineAnalysis}>
+            <CollapsibleTrigger className="flex items-center gap-2 text-slate-600 hover:text-slate-800 font-medium w-full">
+              <ChevronDown className={`w-4 h-4 transition-transform ${showTimelineAnalysis ? 'rotate-180' : ''}`} />
+              Timeline Impact
+            </CollapsibleTrigger>
+            <CollapsibleContent>
+              <Card className="p-6 border-0 shadow-lg mt-2">
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="p-4 bg-green-50 rounded-lg border border-green-200">
+                    <h4 className="font-semibold text-green-700 mb-3">Before August 1st, 2025</h4>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between">
+                        <span>Monthly cost:</span>
+                        <span className="font-medium">{formatCurrency(results.currentMonthlyCost, selectedCurrency)}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Tariff rate:</span>
+                        <span className="font-medium text-green-600">0%</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Status:</span>
+                        <span className="font-medium text-green-600">Current rates</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="p-4 bg-red-50 rounded-lg border border-red-200">
+                    <h4 className="font-semibold text-red-700 mb-3">After August 1st, 2025</h4>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between">
+                        <span>Monthly cost:</span>
+                        <span className="font-medium">{formatCurrency(results.newMonthlyCost, selectedCurrency)}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Tariff rate:</span>
+                        <span className="font-medium text-red-600">{results.percentageIncrease.toFixed(1)}%</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Status:</span>
+                        <span className="font-medium text-red-600">New tariffs</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            </CollapsibleContent>
+          </Collapsible>
+
+          {/* Supplier Risk Analysis */}
+          <Collapsible open={showSupplierAnalysis} onOpenChange={setShowSupplierAnalysis}>
+            <CollapsibleTrigger className="flex items-center gap-2 text-slate-600 hover:text-slate-800 font-medium w-full">
+              <ChevronDown className={`w-4 h-4 transition-transform ${showSupplierAnalysis ? 'rotate-180' : ''}`} />
+              Supplier Analysis
+            </CollapsibleTrigger>
+            <CollapsibleContent>
+              <Card className="p-6 border-0 shadow-lg mt-2">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2 mb-4">
+                    <Target className="w-5 h-5 text-orange-600" />
+                    <span className="font-semibold">Risk Assessment: {results.riskLevel}</span>
+                  </div>
+                  {results.selectedCountries.map((country: any) => (
+                    <div key={country.name} className="p-4 rounded-lg border border-slate-200">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="font-medium">{country.flag} {country.name}</span>
+                        <span className={`text-xs px-2 py-1 rounded-full ${
+                          country.risk === 'High' ? 'bg-red-100 text-red-700' :
+                          country.risk === 'Medium' ? 'bg-yellow-100 text-yellow-700' :
+                          'bg-green-100 text-green-700'
+                        }`}>
+                          {country.risk} Risk
+                        </span>
+                      </div>
+                      <div className="text-sm text-slate-600 mb-2">{country.note}</div>
+                      <div className="text-sm">
+                        <span className="text-slate-500">Tariff impact: </span>
+                        <span className="font-semibold text-red-600">+{country.tariff}%</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </Card>
+            </CollapsibleContent>
+          </Collapsible>
+
         </div>
 
-        {/* Action Buttons */}
+        {/* Action Button */}
         <div className="text-center pt-4">
           <Button 
             onClick={resetCalculator}
@@ -268,6 +493,40 @@ const SimpleTariffCalculator = () => {
           </Button>
         </div>
 
+        {/* Legal Disclaimer & Data Sources */}
+        <div className="border-t border-slate-200 pt-6 mt-8">
+          <div className="text-center space-y-3">
+            <div className="flex flex-wrap justify-center gap-4 text-xs text-slate-500">
+              <span>Tariff rates: USTR.gov</span>
+              <span>•</span>
+              <span>Exchange rates: Federal Reserve</span>
+              <span>•</span>
+              <span>Updated: {results.timestamp}</span>
+            </div>
+            
+            <div className="flex flex-wrap justify-center gap-4 text-xs">
+              <a 
+                href="https://ustr.gov" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-blue-600 hover:text-blue-700 inline-flex items-center gap-1"
+              >
+                View official sources <ExternalLink className="w-3 h-3" />
+              </a>
+              <span className="text-slate-300">•</span>
+              <span className="text-slate-500">No data stored • Calculations in browser</span>
+            </div>
+            
+            <div className="max-w-4xl mx-auto">
+              <p className="text-xs text-slate-500 leading-relaxed">
+                <strong>Disclaimer:</strong> This calculator provides estimates for business planning purposes. 
+                Actual tariff impacts may vary based on HS codes, country of origin, and trade agreements. 
+                Consult qualified trade compliance professionals for official determinations.
+              </p>
+            </div>
+          </div>
+        </div>
+
       </div>
     );
   }
@@ -276,6 +535,23 @@ const SimpleTariffCalculator = () => {
     <TooltipProvider>
       <Card className="p-6 md:p-8 border-0 shadow-xl">
         <div className="space-y-6">
+          
+          {/* Currency Selector */}
+          <div className="flex justify-between items-center">
+            <div className="text-sm text-slate-600">Display currency:</div>
+            <Select value={selectedCurrency} onValueChange={setSelectedCurrency}>
+              <SelectTrigger className="w-32">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {currencies.map((currency) => (
+                  <SelectItem key={currency.code} value={currency.code}>
+                    {currency.symbol} {currency.code}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
           
           {/* Empty State Guidance */}
           {isFormEmpty && (
