@@ -1,28 +1,21 @@
-import React, { useRef } from 'react';
-import HeroSection from '@/components/HeroSection';
+import React from 'react';
 import SimpleTariffCalculator from '@/components/SimpleTariffCalculator';
 
 const Index = () => {
-  const calculatorRef = useRef<HTMLDivElement>(null);
-
-  const scrollToCalculator = () => {
-    calculatorRef.current?.scrollIntoView({ 
-      behavior: 'smooth',
-      block: 'start'
-    });
-  };
-
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero Section */}
-      <HeroSection onScrollToCalculator={scrollToCalculator} />
-
-      {/* Calculator Section */}
-      <section ref={calculatorRef} className="py-16 bg-slate-50">
-        <div className="container mx-auto px-6">
-          <SimpleTariffCalculator />
+      <div className="max-w-4xl mx-auto px-6 py-12">
+        <div className="text-center mb-12">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-slate-900">
+            Calculate Your Tariff Impact
+          </h1>
+          <p className="text-xl text-slate-600 max-w-2xl mx-auto">
+            See how Trump's tariffs affect your business costs
+          </p>
         </div>
-      </section>
+        
+        <SimpleTariffCalculator />
+      </div>
     </div>
   );
 };
