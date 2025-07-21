@@ -237,7 +237,7 @@ const SimpleTariffCalculator = () => {
                     <TrendingUp className="w-6 h-6 text-white" />
                   </div>
                   <span className="text-xl font-bold bg-gradient-to-r from-emerald-600 to-green-700 bg-clip-text text-transparent">
-                    Your Competitive Intelligence
+                    Your Business Impact Analysis
                   </span>
                 </div>
                 
@@ -550,58 +550,13 @@ const SimpleTariffCalculator = () => {
           </Button>
         </div>
 
-        {/* Enhanced Legal Disclaimer & Data Sources */}
-        <div className="border-t-2 border-gradient-to-r from-slate-200 to-slate-300 pt-6 mt-8">
-          <div className="bg-gradient-to-r from-slate-50 to-slate-100 rounded-xl p-6 border border-slate-200">
-            <div className="text-center space-y-4">
-              <div className="flex justify-center gap-2 items-center mb-3">
-                <div className="w-6 h-6 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center">
-                  <Shield className="w-3 h-3 text-white" />
-                </div>
-                <span className="font-semibold text-slate-700">Enterprise-Grade Data Sources</span>
-                <div className="w-6 h-6 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center">
-                  <Shield className="w-3 h-3 text-white" />
-                </div>
-              </div>
-              
-              <div className="flex flex-wrap justify-center gap-4 text-xs text-slate-600">
-                <div className="flex items-center gap-1">
-                  <Globe className="w-3 h-3 text-blue-500" />
-                  <span>Tariff rates: USTR.gov</span>
-                </div>
-                <span>•</span>
-                <div className="flex items-center gap-1">
-                  <DollarSign className="w-3 h-3 text-green-500" />
-                  <span>Exchange rates: Federal Reserve</span>
-                </div>
-                <span>•</span>
-                <span>Updated: {results.timestamp}</span>
-              </div>
-              
-              <div className="flex flex-wrap justify-center gap-4 text-xs">
-                <a 
-                  href="https://ustr.gov" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-blue-600 hover:text-blue-700 inline-flex items-center gap-1 font-medium"
-                >
-                  View official sources <ExternalLink className="w-3 h-3" />
-                </a>
-                <span className="text-slate-300">•</span>
-                <div className="flex items-center gap-1">
-                  <Shield className="w-3 h-3 text-green-500" />
-                  <span className="text-slate-600">No data stored • Browser calculations</span>
-                </div>
-              </div>
-              
-              <div className="max-w-4xl mx-auto bg-white/80 rounded-lg p-4 border border-slate-200">
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  <strong className="text-slate-800">Legal Disclaimer:</strong> This calculator provides estimates for strategic business planning. 
-                  Actual tariff impacts may vary based on HS codes, country of origin, trade agreements, and regulatory changes. 
-                  Consult qualified trade compliance professionals and legal advisors for official determinations and compliance decisions.
-                </p>
-              </div>
-            </div>
+        {/* Simplified Legal Disclaimer */}
+        <div className="border-t border-slate-200 pt-6 mt-8">
+          <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
+            <p className="text-xs text-slate-600 text-center leading-relaxed">
+              <strong>Disclaimer:</strong> Estimates based on USTR.gov tariff schedules (July 2025). For planning purposes only. 
+              Consult trade professionals for compliance decisions. No data stored. Calculations happen in your browser.
+            </p>
           </div>
         </div>
 
@@ -796,7 +751,7 @@ const SimpleTariffCalculator = () => {
                   ) : (
                     <div className="flex items-center justify-center gap-3">
                       <Brain className="w-6 h-6" />
-                      <span>Calculate My Competitive Advantage</span>
+                      <span>Calculate My Business Impact</span>
                       <ArrowRight className="w-6 h-6" />
                     </div>
                   )}
