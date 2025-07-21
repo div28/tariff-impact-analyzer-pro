@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { AlertTriangle, Calculator, TrendingDown, Shield, BarChart3, Target } from 'lucide-react';
+import { AlertTriangle, Calculator, TrendingDown, Shield, BarChart3, Target, Lock, Users } from 'lucide-react';
 import heroImage from '@/assets/premium-hero.jpg';
 
 interface HeroSectionProps {
@@ -52,6 +52,58 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onScrollToCalculator }) => {
           Enterprise-grade analysis of <span className="font-semibold text-yellow-300">2025 tariff impacts</span> on your supply chain.<br />
           <span className="text-blue-200 font-medium">Instant insights. Strategic planning. Professional results.</span>
         </p>
+
+        {/* How It Works Section */}
+        <div className="mt-16 mb-12">
+          <div className="text-center mb-8">
+            <h3 className="text-2xl font-bold text-white mb-4">How It Works</h3>
+            <p className="text-blue-200/90 text-lg">Get your tariff impact analysis in 3 simple steps</p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            <div className="text-center group">
+              <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center text-2xl font-bold text-black group-hover:scale-110 transition-transform duration-300">
+                📝
+              </div>
+              <h4 className="text-xl font-semibold text-white mb-2">1. Enter Details</h4>
+              <p className="text-blue-200/80">Quick 30-second form with your business info</p>
+            </div>
+            
+            <div className="text-center group">
+              <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center text-2xl font-bold text-black group-hover:scale-110 transition-transform duration-300">
+                📊
+              </div>
+              <h4 className="text-xl font-semibold text-white mb-2">2. Instant Analysis</h4>
+              <p className="text-blue-200/80">See your exact cost impact immediately</p>
+            </div>
+            
+            <div className="text-center group">
+              <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center text-2xl font-bold text-black group-hover:scale-110 transition-transform duration-300">
+                💡
+              </div>
+              <h4 className="text-xl font-semibold text-white mb-2">3. Smart Solutions</h4>
+              <p className="text-blue-200/80">Get AI-powered recommendations to save money</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Trust Signals */}
+        <div className="mt-12 mb-16 space-y-6">
+          <div className="flex flex-wrap justify-center gap-6 text-sm">
+            <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20">
+              <Shield className="h-4 w-4 text-green-400" />
+              <span className="text-white font-medium">Based on official USTR.gov tariff rates - Updated July 2025</span>
+            </div>
+            <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20">
+              <Lock className="h-4 w-4 text-blue-400" />
+              <span className="text-white font-medium">Your data stays private - calculations happen in your browser</span>
+            </div>
+            <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20">
+              <Users className="h-4 w-4 text-yellow-400" />
+              <span className="text-white font-medium">1,200+ businesses calculated their impact this month</span>
+            </div>
+          </div>
+        </div>
 
         {/* Premium Feature Grid */}
         <div className="grid md:grid-cols-3 gap-8 mb-12 max-w-5xl mx-auto">

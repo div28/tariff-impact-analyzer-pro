@@ -5,7 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Calculator, AlertTriangle, TrendingUp, DollarSign, Building2, Globe, Package, ArrowRight, RotateCcw, Share2, Download, Lightbulb } from 'lucide-react';
+import { Calculator, AlertTriangle, TrendingUp, DollarSign, Building2, Globe, Package, ArrowRight, RotateCcw, Share2, Download, Lightbulb, Zap } from 'lucide-react';
 import { toast } from "@/hooks/use-toast";
 import { TimelineAwareness, TariffSurvivalScore, CurrencyConverter, CostOffsetCalculator } from '@/components/EnterpriseFeatures';
 import { TariffInsuranceCalculator, ProfessionalExportTools, LegalDisclaimer } from '@/components/AdvancedFeatures';
@@ -260,6 +260,28 @@ const TariffCalculator = () => {
     });
   };
 
+  const handleQuickDemo = () => {
+    const demoData = {
+      businessType: "Technology/Electronics",
+      monthlyImport: "$100K-$500K",
+      countries: ["China", "Germany"],
+      products: "Computer accessories, electronic components, LED displays, networking equipment"
+    };
+    
+    setFormData(demoData);
+    setResults(null);
+    
+    toast({
+      title: "Demo Loaded",
+      description: "Electronics retailer scenario loaded - click Calculate to see results!",
+    });
+    
+    // Auto-calculate after a brief delay to show the demo
+    setTimeout(() => {
+      calculateImpact();
+    }, 1000);
+  };
+
   return (
     <div className="max-w-7xl mx-auto p-6 space-y-12">
       {/* Header Section */}
@@ -267,9 +289,26 @@ const TariffCalculator = () => {
         <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
           Professional Impact Analysis
         </h2>
-        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+        <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-6">
           Enterprise-grade tariff calculations with intelligent recommendations
         </p>
+        
+        {/* Quick Demo Button */}
+        <div className="mb-8">
+          <Button
+            onClick={handleQuickDemo}
+            variant="outline"
+            size="lg"
+            className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-950 dark:to-blue-950 border-green-200 dark:border-green-800 hover:border-green-300 dark:hover:border-green-700 text-green-700 dark:text-green-300 hover:text-green-800 dark:hover:text-green-200 px-8 py-3 transition-all duration-300 transform hover:scale-105"
+          >
+            <Zap className="mr-2 h-5 w-5" />
+            See Sample Results First →
+            <span className="ml-2 text-sm bg-green-100 dark:bg-green-900 px-2 py-1 rounded-full">Electronics Retailer Demo</span>
+          </Button>
+          <p className="text-sm text-muted-foreground mt-2">
+            Not sure where to start? Try our pre-filled example first
+          </p>
+        </div>
       </div>
 
       {/* Quick Access Features */}
