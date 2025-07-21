@@ -29,7 +29,7 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900">
       {/* Tariff Implementation Status - Running Countdown */}
       <div className="absolute top-4 right-4 z-10">
         <div className="bg-white border border-slate-200 rounded-lg px-3 py-2 shadow-sm">
