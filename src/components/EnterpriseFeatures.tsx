@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { differenceInDays, isAfter, parseISO } from 'date-fns';
+// import { differenceInDays, isAfter, parseISO } from 'date-fns';
 import { Clock, AlertTriangle, Shield, Target, TrendingUp, DollarSign, Globe } from 'lucide-react';
 
 interface EnterpriseFeatureProps {
@@ -21,9 +21,10 @@ const CURRENCY_RATES = {
 
 export const TimelineAwareness = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
-  const tariffDate = parseISO('2025-08-01');
-  const isActive = isAfter(currentTime, tariffDate);
-  const daysUntil = differenceInDays(tariffDate, currentTime);
+  const tariffDate = new Date('2025-08-01');
+  const isActive = currentTime > tariffDate;
+  const timeDiff = tariffDate.getTime() - currentTime.getTime();
+  const daysUntil = Math.ceil(timeDiff / (1000 * 3600 * 24));
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
