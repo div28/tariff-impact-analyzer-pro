@@ -6,7 +6,8 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { TrendingUp, AlertTriangle, ArrowRight, RefreshCw, HelpCircle, ChevronDown, Lightbulb, Zap, DollarSign, Shield, Brain, Target, ExternalLink, Globe, Star } from 'lucide-react';
+import { TrendingUp, AlertTriangle, ArrowRight, RefreshCw, HelpCircle, ChevronDown, Lightbulb, Zap, DollarSign, Shield, Brain, Target, ExternalLink, Globe, Star, Settings } from 'lucide-react';
+import BusinessIntelligence from './BusinessIntelligence';
 
 interface FormData {
   imports: string;
@@ -56,6 +57,8 @@ const SimpleTariffCalculator = () => {
   const [showTimelineAnalysis, setShowTimelineAnalysis] = useState(true);
   const [showSupplierAnalysis, setShowSupplierAnalysis] = useState(true);
   const [selectedCountryNote, setSelectedCountryNote] = useState('');
+  const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
+  const [showBusinessIntelligence, setShowBusinessIntelligence] = useState(false);
 
   const handleCountryChange = (countryName: string, checked: boolean) => {
     if (checked) {
@@ -343,6 +346,15 @@ const SimpleTariffCalculator = () => {
                 </span>
               </div>
             </div>
+            <Button
+              onClick={() => setShowBusinessIntelligence(!showBusinessIntelligence)}
+              variant="outline"
+              size="sm"
+              className="bg-gradient-to-r from-purple-600 to-blue-600 text-white border-0 hover:from-purple-700 hover:to-blue-700"
+            >
+              <Settings className="w-4 h-4 mr-2" />
+              Advanced Analysis
+            </Button>
           </div>
           
           <div className="space-y-4">
@@ -380,6 +392,11 @@ const SimpleTariffCalculator = () => {
             ))}
           </div>
         </div>
+
+        {/* Business Intelligence Section */}
+        {showBusinessIntelligence && (
+          <BusinessIntelligence results={results} formData={formData} />
+        )}
 
         {/* Detailed Analysis - Progressive Disclosure */}
         <div className="space-y-4">
@@ -591,14 +608,25 @@ const SimpleTariffCalculator = () => {
                   <h3 className="text-lg font-bold text-white mb-2">Ready to Optimize Your Imports?</h3>
                   <p className="text-blue-100">Select your import countries to see potential savings</p>
                 </div>
-                <Button 
-                  onClick={loadSampleData}
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all"
-                  size="lg"
-                >
-                  <Zap className="w-4 h-4 mr-2" />
-                  Try with sample data
-                </Button>
+                 <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
+                   <Button 
+                     onClick={loadSampleData}
+                     className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all"
+                     size="lg"
+                   >
+                     <Zap className="w-4 h-4 mr-2" />
+                     Try with sample data
+                   </Button>
+                   <Button
+                     onClick={() => setShowAdvancedOptions(!showAdvancedOptions)}
+                     variant="outline"
+                     size="lg"
+                     className="bg-white/10 border-white/30 text-white hover:bg-white/20"
+                   >
+                     <Settings className="w-4 h-4 mr-2" />
+                     Advanced Options
+                   </Button>
+                 </div>
               </div>
             )}
           
@@ -716,6 +744,80 @@ const SimpleTariffCalculator = () => {
               ))}
             </div>
           </div>
+
+          {/* Advanced Options - Progressive Disclosure */}
+          {showAdvancedOptions && (
+            <div className="mt-6 p-6 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20">
+              <div className="flex items-center gap-3 mb-4">
+                <Settings className="w-6 h-6 text-blue-200" />
+                <div>
+                  <h3 className="text-lg font-bold text-white">Advanced Options</h3>
+                  <p className="text-sm text-blue-100">Configure additional parameters for detailed analysis</p>
+                </div>
+              </div>
+              
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="space-y-3">
+                  <label className="text-sm font-medium text-white">Shipping Method</label>
+                  <Select>
+                    <SelectTrigger className="bg-white/20 border-white/30 text-white">
+                      <SelectValue placeholder="Select shipping method" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="sea">Sea Freight (30-45 days)</SelectItem>
+                      <SelectItem value="air">Air Freight (3-7 days)</SelectItem>
+                      <SelectItem value="express">Express (1-3 days)</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                <div className="space-y-3">
+                  <label className="text-sm font-medium text-white">Payment Terms</label>
+                  <Select>
+                    <SelectTrigger className="bg-white/20 border-white/30 text-white">
+                      <SelectValue placeholder="Select payment terms" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="net30">Net 30</SelectItem>
+                      <SelectItem value="net60">Net 60</SelectItem>
+                      <SelectItem value="prepaid">Prepaid</SelectItem>
+                      <SelectItem value="lc">Letter of Credit</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                <div className="space-y-3">
+                  <label className="text-sm font-medium text-white">Order Frequency</label>
+                  <Select>
+                    <SelectTrigger className="bg-white/20 border-white/30 text-white">
+                      <SelectValue placeholder="How often do you order?" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="monthly">Monthly</SelectItem>
+                      <SelectItem value="quarterly">Quarterly</SelectItem>
+                      <SelectItem value="annual">Annual</SelectItem>
+                      <SelectItem value="irregular">Irregular</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                <div className="space-y-3">
+                  <label className="text-sm font-medium text-white">Business Type</label>
+                  <Select>
+                    <SelectTrigger className="bg-white/20 border-white/30 text-white">
+                      <SelectValue placeholder="Select business type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="retailer">Retailer</SelectItem>
+                      <SelectItem value="manufacturer">Manufacturer</SelectItem>
+                      <SelectItem value="distributor">Distributor</SelectItem>
+                      <SelectItem value="ecommerce">E-commerce</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+            </div>
+          )}
 
             {/* Premium Calculate Button */}
             <div className="pt-6">
