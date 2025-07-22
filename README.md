@@ -106,3 +106,22 @@ Visible, credible references next to every tariff result, with links to official
 - **Scenario Calculations**: ~2,600 yearly scenarios
 - **Business Impact**: Potential $130,000 aggregate savings for users
 - **Viral Potential**: 10% share rate driving organic user acquisition
+
+## 🎓 Project Context
+
+**Built for**: AI Web Development Bootcamp - Project #1  
+**Objective**: Demonstrate real-world problem solving with AI-assisted development
+
+### **Skills Demonstrated**
+- **Product Thinking**: User-centered design solving real business problems
+- **AI-Assisted Development**: Professional results using Lovable.dev
+- **Current Events Integration**: Addresses urgent, high-impact policy changes
+- **Professional Documentation**: Comprehensive PRD and technical documentation
+
+## 👨‍💻 Developer
+
+**Div** - AI Web Development Bootcamp
+
+---
+
+🏗️ **Built with**: [Lovable.dev](https://lovable.dev) | 🚀 **Live Demo**: https://tariff-impact-analyzer-pro.lovable.app | 📖 **Full Documentation**: [PRD](docs/PRD.md)
