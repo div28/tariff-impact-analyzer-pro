@@ -36,6 +36,7 @@ export interface ExchangeRate {
 
 export interface CalculationInput {
   hs_code: string;
+  product_name?: string;
   origin_country: string;
   import_value: number;
   currency: string;
