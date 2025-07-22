@@ -8,6 +8,8 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 import { Badge } from '@/components/ui/badge';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
+import MixedShipmentAnalyzer from './MixedShipmentAnalyzer';
+import HTSCodeAssistant from './HTSCodeAssistant';
 import { 
   Brain, 
   HelpCircle, 
@@ -389,16 +391,16 @@ const BusinessIntelligence: React.FC<BusinessIntelligenceProps> = ({ results, fo
               <div className="p-4 bg-white/10 rounded-lg border border-white/20">
                 <h4 className="font-semibold text-white mb-2">Mixed Shipment Analysis</h4>
                 <p className="text-blue-100 text-sm">Calculate tariffs for containers with multiple product types</p>
-                <Button size="sm" className="mt-2 bg-white text-blue-600 hover:bg-blue-50">
-                  Analyze Shipment
-                </Button>
+                <div className="mt-2">
+                  <MixedShipmentAnalyzer />
+                </div>
               </div>
               <div className="p-4 bg-white/10 rounded-lg border border-white/20">
                 <h4 className="font-semibold text-white mb-2">HTS Code Assistant</h4>
                 <p className="text-blue-100 text-sm">AI-powered tariff code identification and verification</p>
-                <Button size="sm" className="mt-2 bg-white text-blue-600 hover:bg-blue-50">
-                  Find HTS Code
-                </Button>
+                <div className="mt-2">
+                  <HTSCodeAssistant />
+                </div>
               </div>
             </div>
           </TabsContent>
