@@ -72,6 +72,14 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				overlay: {
+					background: 'hsl(var(--overlay-background))',
+					foreground: 'hsl(var(--overlay-foreground))'
+				},
+				glass: {
+					background: 'hsl(var(--glass-background))',
+					border: 'hsl(var(--glass-border))'
 				}
 			},
 			borderRadius: {

@@ -570,27 +570,31 @@ const SimpleTariffCalculator = () => {
 
   return (
     <TooltipProvider>
-      <div className="relative overflow-hidden">
-        {/* Premium Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-white via-blue-50/30 to-purple-50/30 rounded-2xl"></div>
-        <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-bl from-blue-400/10 to-transparent rounded-2xl"></div>
-        
-        <div className="relative bg-white/10 backdrop-blur-sm border border-white/20 shadow-2xl rounded-2xl p-6 md:p-8">
+      <div className="max-w-2xl mx-auto">
+        <div className="bg-card/95 backdrop-blur-sm rounded-2xl shadow-2xl border border-border p-8">
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold text-center text-foreground mb-2">
+              Tariff Impact Calculator
+            </h1>
+            <p className="text-center text-muted-foreground">
+              Calculate the impact of new tariffs on your business
+            </p>
+          </div>
           <div className="space-y-6">
             
-            {/* Premium Currency Selector */}
-            <div className="flex justify-between items-center p-4 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20">
+            {/* Currency Selector */}
+            <div className="flex items-center justify-between mb-6 p-4 bg-muted/50 rounded-lg border border-border">
               <div className="flex items-center gap-2">
-                <Globe className="w-5 h-5 text-blue-200" />
-                <span className="text-sm font-semibold text-white">Display currency:</span>
+                <Globe className="w-4 h-4 text-muted-foreground" />
+                <span className="text-sm font-semibold text-foreground">Display currency:</span>
               </div>
               <Select value={selectedCurrency} onValueChange={setSelectedCurrency}>
-                <SelectTrigger className="w-32 border-2 border-white/30 bg-white/20 text-white">
+                <SelectTrigger className="w-32 border-2 border-border bg-card text-foreground">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="bg-white">
+                <SelectContent className="bg-card border-border">
                   {currencies.map((currency) => (
-                    <SelectItem key={currency.code} value={currency.code}>
+                    <SelectItem key={currency.code} value={currency.code} className="text-foreground hover:bg-muted">
                       {currency.symbol} {currency.code}
                     </SelectItem>
                   ))}
@@ -600,45 +604,45 @@ const SimpleTariffCalculator = () => {
           
             {/* Enhanced Empty State */}
             {isFormEmpty && (
-              <div className="text-center py-6 mb-6">
-                <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
-                  <Lightbulb className="w-8 h-8 text-white" />
+              <div className="text-center py-8 mb-6">
+                <div className="w-16 h-16 bg-card rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg border-2 border-primary/20">
+                  <Lightbulb className="w-8 h-8 text-primary" />
                 </div>
-                <div className="mb-4">
-                  <h3 className="text-lg font-bold text-white mb-2">Ready to Optimize Your Imports?</h3>
-                  <p className="text-blue-100">Select your import countries to see potential savings</p>
+                <div className="mb-6">
+                  <h3 className="text-xl font-bold text-foreground mb-2">Ready to Optimize Your Imports?</h3>
+                  <p className="text-muted-foreground">Select your import countries to see potential savings</p>
                 </div>
-                 <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
-                   <Button 
-                     onClick={loadSampleData}
-                     className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all"
-                     size="lg"
-                   >
-                     <Zap className="w-4 h-4 mr-2" />
-                     Try with sample data
-                   </Button>
-                   <Button
-                     onClick={() => setShowAdvancedOptions(!showAdvancedOptions)}
-                     variant="outline"
-                     size="lg"
-                     className="bg-white/10 border-white/30 text-white hover:bg-white/20"
-                   >
-                     <Settings className="w-4 h-4 mr-2" />
-                     Advanced Options
-                   </Button>
-                 </div>
+                <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
+                  <Button 
+                    onClick={loadSampleData}
+                    className="bg-primary hover:bg-primary-dark text-primary-foreground shadow-lg hover:shadow-xl transform hover:scale-105 transition-all"
+                    size="lg"
+                  >
+                    <Zap className="w-4 h-4 mr-2" />
+                    Try with sample data
+                  </Button>
+                  <Button
+                    onClick={() => setShowAdvancedOptions(!showAdvancedOptions)}
+                    variant="outline"
+                    size="lg"
+                    className="border-primary/30 text-primary hover:bg-primary/10"
+                  >
+                    <Settings className="w-4 h-4 mr-2" />
+                    Advanced Options
+                  </Button>
+                </div>
               </div>
             )}
           
           {/* What do you import? */}
           <div className="space-y-3">
             <div className="flex items-center gap-2">
-              <label className="block text-sm font-semibold text-white">
+              <label className="block text-sm font-semibold text-foreground">
                 What do you import?
               </label>
               <Tooltip>
                 <TooltipTrigger>
-                  <HelpCircle className="w-4 h-4 text-blue-200 hover:text-blue-100" />
+                  <HelpCircle className="w-4 h-4 text-muted-foreground hover:text-foreground" />
                 </TooltipTrigger>
                 <TooltipContent>
                   <p className="max-w-xs">List the main products you import. Examples work fine if you&apos;re unsure of exact items.</p>
@@ -650,22 +654,22 @@ const SimpleTariffCalculator = () => {
               placeholder="e.g., electronics, auto parts, textiles"
               value={formData.imports}
               onChange={(e) => setFormData(prev => ({ ...prev, imports: e.target.value }))}
-              className="h-12 text-base border-2 border-white/30 focus:border-blue-400 focus:ring-0 bg-white/20 text-white placeholder:text-blue-200"
+              className="h-12 text-base border-2 border-border focus:border-primary focus:ring-0 bg-card text-foreground placeholder:text-muted-foreground"
             />
           </div>
 
           {/* From which countries? */}
           <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <label className="block text-sm font-semibold text-white">
+              <label className="block text-sm font-semibold text-foreground">
                 From which countries?
               </label>
               <Tooltip>
                 <TooltipTrigger>
-                  <HelpCircle className="w-4 h-4 text-blue-200 hover:text-blue-100" />
+                  <HelpCircle className="w-4 h-4 text-muted-foreground hover:text-foreground" />
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p className="max-w-xs">Select your main import sources. If you import from multiple countries, choose the most significant ones.</p>
+                  <p className="max-w-xs">Select all countries you import from. You can choose multiple countries.</p>
                 </TooltipContent>
               </Tooltip>
             </div>
@@ -679,7 +683,7 @@ const SimpleTariffCalculator = () => {
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {countries.map((country) => (
-                <div key={country.name} className="flex items-center space-x-3 p-4 rounded-lg border-2 border-white/30 hover:border-white/50 transition-colors bg-white/5">
+                <div key={country.name} className="flex items-center space-x-3 p-4 rounded-lg border-2 border-border hover:border-primary/50 transition-colors bg-muted/50">
                   <Checkbox
                     id={country.name}
                     checked={formData.countries.includes(country.name)}
@@ -690,10 +694,10 @@ const SimpleTariffCalculator = () => {
                     htmlFor={country.name}
                     className="flex-1 cursor-pointer flex items-center justify-between"
                   >
-                    <span className="font-medium text-white">
+                    <span className="font-medium text-foreground">
                       {country.flag} {country.name}
                     </span>
-                    <span className="text-sm text-red-400 font-bold">
+                    <span className="text-sm text-destructive font-bold">
                       {country.tariff}%
                     </span>
                   </label>
@@ -705,12 +709,12 @@ const SimpleTariffCalculator = () => {
           {/* Monthly import value? */}
           <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <label className="block text-sm font-semibold text-white">
+              <label className="block text-sm font-semibold text-foreground">
                 Monthly import value?
               </label>
               <Tooltip>
                 <TooltipTrigger>
-                  <HelpCircle className="w-4 h-4 text-blue-200 hover:text-blue-100" />
+                  <HelpCircle className="w-4 h-4 text-muted-foreground hover:text-foreground" />
                 </TooltipTrigger>
                 <TooltipContent>
                   <p className="max-w-xs">Choose the range that best matches your typical monthly import spending. Estimates are fine.</p>
@@ -734,12 +738,12 @@ const SimpleTariffCalculator = () => {
                   onClick={() => setFormData(prev => ({ ...prev, monthlyValue: range.value }))}
                   className={`p-4 rounded-lg border-2 font-medium transition-all text-left ${
                     formData.monthlyValue === range.value
-                      ? 'border-blue-400 bg-blue-500/20 text-white'
-                      : 'border-white/30 hover:border-white/50 text-blue-100'
+                      ? 'border-primary bg-primary/20 text-primary'
+                      : 'border-border hover:border-primary/50 text-foreground'
                   }`}
                 >
                   <div className="font-semibold">{range.display}</div>
-                  <div className="text-xs text-blue-200 mt-1">{range.context}</div>
+                  <div className="text-xs text-muted-foreground mt-1">{range.context}</div>
                 </button>
               ))}
             </div>
@@ -747,20 +751,20 @@ const SimpleTariffCalculator = () => {
 
           {/* Advanced Options - Progressive Disclosure */}
           {showAdvancedOptions && (
-            <div className="mt-6 p-6 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20">
+            <div className="mt-6 p-6 bg-muted/50 rounded-lg border border-border">
               <div className="flex items-center gap-3 mb-4">
-                <Settings className="w-6 h-6 text-blue-200" />
+                <Settings className="w-6 h-6 text-primary" />
                 <div>
-                  <h3 className="text-lg font-bold text-white">Advanced Options</h3>
-                  <p className="text-sm text-blue-100">Configure additional parameters for detailed analysis</p>
+                  <h3 className="text-lg font-bold text-foreground">Advanced Options</h3>
+                  <p className="text-sm text-muted-foreground">Configure additional parameters for detailed analysis</p>
                 </div>
               </div>
               
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="space-y-3">
-                  <label className="text-sm font-medium text-white">Shipping Method</label>
+                  <label className="text-sm font-medium text-foreground">Shipping Method</label>
                   <Select>
-                    <SelectTrigger className="bg-white/20 border-white/30 text-white">
+                    <SelectTrigger className="bg-card border-border text-foreground">
                       <SelectValue placeholder="Select shipping method" />
                     </SelectTrigger>
                     <SelectContent>
@@ -772,9 +776,9 @@ const SimpleTariffCalculator = () => {
                 </div>
                 
                 <div className="space-y-3">
-                  <label className="text-sm font-medium text-white">Payment Terms</label>
+                  <label className="text-sm font-medium text-foreground">Payment Terms</label>
                   <Select>
-                    <SelectTrigger className="bg-white/20 border-white/30 text-white">
+                    <SelectTrigger className="bg-card border-border text-foreground">
                       <SelectValue placeholder="Select payment terms" />
                     </SelectTrigger>
                     <SelectContent>
@@ -787,9 +791,9 @@ const SimpleTariffCalculator = () => {
                 </div>
                 
                 <div className="space-y-3">
-                  <label className="text-sm font-medium text-white">Order Frequency</label>
+                  <label className="text-sm font-medium text-foreground">Order Frequency</label>
                   <Select>
-                    <SelectTrigger className="bg-white/20 border-white/30 text-white">
+                    <SelectTrigger className="bg-card border-border text-foreground">
                       <SelectValue placeholder="How often do you order?" />
                     </SelectTrigger>
                     <SelectContent>
@@ -802,9 +806,9 @@ const SimpleTariffCalculator = () => {
                 </div>
                 
                 <div className="space-y-3">
-                  <label className="text-sm font-medium text-white">Business Type</label>
+                  <label className="text-sm font-medium text-foreground">Business Type</label>
                   <Select>
-                    <SelectTrigger className="bg-white/20 border-white/30 text-white">
+                    <SelectTrigger className="bg-card border-border text-foreground">
                       <SelectValue placeholder="Select business type" />
                     </SelectTrigger>
                     <SelectContent>
@@ -819,34 +823,31 @@ const SimpleTariffCalculator = () => {
             </div>
           )}
 
-            {/* Premium Calculate Button */}
-            <div className="pt-6">
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg blur opacity-75"></div>
-                <Button
-                  onClick={calculateImpact}
-                  disabled={!isFormValid || isCalculating}
-                  className={`relative w-full h-16 rounded-lg font-bold text-lg transition-all transform ${
-                    isFormValid && !isCalculating
-                      ? 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-2xl hover:shadow-3xl hover:scale-105'
-                      : 'bg-slate-200 text-slate-400 cursor-not-allowed'
-                  }`}
-                >
-                  {isCalculating ? (
-                    <div className="flex items-center justify-center gap-3">
-                      <div className="w-6 h-6 border-3 border-white/30 border-t-white rounded-full animate-spin" />
-                      <span>Analyzing Your Business Impact...</span>
-                    </div>
-                  ) : (
-                    <div className="flex items-center justify-center gap-3">
-                      <Brain className="w-6 h-6" />
-                      <span>Calculate My Business Impact</span>
-                      <ArrowRight className="w-6 h-6" />
-                    </div>
-                  )}
-                </Button>
-              </div>
-            </div>
+          {/* Calculate Button */}
+          <div className="pt-6">
+            <Button
+              onClick={calculateImpact}
+              disabled={!isFormValid || isCalculating}
+              className={`w-full h-16 rounded-lg font-bold text-lg transition-all transform ${
+                isFormValid && !isCalculating
+                  ? 'bg-primary hover:bg-primary-dark text-primary-foreground shadow-2xl hover:shadow-3xl hover:scale-105'
+                  : 'bg-muted text-muted-foreground cursor-not-allowed'
+              }`}
+            >
+              {isCalculating ? (
+                <div className="flex items-center justify-center gap-3">
+                  <div className="w-6 h-6 border-3 border-muted-foreground/30 border-t-muted-foreground rounded-full animate-spin" />
+                  <span>Analyzing Your Business Impact...</span>
+                </div>
+              ) : (
+                <div className="flex items-center justify-center gap-3">
+                  <Brain className="w-6 h-6" />
+                  <span>Calculate My Business Impact</span>
+                  <ArrowRight className="w-6 h-6" />
+                </div>
+              )}
+            </Button>
+          </div>
 
           </div>
         </div>

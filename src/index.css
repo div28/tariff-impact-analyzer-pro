@@ -26,11 +26,17 @@ All colors MUST be HSL.
     --secondary-foreground: 210 24% 16%;
 
     --muted: 210 17% 97%;
-    --muted-foreground: 215 20% 65%;
+    --muted-foreground: 215 20% 45%;
 
     --accent: 262 83% 58%;
     --accent-foreground: 0 0% 100%;
     --accent-light: 262 83% 70%;
+
+    /* Better contrast colors for overlays */
+    --overlay-background: 0 0% 100% / 0.95;
+    --overlay-foreground: 210 24% 16%;
+    --glass-background: 0 0% 100% / 0.1;
+    --glass-border: 0 0% 100% / 0.2;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
@@ -88,6 +94,12 @@ All colors MUST be HSL.
     --accent: 262 83% 70%;
     --accent-foreground: 210 24% 8%;
     --accent-light: 262 83% 80%;
+
+    /* Better contrast colors for dark mode overlays */
+    --overlay-background: 210 24% 10% / 0.95;
+    --overlay-foreground: 210 17% 95%;
+    --glass-background: 0 0% 100% / 0.1;
+    --glass-border: 0 0% 100% / 0.2;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
