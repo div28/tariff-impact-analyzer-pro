@@ -558,20 +558,20 @@ const SimpleTariffCalculator = () => {
         <div className="absolute inset-0 bg-gradient-to-br from-white via-blue-50/30 to-purple-50/30 rounded-2xl"></div>
         <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-bl from-blue-400/10 to-transparent rounded-2xl"></div>
         
-        <div className="relative bg-white/90 backdrop-blur-sm border-0 shadow-2xl rounded-2xl p-6 md:p-8">
+        <div className="relative bg-white/10 backdrop-blur-sm border border-white/20 shadow-2xl rounded-2xl p-6 md:p-8">
           <div className="space-y-6">
             
             {/* Premium Currency Selector */}
-            <div className="flex justify-between items-center p-4 bg-gradient-to-r from-slate-50 to-blue-50 rounded-xl border border-slate-200">
+            <div className="flex justify-between items-center p-4 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20">
               <div className="flex items-center gap-2">
-                <Globe className="w-5 h-5 text-blue-600" />
-                <span className="text-sm font-semibold text-slate-700">Display currency:</span>
+                <Globe className="w-5 h-5 text-blue-200" />
+                <span className="text-sm font-semibold text-white">Display currency:</span>
               </div>
               <Select value={selectedCurrency} onValueChange={setSelectedCurrency}>
-                <SelectTrigger className="w-32 border-2 border-blue-200 bg-white/80">
+                <SelectTrigger className="w-32 border-2 border-white/30 bg-white/20 text-white">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="bg-white">
                   {currencies.map((currency) => (
                     <SelectItem key={currency.code} value={currency.code}>
                       {currency.symbol} {currency.code}
@@ -588,8 +588,8 @@ const SimpleTariffCalculator = () => {
                   <Lightbulb className="w-8 h-8 text-white" />
                 </div>
                 <div className="mb-4">
-                  <h3 className="text-lg font-bold text-slate-800 mb-2">Ready to Optimize Your Imports?</h3>
-                  <p className="text-slate-600">Select your import countries to see potential savings</p>
+                  <h3 className="text-lg font-bold text-white mb-2">Ready to Optimize Your Imports?</h3>
+                  <p className="text-blue-100">Select your import countries to see potential savings</p>
                 </div>
                 <Button 
                   onClick={loadSampleData}
@@ -605,12 +605,12 @@ const SimpleTariffCalculator = () => {
           {/* What do you import? */}
           <div className="space-y-3">
             <div className="flex items-center gap-2">
-              <label className="block text-sm font-semibold text-slate-700">
+              <label className="block text-sm font-semibold text-white">
                 What do you import?
               </label>
               <Tooltip>
                 <TooltipTrigger>
-                  <HelpCircle className="w-4 h-4 text-slate-400 hover:text-slate-600" />
+                  <HelpCircle className="w-4 h-4 text-blue-200 hover:text-blue-100" />
                 </TooltipTrigger>
                 <TooltipContent>
                   <p className="max-w-xs">List the main products you import. Examples work fine if you&apos;re unsure of exact items.</p>
@@ -622,19 +622,19 @@ const SimpleTariffCalculator = () => {
               placeholder="e.g., electronics, auto parts, textiles"
               value={formData.imports}
               onChange={(e) => setFormData(prev => ({ ...prev, imports: e.target.value }))}
-              className="h-12 text-base border-2 border-slate-200 focus:border-blue-500 focus:ring-0"
+              className="h-12 text-base border-2 border-white/30 focus:border-blue-400 focus:ring-0 bg-white/20 text-white placeholder:text-blue-200"
             />
           </div>
 
           {/* From which countries? */}
           <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <label className="block text-sm font-semibold text-slate-700">
+              <label className="block text-sm font-semibold text-white">
                 From which countries?
               </label>
               <Tooltip>
                 <TooltipTrigger>
-                  <HelpCircle className="w-4 h-4 text-slate-400 hover:text-slate-600" />
+                  <HelpCircle className="w-4 h-4 text-blue-200 hover:text-blue-100" />
                 </TooltipTrigger>
                 <TooltipContent>
                   <p className="max-w-xs">Select your main import sources. If you import from multiple countries, choose the most significant ones.</p>
@@ -651,7 +651,7 @@ const SimpleTariffCalculator = () => {
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {countries.map((country) => (
-                <div key={country.name} className="flex items-center space-x-3 p-4 rounded-lg border-2 border-slate-200 hover:border-slate-300 transition-colors">
+                <div key={country.name} className="flex items-center space-x-3 p-4 rounded-lg border-2 border-white/30 hover:border-white/50 transition-colors bg-white/5">
                   <Checkbox
                     id={country.name}
                     checked={formData.countries.includes(country.name)}
@@ -662,10 +662,10 @@ const SimpleTariffCalculator = () => {
                     htmlFor={country.name}
                     className="flex-1 cursor-pointer flex items-center justify-between"
                   >
-                    <span className="font-medium text-slate-700">
+                    <span className="font-medium text-white">
                       {country.flag} {country.name}
                     </span>
-                    <span className="text-sm text-red-600 font-bold">
+                    <span className="text-sm text-red-400 font-bold">
                       {country.tariff}%
                     </span>
                   </label>
@@ -677,12 +677,12 @@ const SimpleTariffCalculator = () => {
           {/* Monthly import value? */}
           <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <label className="block text-sm font-semibold text-slate-700">
+              <label className="block text-sm font-semibold text-white">
                 Monthly import value?
               </label>
               <Tooltip>
                 <TooltipTrigger>
-                  <HelpCircle className="w-4 h-4 text-slate-400 hover:text-slate-600" />
+                  <HelpCircle className="w-4 h-4 text-blue-200 hover:text-blue-100" />
                 </TooltipTrigger>
                 <TooltipContent>
                   <p className="max-w-xs">Choose the range that best matches your typical monthly import spending. Estimates are fine.</p>
@@ -706,12 +706,12 @@ const SimpleTariffCalculator = () => {
                   onClick={() => setFormData(prev => ({ ...prev, monthlyValue: range.value }))}
                   className={`p-4 rounded-lg border-2 font-medium transition-all text-left ${
                     formData.monthlyValue === range.value
-                      ? 'border-blue-500 bg-blue-50 text-blue-700'
-                      : 'border-slate-200 hover:border-slate-300 text-slate-700'
+                      ? 'border-blue-400 bg-blue-500/20 text-white'
+                      : 'border-white/30 hover:border-white/50 text-blue-100'
                   }`}
                 >
                   <div className="font-semibold">{range.display}</div>
-                  <div className="text-xs text-slate-500 mt-1">{range.context}</div>
+                  <div className="text-xs text-blue-200 mt-1">{range.context}</div>
                 </button>
               ))}
             </div>
