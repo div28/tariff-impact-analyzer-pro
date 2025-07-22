@@ -1,13 +1,13 @@
-# Trump Tariff Calculator - Product Requirements Document
+# Tariff Calculator - Product Requirements Document
 
 ## Executive Summary
-A user-friendly, mobile-first web calculator that allows US importers and analysts to instantly estimate the financial impact of Trump's 2025 tariffs with actionable supplier comparisons and risk mitigation guidance.
+A user-friendly, mobile-first web calculator that allows US importers and analysts to instantly estimate the financial impact of 2025 tariffs with actionable supplier comparisons and risk mitigation guidance.
 
 ---
 
 ## Problem Statement
 
-Small-to-medium US importers and business analysts lack a current, scenario-focused tool to estimate the cost impact of Trump's proposed 2025 tariffs. As tariff policy evolves rapidly, business owners face critical uncertainty, exposing them to the risk of costly supplier misjudgments and inadequate mitigation planning. 
+Small-to-medium US importers and business analysts lack a current, scenario-focused tool to estimate the cost impact of proposed 2025 tariffs. As tariff policy evolves rapidly, business owners face critical uncertainty, exposing them to the risk of costly supplier misjudgments and inadequate mitigation planning. 
 
 No available calculators integrate real-time or announced tariff policies, leaving these segments to guess, delay decisions, or overpay. Students and researchers similarly lack an accessible reference point to quantify and analyze policy impacts, inhibiting informed debate and learning.
 
@@ -15,13 +15,13 @@ No available calculators integrate real-time or announced tariff policies, leavi
 
 ## High Level Approach
 
-Develop a user-friendly, mobile-first web calculator that allows importers and analysts to instantly estimate the financial impact of Trump's 2025 tariffs. The calculator will leverage current and mock tariff data, support live deployment, and deliver actionable supplier comparisons and risk mitigation guidance. Results will be trustworthy, sourced, shareable, and optimized for efficient, real-world decision-making.
+Develop a user-friendly, mobile-first web calculator that allows importers and analysts to instantly estimate the financial impact of 2025 tariffs. The calculator will leverage current and mock tariff data, support live deployment, and deliver actionable supplier comparisons and risk mitigation guidance. Results will be trustworthy, sourced, shareable, and optimized for efficient, real-world decision-making.
 
 ---
 
 ## User Narrative
 
-A midsize retailer's imports are due to arrive next month, but a breaking announcement confirms new 2025 tariffs will take effect August 1st. The owner, pressed for answers and with thousands at stake, uses the Trump Tariff Calculator to compare costs from China and Germany, quickly realizing their German supplier is now dramatically more expensive. 
+A midsize retailer's imports are due to arrive next month, but a breaking announcement confirms new 2025 tariffs will take effect August 1st. The owner, pressed for answers and with thousands at stake, uses the Tariff Calculator to compare costs from China and Germany, quickly realizing their German supplier is now dramatically more expensive. 
 
 A procurement manager, needing to plan orders for Q4, toggles between pre- and post-August scenarios to assess budget impact and deadlines. Meanwhile, a trade consultant demonstrates the calculator in a client meeting, using live scenarios to explain risk and drive actionable recommendations. At a local university, a student tests supply chain "what-if" scenarios for a presentation, building credible models on real policy data. 
 
@@ -121,7 +121,7 @@ If 10% share (200 shares), and 10% convert, ~20 new user cycles per year
 
 ## Solution Alignment
 
-This product is a rapid-impact, mobile-optimized, public web calculator focused exclusively on estimating and mitigating Trump's 2025 tariff cost scenarios for US importers. It does not serve as a general trade calculator or supply chain platform; its purpose is to deliver clarity, urgency, and actionable guidance around this singular, timely policy change.
+This product is a rapid-impact, mobile-optimized, public web calculator focused exclusively on estimating and mitigating 2025 tariff cost scenarios for US importers. It does not serve as a general trade calculator or supply chain platform; its purpose is to deliver clarity, urgency, and actionable guidance around this singular, timely policy change.
 
 ---
 
@@ -136,33 +136,43 @@ This product is a rapid-impact, mobile-optimized, public web calculator focused 
 6. **Citation of Data Sources**: Visible, credible references next to every tariff result, with links to official USTR/Federal Register information
 
 ### Enhanced UX Features
-- **Quick Demo Button**: Pre-filled sample calculation for immediate results
-- **Smart Form Guidance**: Helper text, tooltips, and contextual assistance
-- **Trust Signals**: Official data sources, usage statistics, privacy assurance
-- **Mobile Optimization**: Touch-friendly interface, responsive design
+- **Quick Demo Button**: Pre-filled sample calculation for immediate results without data entry
+- **Smart Form Guidance**: Helper text, tooltips, and contextual assistance throughout
+- **Trust Signals**: Official data sources, real usage statistics, and privacy assurance
+- **Results Preview**: Users see exactly what insights they'll receive before calculating
+- **Mobile Optimization**: Touch-friendly interface with seamless responsive design
 - **FAQ Section**: Addresses common user concerns and questions
+- **Instant Previews**: Show impact as users make selections in real-time
+- **Professional Polish**: Fast loading, smooth interactions, shareable results
+- **One-Click Demo**: Realistic sample data for immediate demonstration
 
 ---
 
 ## User Flows
 
 ### 1. Landing Screen
-- Brand mission and value proposition
+- Brand mission and value proposition with clear business focus
 - Clear CTA: "Estimate My Tariff Cost"
-- Quick Demo button for instant sample results
-- Responsive design—single-column on mobile
+- Quick Demo button for instant sample results without data entry
+- Trust signals: Official data sources and real usage statistics
+- Results preview: Users see exactly what insights they'll receive
+- Responsive design—single-column on mobile with professional appearance
 
 ### 2. Data Input Form
 - **Fields**: Product category, country of origin (dropdown), import value ($), supplier options
 - **Scenario selector**: Arrival before/after August 1, 2025
-- **Helper elements**: Tooltips, examples, guidance text
-- **Smart previews**: Show impact as users make selections
+- **Helper elements**: Tooltips, examples, guidance text throughout form
+- **Smart previews**: Show tariff impact as users make selections
+- **Quick Demo option**: One-click sample data fill for immediate testing
+- **Professional guidance**: Context-aware help without overwhelming interface
 
 ### 3. Results Page
 - **Itemized breakdown**: Base cost, tariff rate, total landed cost by supplier
-- **Visual comparisons**: Side-by-side supplier analysis
+- **Visual comparisons**: Side-by-side supplier analysis with clear charts
 - **Policy messaging**: Clear display of "policy effective" dates (pre/post August 1)
-- **Recommendations panel**: AI-generated strategic advice
+- **Recommendations panel**: AI-generated strategic advice and alternatives
+- **Professional presentation**: Executive dashboard-style results
+- **Shareable format**: Results optimized for business team sharing
 
 ### 4. Shareable Results
 - **Unique link generation**: Custom URLs for each calculation
@@ -188,10 +198,12 @@ This product is a rapid-impact, mobile-optimized, public web calculator focused 
 - **Mock Data Fallback**: Realistic simulated rates when live data unavailable
 
 ### Mobile Adaptations
-- Input fields and results optimized for mobile screens
-- Touch-friendly interface elements
-- Sticky navigation and collapsible sections
-- Fast loading and smooth interactions
+- Input fields and results optimized for mobile screens and touch interaction
+- Touch-friendly interface elements with proper sizing for mobile use
+- Sticky navigation and collapsible sections for easy mobile browsing
+- Fast loading and smooth interactions across all mobile devices
+- Professional mobile experience suitable for business decision-makers
+- Seamless responsive design that maintains functionality on any screen size
 
 ---
 
