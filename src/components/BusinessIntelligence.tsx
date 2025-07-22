@@ -188,7 +188,15 @@ const BusinessIntelligence: React.FC<BusinessIntelligenceProps> = ({ results, fo
             Previous
           </Button>
           <Button 
-            onClick={() => setWizardStep(prev => prev + 1)}
+            onClick={() => {
+              if (questionIndex === scenarioQuestions.length - 1) {
+                // Final step - show recommendations
+                setWizardStep(scenarioQuestions.length);
+              } else {
+                // Continue to next question
+                setWizardStep(prev => prev + 1);
+              }
+            }}
             disabled={!wizardAnswers[question.id]}
             className="bg-white text-blue-600 hover:bg-blue-50"
           >
