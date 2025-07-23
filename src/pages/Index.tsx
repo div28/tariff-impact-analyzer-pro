@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import EnhancedTariffCalculator from '@/components/EnhancedTariffCalculator';
+import SimpleTariffCalculator from '@/components/SimpleTariffCalculator';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { ChevronDown, Clock, Target, Lightbulb, ExternalLink, PlayCircle } from 'lucide-react';
 
@@ -87,7 +87,7 @@ const Index = () => {
         </div>
 
         {/* Calculator */}
-        <EnhancedTariffCalculator />
+        <SimpleTariffCalculator />
 
         {/* FAQ Section - Merged */}
         <div className="mt-8">
