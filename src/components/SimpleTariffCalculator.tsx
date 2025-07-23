@@ -7,11 +7,21 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { TrendingUp, AlertTriangle, ArrowRight, RefreshCw, HelpCircle, ChevronDown, Lightbulb, Zap, DollarSign, Shield, Brain, Target, ExternalLink, Globe, Star, Settings } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
+import { useFormValidation } from '@/hooks/useFormValidation';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
 import BusinessIntelligence from './BusinessIntelligence';
+import { HTSCodeLookup } from './HTSCodeLookup';
+import { ScenarioComparison } from './ScenarioComparison';
+import { ExportReports } from './ExportReports';
 interface FormData {
   imports: string;
   countries: string[];
   monthlyValue: string;
+  shippingMethod?: string;
+  paymentTerms?: string;
+  orderFrequency?: string;
+  htsCode?: string;
 }
 const countries = [{
   name: 'China',
@@ -92,10 +102,15 @@ const sampleScenario = {
   monthlyValue: '125000'
 };
 const SimpleTariffCalculator = () => {
-  const [formData, setFormData] = useState<FormData>({
+  const { toast } = useToast();
+  const [formData, setFormData] = useLocalStorage<FormData>('tariff-calculator-form', {
     imports: '',
     countries: [],
-    monthlyValue: ''
+    monthlyValue: '',
+    shippingMethod: '',
+    paymentTerms: '',
+    orderFrequency: '',
+    htsCode: ''
   });
   const [results, setResults] = useState<any>(null);
   const [isCalculating, setIsCalculating] = useState(false);
@@ -104,8 +119,14 @@ const SimpleTariffCalculator = () => {
   const [showTimelineAnalysis, setShowTimelineAnalysis] = useState(true);
   const [showSupplierAnalysis, setShowSupplierAnalysis] = useState(true);
   const [selectedCountryNote, setSelectedCountryNote] = useState('');
-  const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
+  const [showAdditionalDetails, setShowAdditionalDetails] = useState(false);
   const [showBusinessIntelligence, setShowBusinessIntelligence] = useState(false);
+  const [showHTSLookup, setShowHTSLookup] = useState(false);
+  const [showScenarioComparison, setShowScenarioComparison] = useState(false);
+  const [showExportReports, setShowExportReports] = useState(false);
+  const [scenarios, setScenarios] = useLocalStorage<any[]>('saved-scenarios', []);
+  
+  const { errors, isValid } = useFormValidation(formData);
   const handleCountryChange = (countryName: string, checked: boolean) => {
     if (checked) {
       setFormData(prev => ({
@@ -197,7 +218,12 @@ const SimpleTariffCalculator = () => {
     };
   };
   const calculateImpact = async () => {
-    if (!formData.imports || formData.countries.length === 0 || !formData.monthlyValue) {
+    if (!isValid) {
+      toast({
+        title: "Form Validation Error",
+        description: "Please fill in all required fields before calculating.",
+        variant: "destructive"
+      });
       return;
     }
     setIsCalculating(true);
@@ -207,9 +233,19 @@ const SimpleTariffCalculator = () => {
     const importValue = parseInt(formData.monthlyValue);
     const selectedCountries = countries.filter(c => formData.countries.includes(c.name));
     const weightedTariff = selectedCountries.reduce((sum, country) => sum + country.tariff, 0) / selectedCountries.length;
-    const monthlyTariffCost = importValue * (weightedTariff / 100);
+    
+    // Factor in additional details for more accurate calculations
+    let adjustedTariff = weightedTariff;
+    if (formData.shippingMethod === 'express') {
+      adjustedTariff += 2; // Express shipping adds complexity
+    }
+    if (formData.orderFrequency === 'weekly') {
+      adjustedTariff -= 1; // Frequent orders may reduce per-shipment costs
+    }
+    
+    const monthlyTariffCost = importValue * (adjustedTariff / 100);
     const annualTariffCost = monthlyTariffCost * 12;
-    const percentageIncrease = weightedTariff;
+    const percentageIncrease = adjustedTariff;
     const calculationResults: any = {
       monthlyTariffCost,
       annualTariffCost,
@@ -236,17 +272,69 @@ const SimpleTariffCalculator = () => {
     };
     setResults(calculationResults);
     setIsCalculating(false);
+    
+    toast({
+      title: "Analysis Complete",
+      description: `Calculated ${formatCurrency(annualTariffCost, selectedCurrency)} annual impact`
+    });
   };
   const resetCalculator = () => {
     setResults(null);
     setFormData({
       imports: '',
       countries: [],
-      monthlyValue: ''
+      monthlyValue: '',
+      shippingMethod: '',
+      paymentTerms: '',
+      orderFrequency: '',
+      htsCode: ''
     });
     setShowDetailedBreakdown(false);
     setShowTimelineAnalysis(false);
     setShowSupplierAnalysis(false);
+  };
+
+  const saveScenario = () => {
+    if (!results) return;
+    
+    const scenarioName = `${formData.imports.split(',')[0]} - ${formData.countries.join(', ')} - ${new Date().toLocaleDateString()}`;
+    const newScenario = {
+      id: Date.now().toString(),
+      name: scenarioName,
+      formData,
+      results,
+      timestamp: new Date()
+    };
+    
+    setScenarios(prev => [newScenario, ...prev.slice(0, 9)]); // Keep last 10 scenarios
+    toast({
+      title: "Scenario Saved",
+      description: `Saved as "${scenarioName}"`
+    });
+  };
+
+  const createNewScenario = () => {
+    setShowScenarioComparison(false);
+    resetCalculator();
+  };
+
+  const selectScenario = (scenario: any) => {
+    setFormData(scenario.formData);
+    setResults(scenario.results);
+    setShowScenarioComparison(false);
+  };
+
+  const handleHTSCodeSelect = (htsCode: any) => {
+    setFormData(prev => ({
+      ...prev,
+      htsCode: htsCode.code,
+      imports: prev.imports || htsCode.description
+    }));
+    setShowHTSLookup(false);
+    toast({
+      title: "HTS Code Selected",
+      description: `Added ${htsCode.code} - ${htsCode.description}`
+    });
   };
   const isFormValid = formData.imports && formData.countries.length > 0 && formData.monthlyValue;
   const isFormEmpty = !formData.imports && formData.countries.length === 0 && !formData.monthlyValue;
@@ -546,13 +634,41 @@ const SimpleTariffCalculator = () => {
 
         </div>
 
-        {/* Action Button */}
-        <div className="text-center pt-4">
+        {/* Enhanced Action Buttons */}
+        <div className="flex flex-wrap justify-center gap-3 pt-4">
+          <Button onClick={saveScenario} variant="outline" className="inline-flex items-center gap-2">
+            <Star className="w-4 h-4" />
+            Save Scenario
+          </Button>
+          <Button onClick={() => setShowScenarioComparison(true)} variant="outline" className="inline-flex items-center gap-2">
+            <Target className="w-4 h-4" />
+            Compare Scenarios
+          </Button>
+          <Button onClick={() => setShowExportReports(true)} variant="outline" className="inline-flex items-center gap-2">
+            <ExternalLink className="w-4 h-4" />
+            Export Report
+          </Button>
           <Button onClick={resetCalculator} variant="outline" className="inline-flex items-center gap-2">
             <RefreshCw className="w-4 h-4" />
             Calculate another scenario
           </Button>
         </div>
+
+        {/* Feature Modals/Sections */}
+        {showScenarioComparison && (
+          <ScenarioComparison
+            scenarios={scenarios}
+            onCreateScenario={createNewScenario}
+            onSelectScenario={selectScenario}
+          />
+        )}
+        
+        {showExportReports && (
+          <ExportReports
+            results={results}
+            formData={formData}
+          />
+        )}
 
         {/* Simplified Legal Disclaimer */}
         <div className="border-t border-slate-200 pt-6 mt-8">
@@ -611,7 +727,10 @@ const SimpleTariffCalculator = () => {
                     <Zap className="w-4 h-4 mr-2" />
                     Try with sample data
                   </Button>
-                  
+                  <Button onClick={() => setShowHTSLookup(true)} variant="outline" size="lg">
+                    <Target className="w-4 h-4 mr-2" />
+                    HTS Code Lookup
+                  </Button>
                 </div>
               </div>}
           
@@ -630,10 +749,29 @@ const SimpleTariffCalculator = () => {
                 </TooltipContent>
               </Tooltip>
             </div>
-            <Input type="text" placeholder="e.g., electronics, auto parts, textiles" value={formData.imports} onChange={e => setFormData(prev => ({
-              ...prev,
-              imports: e.target.value
-            }))} className="h-12 text-base border-2 border-border focus:border-primary focus:ring-0 bg-card text-foreground placeholder:text-muted-foreground" />
+            <div className="flex gap-2">
+              <Input 
+                type="text" 
+                placeholder="e.g., electronics, auto parts, textiles" 
+                value={formData.imports} 
+                onChange={e => setFormData(prev => ({
+                  ...prev,
+                  imports: e.target.value
+                }))} 
+                className={`h-12 text-base border-2 ${errors.imports ? 'border-destructive' : 'border-border'} focus:border-primary focus:ring-0 bg-card text-foreground placeholder:text-muted-foreground`} 
+              />
+              <Button onClick={() => setShowHTSLookup(true)} variant="outline" size="sm" className="h-12">
+                <Target className="w-4 h-4" />
+              </Button>
+            </div>
+            {errors.imports && (
+              <p className="text-sm text-destructive mt-1">{errors.imports}</p>
+            )}
+            {formData.htsCode && (
+              <div className="bg-green-50 border border-green-200 rounded-lg p-2 text-sm">
+                <span className="text-green-700 font-medium">HTS Code: {formData.htsCode}</span>
+              </div>
+            )}
           </div>
 
           {/* From which countries? */}
@@ -658,7 +796,7 @@ const SimpleTariffCalculator = () => {
               </div>}
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {countries.map(country => <div key={country.name} className="flex items-center space-x-3 p-4 rounded-lg border-2 border-border hover:border-primary/50 transition-colors bg-muted/50">
+              {countries.map(country => <div key={country.name} className={`flex items-center space-x-3 p-4 rounded-lg border-2 ${errors.countries ? 'border-destructive' : 'border-border'} hover:border-primary/50 transition-colors bg-muted/50`}>
                   <Checkbox id={country.name} checked={formData.countries.includes(country.name)} onCheckedChange={checked => handleCountryChange(country.name, checked as boolean)} className="w-5 h-5" />
                   <label htmlFor={country.name} className="flex-1 cursor-pointer flex items-center justify-between">
                     <span className="font-medium text-foreground">
@@ -670,6 +808,9 @@ const SimpleTariffCalculator = () => {
                   </label>
                 </div>)}
             </div>
+            {errors.countries && (
+              <p className="text-sm text-destructive mt-1">{errors.countries}</p>
+            )}
           </div>
 
           {/* Monthly import value? */}
@@ -699,15 +840,18 @@ const SimpleTariffCalculator = () => {
               {valueRanges.map(range => <button key={range.value} onClick={() => setFormData(prev => ({
                 ...prev,
                 monthlyValue: range.value
-              }))} className={`p-4 rounded-lg border-2 font-medium transition-all text-left ${formData.monthlyValue === range.value ? 'border-primary bg-primary/20 text-primary' : 'border-border hover:border-primary/50 text-foreground'}`}>
+              }))} className={`p-4 rounded-lg border-2 font-medium transition-all text-left ${formData.monthlyValue === range.value ? 'border-primary bg-primary/20 text-primary' : errors.monthlyValue ? 'border-destructive hover:border-primary/50' : 'border-border hover:border-primary/50'} text-foreground`}>
                   <div className="font-semibold">{range.display}</div>
                   <div className="text-xs text-muted-foreground mt-1">{range.context}</div>
                 </button>)}
             </div>
+            {errors.monthlyValue && (
+              <p className="text-sm text-destructive mt-1">{errors.monthlyValue}</p>
+            )}
           </div>
 
-          {/* Advanced Options - Progressive Disclosure */}
-          {showAdvancedOptions && <div className="mt-6 p-6 bg-muted/50 rounded-lg border border-border">
+          {/* Additional Details - Progressive Disclosure */}
+          {showAdditionalDetails && <div className="mt-6 p-6 bg-muted/50 rounded-lg border border-border">
               <div className="flex items-center gap-3 mb-4">
                 <Settings className="w-6 h-6 text-primary" />
                 <div>
@@ -778,9 +922,22 @@ const SimpleTariffCalculator = () => {
               </div>
             </div>}
 
+          {/* Additional Details Toggle */}
+          <div className="flex justify-between items-center">
+            <Button 
+              onClick={() => setShowAdditionalDetails(!showAdditionalDetails)} 
+              variant="ghost" 
+              className="text-muted-foreground hover:text-foreground"
+            >
+              <Settings className="w-4 h-4 mr-2" />
+              Additional Details
+              <ChevronDown className={`w-4 h-4 ml-2 transition-transform ${showAdditionalDetails ? 'rotate-180' : ''}`} />
+            </Button>
+          </div>
+
           {/* Calculate Button */}
           <div className="pt-6">
-            <Button onClick={calculateImpact} disabled={!isFormValid || isCalculating} className={`w-full h-16 rounded-lg font-bold text-lg transition-all transform ${isFormValid && !isCalculating ? 'bg-primary hover:bg-primary-dark text-primary-foreground shadow-2xl hover:shadow-3xl hover:scale-105' : 'bg-muted text-muted-foreground cursor-not-allowed'}`}>
+            <Button onClick={calculateImpact} disabled={!isValid || isCalculating} className={`w-full h-16 rounded-lg font-bold text-lg transition-all transform ${isValid && !isCalculating ? 'bg-primary hover:bg-primary-dark text-primary-foreground shadow-2xl hover:shadow-3xl hover:scale-105' : 'bg-muted text-muted-foreground cursor-not-allowed'}`}>
               {isCalculating ? <div className="flex items-center justify-center gap-3">
                   <div className="w-6 h-6 border-3 border-muted-foreground/30 border-t-muted-foreground rounded-full animate-spin" />
                   <span>Analyzing Your Business Impact...</span>
@@ -791,6 +948,26 @@ const SimpleTariffCalculator = () => {
                 </div>}
             </Button>
           </div>
+
+          {/* Feature Modals */}
+          {showHTSLookup && (
+            <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+              <div className="bg-card rounded-lg max-w-2xl w-full max-h-[80vh] overflow-y-auto">
+                <div className="p-4 border-b border-border flex items-center justify-between">
+                  <h2 className="text-lg font-semibold text-foreground">HTS Code Lookup</h2>
+                  <Button onClick={() => setShowHTSLookup(false)} variant="ghost" size="sm">
+                    ✕
+                  </Button>
+                </div>
+                <div className="p-4">
+                  <HTSCodeLookup 
+                    onCodeSelect={handleHTSCodeSelect}
+                    searchTerm={formData.imports}
+                  />
+                </div>
+              </div>
+            </div>
+          )}
 
           </div>
         </div>
