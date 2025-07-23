@@ -111,8 +111,8 @@ const HTSCodeAssistant: React.FC<HTSCodeAssistantProps> = ({ onCodeSelected }) =
 
     let searchResults: HTSCode[] = [];
 
-    // Search through all categories if none selected
-    const categoriesToSearch = selectedCategory ? [selectedCategory] : Object.keys(htsDatabase);
+    // Search through all categories if none selected or "all" is selected
+    const categoriesToSearch = selectedCategory && selectedCategory !== 'all' ? [selectedCategory] : Object.keys(htsDatabase);
 
     categoriesToSearch.forEach(category => {
       const codes = htsDatabase[category] || [];
@@ -221,7 +221,7 @@ const HTSCodeAssistant: React.FC<HTSCodeAssistantProps> = ({ onCodeSelected }) =
                   <SelectValue placeholder="Select a category to narrow search" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Categories</SelectItem>
+                  <SelectItem value="all">All Categories</SelectItem>
                   {categories.map(category => (
                     <SelectItem key={category.value} value={category.value}>
                       {category.label}
