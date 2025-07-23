@@ -347,7 +347,10 @@ const SimpleTariffCalculator = () => {
               </div>
             </div>
             <Button
-              onClick={() => setShowBusinessIntelligence(!showBusinessIntelligence)}
+              onClick={() => {
+                console.log('Advanced Analysis button clicked, current state:', showBusinessIntelligence);
+                setShowBusinessIntelligence(!showBusinessIntelligence);
+              }}
               variant="outline"
               size="sm"
               className="bg-gradient-to-r from-purple-600 to-blue-600 text-white border-0 hover:from-purple-700 hover:to-blue-700"
