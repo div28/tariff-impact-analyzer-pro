@@ -33,7 +33,12 @@ import {
   ChevronRight
 } from 'lucide-react';
 
-const BusinessIntelligence: React.FC = () => {
+interface BusinessIntelligenceProps {
+  results: any;
+  formData: any;
+}
+
+const BusinessIntelligence: React.FC<BusinessIntelligenceProps> = ({ results, formData }) => {
   const [activeScenario, setActiveScenario] = useState<string>('');
   const [wizardStep, setWizardStep] = useState(0);
   const [wizardAnswers, setWizardAnswers] = useState<Record<string, string>>({});
@@ -336,13 +341,7 @@ const BusinessIntelligence: React.FC = () => {
               <CollapsibleContent>
                 <div className="mt-4 p-4 bg-white/20 rounded-lg border border-white/30">
                   {(() => {
-                    // Mock data for analysis since we don't have results prop
-                    const mockData = {
-                      monthlyTariffCost: 50000,
-                      importValue: 100000,
-                      totalTariffCost: 25000
-                    };
-                    const analysis = scenario.analysis(mockData);
+                    const analysis = scenario.analysis(results);
                     return (
                       <div className="space-y-3">
                         <div className="flex items-center gap-2">

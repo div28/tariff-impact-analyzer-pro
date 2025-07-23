@@ -395,7 +395,7 @@ const SimpleTariffCalculator = () => {
 
         {/* Business Intelligence Section */}
         {showBusinessIntelligence && (
-          <BusinessIntelligence />
+          <BusinessIntelligence results={results} formData={formData} />
         )}
 
         {/* Detailed Analysis - Progressive Disclosure */}
