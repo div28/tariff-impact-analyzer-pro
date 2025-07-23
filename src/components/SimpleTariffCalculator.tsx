@@ -8,48 +8,95 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { TrendingUp, AlertTriangle, ArrowRight, RefreshCw, HelpCircle, ChevronDown, Lightbulb, Zap, DollarSign, Shield, Brain, Target, ExternalLink, Globe, Star, Settings } from 'lucide-react';
 import BusinessIntelligence from './BusinessIntelligence';
-
 interface FormData {
   imports: string;
   countries: string[];
   monthlyValue: string;
 }
-
-const countries = [
-  { name: 'China', tariff: 30, flag: '🇨🇳', note: '30% tariff starting Aug 1st', risk: 'High' },
-  { name: 'Germany', tariff: 40, flag: '🇩🇪', note: 'Highest rate announced', risk: 'High' },
-  { name: 'Mexico', tariff: 25, flag: '🇲🇽', note: 'USMCA trade partner', risk: 'Medium' },
-  { name: 'India', tariff: 20, flag: '🇮🇳', note: 'Growing alternative source', risk: 'Low' },
-  { name: 'Other', tariff: 25, flag: '🌐', note: 'Average rate for other countries', risk: 'Medium' }
-];
-
-const valueRanges = [
-  { label: '<$50K', value: '25000', display: 'Under $50K', context: 'Small importer' },
-  { label: '$50-200K', value: '125000', display: '$50K - $200K', context: 'Medium business' },
-  { label: '$200K-1M', value: '600000', display: '$200K - $1M', context: 'Large operation' },
-  { label: '>$1M', value: '2000000', display: 'Over $1M', context: 'Enterprise scale' }
-];
-
-const currencies = [
-  { code: 'USD', symbol: '$', rate: 1.0, name: 'US Dollar' },
-  { code: 'EUR', symbol: '€', rate: 0.92, name: 'Euro' },
-  { code: 'GBP', symbol: '£', rate: 0.79, name: 'British Pound' },
-  { code: 'CAD', symbol: 'C$', rate: 1.36, name: 'Canadian Dollar' }
-];
-
+const countries = [{
+  name: 'China',
+  tariff: 30,
+  flag: '🇨🇳',
+  note: '30% tariff starting Aug 1st',
+  risk: 'High'
+}, {
+  name: 'Germany',
+  tariff: 40,
+  flag: '🇩🇪',
+  note: 'Highest rate announced',
+  risk: 'High'
+}, {
+  name: 'Mexico',
+  tariff: 25,
+  flag: '🇲🇽',
+  note: 'USMCA trade partner',
+  risk: 'Medium'
+}, {
+  name: 'India',
+  tariff: 20,
+  flag: '🇮🇳',
+  note: 'Growing alternative source',
+  risk: 'Low'
+}, {
+  name: 'Other',
+  tariff: 25,
+  flag: '🌐',
+  note: 'Average rate for other countries',
+  risk: 'Medium'
+}];
+const valueRanges = [{
+  label: '<$50K',
+  value: '25000',
+  display: 'Under $50K',
+  context: 'Small importer'
+}, {
+  label: '$50-200K',
+  value: '125000',
+  display: '$50K - $200K',
+  context: 'Medium business'
+}, {
+  label: '$200K-1M',
+  value: '600000',
+  display: '$200K - $1M',
+  context: 'Large operation'
+}, {
+  label: '>$1M',
+  value: '2000000',
+  display: 'Over $1M',
+  context: 'Enterprise scale'
+}];
+const currencies = [{
+  code: 'USD',
+  symbol: '$',
+  rate: 1.0,
+  name: 'US Dollar'
+}, {
+  code: 'EUR',
+  symbol: '€',
+  rate: 0.92,
+  name: 'Euro'
+}, {
+  code: 'GBP',
+  symbol: '£',
+  rate: 0.79,
+  name: 'British Pound'
+}, {
+  code: 'CAD',
+  symbol: 'C$',
+  rate: 1.36,
+  name: 'Canadian Dollar'
+}];
 const sampleScenario = {
   imports: 'electronics, computer parts, accessories',
   countries: ['China', 'Mexico'],
   monthlyValue: '125000'
 };
-
 const SimpleTariffCalculator = () => {
   const [formData, setFormData] = useState<FormData>({
     imports: '',
     countries: [],
     monthlyValue: ''
   });
-  
   const [results, setResults] = useState<any>(null);
   const [isCalculating, setIsCalculating] = useState(false);
   const [selectedCurrency, setSelectedCurrency] = useState('USD');
@@ -59,14 +106,13 @@ const SimpleTariffCalculator = () => {
   const [selectedCountryNote, setSelectedCountryNote] = useState('');
   const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
   const [showBusinessIntelligence, setShowBusinessIntelligence] = useState(false);
-
   const handleCountryChange = (countryName: string, checked: boolean) => {
     if (checked) {
       setFormData(prev => ({
         ...prev,
         countries: [...prev.countries, countryName]
       }));
-      
+
       // Show contextual note for first-time users
       const country = countries.find(c => c.name === countryName);
       if (country && formData.countries.length === 0) {
@@ -80,27 +126,22 @@ const SimpleTariffCalculator = () => {
       }));
     }
   };
-
   const loadSampleData = () => {
     setFormData(sampleScenario);
   };
-
   const formatCurrency = (amount: number, currencyCode: string) => {
     const currency = currencies.find(c => c.code === currencyCode);
     const convertedAmount = amount * (currency?.rate || 1);
-    return `${currency?.symbol}${convertedAmount.toLocaleString('en-US', { 
-      minimumFractionDigits: 0, 
-      maximumFractionDigits: 0 
+    return `${currency?.symbol}${convertedAmount.toLocaleString('en-US', {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
     })}`;
   };
-
   const generateAIRecommendations = (results: any) => {
     const hasChina = formData.countries.includes('China');
     const hasHighValueImports = results.importValue > 500000;
     const isElectronics = formData.imports.toLowerCase().includes('electron');
-    
     const recommendations = [];
-
     if (hasChina) {
       const vietnamSavings = Math.round(results.annualTariffCost * 0.35);
       recommendations.push({
@@ -112,7 +153,6 @@ const SimpleTariffCalculator = () => {
         difficulty: 'Complex'
       });
     }
-
     if (hasHighValueImports) {
       const inventorySavings = Math.round(results.monthlyTariffCost * 4);
       recommendations.push({
@@ -124,7 +164,6 @@ const SimpleTariffCalculator = () => {
         difficulty: 'Easy'
       });
     }
-
     if (isElectronics) {
       recommendations.push({
         type: 'Supply Chain',
@@ -145,40 +184,32 @@ const SimpleTariffCalculator = () => {
         difficulty: 'Easy'
       });
     }
-
     return recommendations.slice(0, 3);
   };
-
   const calculateMarginProtection = (results: any) => {
     const priceIncreasePercent = (results.percentageIncrease * 0.25).toFixed(1);
     const breakEvenInventory = Math.round(results.importValue * 3);
     const costSavingsTarget = Math.round(results.annualTariffCost * 0.6);
-
     return {
       priceIncrease: `Raise prices by ${priceIncreasePercent}% to maintain current margins`,
       costSavings: `Find $${costSavingsTarget.toLocaleString()} in other cost savings to absorb impact`,
       inventoryStrategy: `Order $${breakEvenInventory.toLocaleString()} inventory before Aug 1st to avoid tariffs`
     };
   };
-
   const calculateImpact = async () => {
     if (!formData.imports || formData.countries.length === 0 || !formData.monthlyValue) {
       return;
     }
-
     setIsCalculating(true);
-    
+
     // Simulate calculation delay for professional feel
     await new Promise(resolve => setTimeout(resolve, 800));
-
     const importValue = parseInt(formData.monthlyValue);
     const selectedCountries = countries.filter(c => formData.countries.includes(c.name));
     const weightedTariff = selectedCountries.reduce((sum, country) => sum + country.tariff, 0) / selectedCountries.length;
-    
     const monthlyTariffCost = importValue * (weightedTariff / 100);
     const annualTariffCost = monthlyTariffCost * 12;
     const percentageIncrease = weightedTariff;
-
     const calculationResults: any = {
       monthlyTariffCost,
       annualTariffCost,
@@ -203,11 +234,9 @@ const SimpleTariffCalculator = () => {
         annualTariffCost
       })
     };
-    
     setResults(calculationResults);
     setIsCalculating(false);
   };
-
   const resetCalculator = () => {
     setResults(null);
     setFormData({
@@ -219,13 +248,10 @@ const SimpleTariffCalculator = () => {
     setShowTimelineAnalysis(false);
     setShowSupplierAnalysis(false);
   };
-
   const isFormValid = formData.imports && formData.countries.length > 0 && formData.monthlyValue;
   const isFormEmpty = !formData.imports && formData.countries.length === 0 && !formData.monthlyValue;
-
   if (results) {
-    return (
-      <div className="max-w-5xl mx-auto space-y-6">
+    return <div className="max-w-5xl mx-auto space-y-6">
         
         {/* Results Section */}
         <div className="bg-white rounded-xl shadow-lg p-6 border border-slate-200">
@@ -276,11 +302,9 @@ const SimpleTariffCalculator = () => {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {currencies.map(currency => (
-                    <SelectItem key={currency.code} value={currency.code}>
+                  {currencies.map(currency => <SelectItem key={currency.code} value={currency.code}>
                       {currency.symbol} {currency.name}
-                    </SelectItem>
-                  ))}
+                    </SelectItem>)}
                 </SelectContent>
               </Select>
               <div className="text-sm text-muted-foreground mt-1">
@@ -346,33 +370,23 @@ const SimpleTariffCalculator = () => {
                 </span>
               </div>
             </div>
-            <Button
-              onClick={() => {
-                console.log('Advanced Analysis button clicked, current state:', showBusinessIntelligence);
-                setShowBusinessIntelligence(!showBusinessIntelligence);
-              }}
-              variant="outline"
-              size="sm"
-              className="bg-gradient-to-r from-purple-600 to-blue-600 text-white border-0 hover:from-purple-700 hover:to-blue-700"
-            >
+            <Button onClick={() => {
+            console.log('Advanced Analysis button clicked, current state:', showBusinessIntelligence);
+            setShowBusinessIntelligence(!showBusinessIntelligence);
+          }} variant="outline" size="sm" className="bg-gradient-to-r from-purple-600 to-blue-600 text-white border-0 hover:from-purple-700 hover:to-blue-700">
               <Settings className="w-4 h-4 mr-2" />
               Advanced Analysis
             </Button>
           </div>
           
           <div className="space-y-4">
-            {results.aiRecommendations.map((rec: any, index: number) => (
-              <div key={index} className="flex items-start gap-4 p-4 bg-slate-50 rounded-lg border border-slate-200">
+            {results.aiRecommendations.map((rec: any, index: number) => <div key={index} className="flex items-start gap-4 p-4 bg-slate-50 rounded-lg border border-slate-200">
                 <div className="flex-shrink-0">
                   <div className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-sm">
                     {index + 1}
                   </div>
                   <div className="text-center mt-2">
-                    <span className={`text-xs px-2 py-1 rounded-full font-medium ${
-                      rec.priority === 'High Impact' ? 'bg-red-100 text-red-700' :
-                      rec.priority === 'Easy Win' ? 'bg-green-100 text-green-700' :
-                      'bg-blue-100 text-blue-700'
-                    }`}>
+                    <span className={`text-xs px-2 py-1 rounded-full font-medium ${rec.priority === 'High Impact' ? 'bg-red-100 text-red-700' : rec.priority === 'Easy Win' ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700'}`}>
                       {rec.priority}
                     </span>
                   </div>
@@ -380,26 +394,19 @@ const SimpleTariffCalculator = () => {
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-2">
                     <span className="font-bold text-slate-900">{rec.action}</span>
-                    <span className={`text-xs px-2 py-1 rounded-full ${
-                      rec.difficulty === 'Easy' ? 'bg-green-100 text-green-700' :
-                      rec.difficulty === 'Moderate' ? 'bg-yellow-100 text-yellow-700' :
-                      'bg-red-100 text-red-700'
-                    }`}>
+                    <span className={`text-xs px-2 py-1 rounded-full ${rec.difficulty === 'Easy' ? 'bg-green-100 text-green-700' : rec.difficulty === 'Moderate' ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700'}`}>
                       {rec.difficulty}
                     </span>
                   </div>
                   <p className="text-sm text-green-700 font-semibold mb-1">{rec.benefit}</p>
                   <p className="text-xs text-slate-600">{rec.timeline}</p>
                 </div>
-              </div>
-            ))}
+              </div>)}
           </div>
         </div>
 
         {/* Business Intelligence Section */}
-        {showBusinessIntelligence && (
-          <BusinessIntelligence results={results} formData={formData} />
-        )}
+        {showBusinessIntelligence && <BusinessIntelligence results={results} formData={formData} />}
 
         {/* Detailed Analysis - Progressive Disclosure */}
         <div className="space-y-4">
@@ -519,15 +526,10 @@ const SimpleTariffCalculator = () => {
                     <Target className="w-5 h-5 text-orange-600" />
                     <span className="font-semibold">Risk Assessment: {results.riskLevel}</span>
                   </div>
-                  {results.selectedCountries.map((country: any) => (
-                    <div key={country.name} className="p-4 rounded-lg border border-slate-200">
+                  {results.selectedCountries.map((country: any) => <div key={country.name} className="p-4 rounded-lg border border-slate-200">
                       <div className="flex items-center justify-between mb-2">
                         <span className="font-medium">{country.flag} {country.name}</span>
-                        <span className={`text-xs px-2 py-1 rounded-full ${
-                          country.risk === 'High' ? 'bg-red-100 text-red-700' :
-                          country.risk === 'Medium' ? 'bg-yellow-100 text-yellow-700' :
-                          'bg-green-100 text-green-700'
-                        }`}>
+                        <span className={`text-xs px-2 py-1 rounded-full ${country.risk === 'High' ? 'bg-red-100 text-red-700' : country.risk === 'Medium' ? 'bg-yellow-100 text-yellow-700' : 'bg-green-100 text-green-700'}`}>
                           {country.risk} Risk
                         </span>
                       </div>
@@ -536,8 +538,7 @@ const SimpleTariffCalculator = () => {
                         <span className="text-slate-500">Tariff impact: </span>
                         <span className="font-semibold text-red-600">+{country.tariff}%</span>
                       </div>
-                    </div>
-                  ))}
+                    </div>)}
                 </div>
               </Card>
             </CollapsibleContent>
@@ -547,11 +548,7 @@ const SimpleTariffCalculator = () => {
 
         {/* Action Button */}
         <div className="text-center pt-4">
-          <Button 
-            onClick={resetCalculator}
-            variant="outline"
-            className="inline-flex items-center gap-2"
-          >
+          <Button onClick={resetCalculator} variant="outline" className="inline-flex items-center gap-2">
             <RefreshCw className="w-4 h-4" />
             Calculate another scenario
           </Button>
@@ -567,12 +564,9 @@ const SimpleTariffCalculator = () => {
           </div>
         </div>
 
-      </div>
-    );
+      </div>;
   }
-
-  return (
-    <TooltipProvider>
+  return <TooltipProvider>
       <div className="max-w-2xl mx-auto">
         <div className="bg-card/95 backdrop-blur-sm rounded-2xl shadow-2xl border border-border p-8">
           <div className="mb-8">
@@ -596,18 +590,15 @@ const SimpleTariffCalculator = () => {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent className="bg-card border-border">
-                  {currencies.map((currency) => (
-                    <SelectItem key={currency.code} value={currency.code} className="text-foreground hover:bg-muted">
+                  {currencies.map(currency => <SelectItem key={currency.code} value={currency.code} className="text-foreground hover:bg-muted">
                       {currency.symbol} {currency.code}
-                    </SelectItem>
-                  ))}
+                    </SelectItem>)}
                 </SelectContent>
               </Select>
             </div>
           
             {/* Enhanced Empty State */}
-            {isFormEmpty && (
-              <div className="text-center py-8 mb-6">
+            {isFormEmpty && <div className="text-center py-8 mb-6">
                 <div className="w-16 h-16 bg-card rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg border-2 border-primary/20">
                   <Lightbulb className="w-8 h-8 text-primary" />
                 </div>
@@ -616,26 +607,13 @@ const SimpleTariffCalculator = () => {
                   <p className="text-muted-foreground">Select your import countries to see potential savings</p>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
-                  <Button 
-                    onClick={loadSampleData}
-                    className="bg-primary hover:bg-primary-dark text-primary-foreground shadow-lg hover:shadow-xl transform hover:scale-105 transition-all"
-                    size="lg"
-                  >
+                  <Button onClick={loadSampleData} className="bg-primary hover:bg-primary-dark text-primary-foreground shadow-lg hover:shadow-xl transform hover:scale-105 transition-all" size="lg">
                     <Zap className="w-4 h-4 mr-2" />
                     Try with sample data
                   </Button>
-                  <Button
-                    onClick={() => setShowAdvancedOptions(!showAdvancedOptions)}
-                    variant="outline"
-                    size="lg"
-                    className="border-primary/30 text-primary hover:bg-primary/10"
-                  >
-                    <Settings className="w-4 h-4 mr-2" />
-                    Advanced Options
-                  </Button>
+                  
                 </div>
-              </div>
-            )}
+              </div>}
           
           {/* What do you import? */}
           <div className="space-y-3">
@@ -652,13 +630,10 @@ const SimpleTariffCalculator = () => {
                 </TooltipContent>
               </Tooltip>
             </div>
-            <Input
-              type="text"
-              placeholder="e.g., electronics, auto parts, textiles"
-              value={formData.imports}
-              onChange={(e) => setFormData(prev => ({ ...prev, imports: e.target.value }))}
-              className="h-12 text-base border-2 border-border focus:border-primary focus:ring-0 bg-card text-foreground placeholder:text-muted-foreground"
-            />
+            <Input type="text" placeholder="e.g., electronics, auto parts, textiles" value={formData.imports} onChange={e => setFormData(prev => ({
+              ...prev,
+              imports: e.target.value
+            }))} className="h-12 text-base border-2 border-border focus:border-primary focus:ring-0 bg-card text-foreground placeholder:text-muted-foreground" />
           </div>
 
           {/* From which countries? */}
@@ -678,25 +653,14 @@ const SimpleTariffCalculator = () => {
             </div>
             
             {/* Contextual note when user selects first country */}
-            {selectedCountryNote && (
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
+            {selectedCountryNote && <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
                 <p className="text-sm text-blue-700 font-medium">{selectedCountryNote}</p>
-              </div>
-            )}
+              </div>}
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {countries.map((country) => (
-                <div key={country.name} className="flex items-center space-x-3 p-4 rounded-lg border-2 border-border hover:border-primary/50 transition-colors bg-muted/50">
-                  <Checkbox
-                    id={country.name}
-                    checked={formData.countries.includes(country.name)}
-                    onCheckedChange={(checked) => handleCountryChange(country.name, checked as boolean)}
-                    className="w-5 h-5"
-                  />
-                  <label 
-                    htmlFor={country.name}
-                    className="flex-1 cursor-pointer flex items-center justify-between"
-                  >
+              {countries.map(country => <div key={country.name} className="flex items-center space-x-3 p-4 rounded-lg border-2 border-border hover:border-primary/50 transition-colors bg-muted/50">
+                  <Checkbox id={country.name} checked={formData.countries.includes(country.name)} onCheckedChange={checked => handleCountryChange(country.name, checked as boolean)} className="w-5 h-5" />
+                  <label htmlFor={country.name} className="flex-1 cursor-pointer flex items-center justify-between">
                     <span className="font-medium text-foreground">
                       {country.flag} {country.name}
                     </span>
@@ -704,8 +668,7 @@ const SimpleTariffCalculator = () => {
                       {country.tariff}%
                     </span>
                   </label>
-                </div>
-              ))}
+                </div>)}
             </div>
           </div>
 
@@ -726,35 +689,25 @@ const SimpleTariffCalculator = () => {
             </div>
             
             {/* High value warning */}
-            {formData.monthlyValue && parseInt(formData.monthlyValue) > 600000 && (
-              <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 mb-4">
+            {formData.monthlyValue && parseInt(formData.monthlyValue) > 600000 && <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 mb-4">
                 <p className="text-sm text-amber-700 font-medium">
                   💡 Consider pre-ordering inventory before the August 1st deadline
                 </p>
-              </div>
-            )}
+              </div>}
             
             <div className="grid grid-cols-2 gap-3">
-              {valueRanges.map((range) => (
-                <button
-                  key={range.value}
-                  onClick={() => setFormData(prev => ({ ...prev, monthlyValue: range.value }))}
-                  className={`p-4 rounded-lg border-2 font-medium transition-all text-left ${
-                    formData.monthlyValue === range.value
-                      ? 'border-primary bg-primary/20 text-primary'
-                      : 'border-border hover:border-primary/50 text-foreground'
-                  }`}
-                >
+              {valueRanges.map(range => <button key={range.value} onClick={() => setFormData(prev => ({
+                ...prev,
+                monthlyValue: range.value
+              }))} className={`p-4 rounded-lg border-2 font-medium transition-all text-left ${formData.monthlyValue === range.value ? 'border-primary bg-primary/20 text-primary' : 'border-border hover:border-primary/50 text-foreground'}`}>
                   <div className="font-semibold">{range.display}</div>
                   <div className="text-xs text-muted-foreground mt-1">{range.context}</div>
-                </button>
-              ))}
+                </button>)}
             </div>
           </div>
 
           {/* Advanced Options - Progressive Disclosure */}
-          {showAdvancedOptions && (
-            <div className="mt-6 p-6 bg-muted/50 rounded-lg border border-border">
+          {showAdvancedOptions && <div className="mt-6 p-6 bg-muted/50 rounded-lg border border-border">
               <div className="flex items-center gap-3 mb-4">
                 <Settings className="w-6 h-6 text-primary" />
                 <div>
@@ -823,40 +776,25 @@ const SimpleTariffCalculator = () => {
                   </Select>
                 </div>
               </div>
-            </div>
-          )}
+            </div>}
 
           {/* Calculate Button */}
           <div className="pt-6">
-            <Button
-              onClick={calculateImpact}
-              disabled={!isFormValid || isCalculating}
-              className={`w-full h-16 rounded-lg font-bold text-lg transition-all transform ${
-                isFormValid && !isCalculating
-                  ? 'bg-primary hover:bg-primary-dark text-primary-foreground shadow-2xl hover:shadow-3xl hover:scale-105'
-                  : 'bg-muted text-muted-foreground cursor-not-allowed'
-              }`}
-            >
-              {isCalculating ? (
-                <div className="flex items-center justify-center gap-3">
+            <Button onClick={calculateImpact} disabled={!isFormValid || isCalculating} className={`w-full h-16 rounded-lg font-bold text-lg transition-all transform ${isFormValid && !isCalculating ? 'bg-primary hover:bg-primary-dark text-primary-foreground shadow-2xl hover:shadow-3xl hover:scale-105' : 'bg-muted text-muted-foreground cursor-not-allowed'}`}>
+              {isCalculating ? <div className="flex items-center justify-center gap-3">
                   <div className="w-6 h-6 border-3 border-muted-foreground/30 border-t-muted-foreground rounded-full animate-spin" />
                   <span>Analyzing Your Business Impact...</span>
-                </div>
-              ) : (
-                <div className="flex items-center justify-center gap-3">
+                </div> : <div className="flex items-center justify-center gap-3">
                   <Brain className="w-6 h-6" />
                   <span>Calculate My Business Impact</span>
                   <ArrowRight className="w-6 h-6" />
-                </div>
-              )}
+                </div>}
             </Button>
           </div>
 
           </div>
         </div>
       </div>
-    </TooltipProvider>
-  );
+    </TooltipProvider>;
 };
-
 export default SimpleTariffCalculator;
