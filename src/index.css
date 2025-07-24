@@ -2,14 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 @layer base {
   :root {
+    /* TariffPro Design System */
     --background: 0 0% 100%;
-    --foreground: 210 24% 16%;
+    --foreground: 215 25% 27%;
 
     --card: 0 0% 100%;
     --card-foreground: 210 24% 16%;
@@ -17,10 +16,9 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 210 24% 16%;
 
-    --primary: 221 83% 53%;
-    --primary-foreground: 0 0% 100%;
-    --primary-light: 221 83% 65%;
-    --primary-dark: 221 83% 40%;
+    /* Primary: Deep Navy */
+    --primary: 226 71% 32%;
+    --primary-foreground: 0 0% 98%;
 
     --secondary: 210 17% 95%;
     --secondary-foreground: 210 24% 16%;
