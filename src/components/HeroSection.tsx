@@ -3,10 +3,10 @@ import { Button } from '@/components/ui/button';
 import { Calculator } from 'lucide-react';
 
 interface HeroSectionProps {
-  onScrollToCalculator: () => void;
+  onStartCalculator: () => void;
 }
 
-const HeroSection: React.FC<HeroSectionProps> = ({ onScrollToCalculator }) => {
+const HeroSection: React.FC<HeroSectionProps> = ({ onStartCalculator }) => {
   return (
     <section className="bg-white py-16 md:py-24">
       <div className="max-w-4xl mx-auto px-6 text-center">
@@ -21,7 +21,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onScrollToCalculator }) => {
         <Button 
           size="lg" 
           className="px-8 py-4 text-lg"
-          onClick={onScrollToCalculator}
+          onClick={onStartCalculator}
         >
           <Calculator className="mr-2 h-5 w-5" />
           Get Started

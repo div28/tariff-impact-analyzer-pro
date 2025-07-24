@@ -11,52 +11,57 @@
     --foreground: 215 25% 27%;
 
     --card: 0 0% 100%;
-    --card-foreground: 210 24% 16%;
-
+    --card-foreground: 215 25% 27%;
     --popover: 0 0% 100%;
-    --popover-foreground: 210 24% 16%;
-
+    --popover-foreground: 215 25% 27%;
+    
     /* Primary: Deep Navy */
     --primary: 226 71% 32%;
     --primary-foreground: 0 0% 98%;
-
-    --secondary: 210 17% 95%;
-    --secondary-foreground: 210 24% 16%;
-
-    --muted: 210 17% 97%;
-    --muted-foreground: 215 20% 45%;
-
-    --accent: 262 83% 58%;
-    --accent-foreground: 0 0% 100%;
-    --accent-light: 262 83% 70%;
-
-    /* Better contrast colors for overlays */
-    --overlay-background: 0 0% 100% / 0.95;
-    --overlay-foreground: 210 24% 16%;
-    --glass-background: 0 0% 100% / 0.1;
-    --glass-border: 0 0% 100% / 0.2;
-
+    --primary-hover: 226 71% 28%;
+    --primary-light: 226 71% 45%;
+    
+    /* Secondary: Emerald Green */
+    --secondary: 160 84% 39%;
+    --secondary-foreground: 0 0% 98%;
+    --secondary-hover: 160 84% 35%;
+    --secondary-light: 160 84% 52%;
+    
+    /* Accent: Amber */
+    --accent: 43 96% 56%;
+    --accent-foreground: 0 0% 9%;
+    --accent-hover: 43 96% 50%;
+    --accent-light: 43 96% 70%;
+    
+    /* Neutral Colors: Cool Gray Scale */
+    --muted: 210 40% 98%;
+    --muted-foreground: 215 16% 47%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 226 71% 32%;
+    
+    /* Status Colors */
     --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-
-    --warning: 38 92% 50%;
-    --warning-foreground: 0 0% 100%;
-
-    --success: 142 76% 36%;
-    --success-foreground: 0 0% 100%;
-
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 221 83% 53%;
-
-    --gradient-primary: linear-gradient(135deg, hsl(221 83% 53%), hsl(262 83% 58%));
-    --gradient-hero: linear-gradient(135deg, hsl(221 83% 53%) 0%, hsl(262 83% 58%) 50%, hsl(300 83% 60%) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(210 17% 98%) 100%);
-    --shadow-elegant: 0 4px 20px -2px hsl(221 83% 53% / 0.15);
-    --shadow-premium: 0 8px 30px -4px hsl(221 83% 53% / 0.25);
-    --shadow-glow: 0 0 40px hsl(262 83% 58% / 0.3);
-
-    --radius: 0.75rem;
+    --destructive-foreground: 0 0% 98%;
+    --warning: 43 96% 56%;
+    --warning-foreground: 0 0% 9%;
+    --success: 160 84% 39%;
+    --success-foreground: 0 0% 98%;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(226 71% 32%), hsl(226 71% 45%));
+    --gradient-secondary: linear-gradient(135deg, hsl(160 84% 39%), hsl(160 84% 52%));
+    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 100%), hsl(210 40% 98%));
+    --gradient-hero: linear-gradient(135deg, hsl(226 71% 32%) 0%, hsl(226 71% 28%) 100%);
+    
+    /* Shadows */
+    --shadow-elegant: 0 10px 30px -10px hsl(226 71% 32% / 0.3);
+    
+    /* Design System */
+    --radius: 8px;
+    
+    /* Animation */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -137,17 +142,68 @@
   * {
     @apply border-border;
   }
-
+  
   body {
-    @apply bg-background text-foreground;
-    font-family: 'Inter', sans-serif;
-    font-feature-settings: 'cv11', 'ss01';
+    @apply bg-background text-foreground font-inter;
+    font-feature-settings: "rlig" 1, "calt" 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+  
+  h1 {
+    @apply font-bold tracking-tight;
+  }
+  
+  h2,
+  h3,
+  h4 {
+    @apply font-semibold tracking-tight;
+  }
+  
+  h5,
+  h6 {
+    @apply font-medium tracking-tight;
+  }
+  
+  p,
+  span {
+    @apply font-normal;
+  }
+  
+  label {
+    @apply font-medium;
+  }
+}
 
-  h1, h2, h3, h4, h5, h6 {
-    font-weight: 600;
-    letter-spacing: -0.025em;
+@layer components {
+  .card-shadow {
+    box-shadow: var(--shadow-elegant);
+  }
+  
+  .btn-primary {
+    @apply bg-primary text-primary-foreground hover:bg-primary-hover transition-colors duration-200;
+  }
+  
+  .btn-secondary {
+    @apply bg-secondary text-secondary-foreground hover:bg-secondary-hover transition-colors duration-200;
+  }
+  
+  .btn-accent {
+    @apply bg-accent text-accent-foreground hover:bg-accent-hover transition-colors duration-200;
+  }
+  
+  .gradient-hero {
+    background: var(--gradient-hero);
+  }
+  
+  .gradient-subtle {
+    background: var(--gradient-subtle);
+  }
+  
+  .text-gradient-primary {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 }
