@@ -260,7 +260,7 @@ export const FAQSection = () => {
   ];
 
   return (
-    <section className="py-12 bg-muted/20">
+    <section id="faq" className="py-12 bg-muted/20">
       <div className="container mx-auto px-6">
         <div className="text-center mb-8">
           <h2 className="text-2xl font-bold mb-2 text-primary">Quick Questions</h2>

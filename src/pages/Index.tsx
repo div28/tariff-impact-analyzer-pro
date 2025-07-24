@@ -2,13 +2,9 @@ import React, { useRef } from 'react';
 import Header from '@/components/Header';
 import HeroSection from '@/components/HeroSection';
 import MultiStepCalculator from '@/components/MultiStepCalculator';
-import { TariffInsuranceCalculator } from '@/components/AdvancedFeatures';
-import { ExportReports } from '@/components/ExportReports';
 import HTSCodeAssistant from '@/components/HTSCodeAssistant';
 import MixedShipmentAnalyzer from '@/components/MixedShipmentAnalyzer';
-import { ScenarioComparison } from '@/components/ScenarioComparison';
-import { QuickCalculateMode, CalculationHistory } from '@/components/UserExperienceFeatures';
-import { HowItWorksSection, DataSourcesSection, FAQSection } from '@/components/ProfessionalSections';
+import { FAQSection } from '@/components/ProfessionalSections';
 
 const Index: React.FC = () => {
   const calculatorRef = useRef<HTMLDivElement>(null);
@@ -29,73 +25,56 @@ const Index: React.FC = () => {
         <MultiStepCalculator />
       </div>
       
-      {/* Advanced Features Sections */}
-      <HowItWorksSection />
-      <DataSourcesSection />
-      
-      {/* Professional Tools Section */}
-      <section className="py-16 bg-gradient-to-br from-muted/20 to-background">
+      {/* Essential Tools Section - Move key features up */}
+      <section id="tools" className="py-12 bg-gradient-to-br from-muted/10 to-background">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4 text-primary">Professional Tools & Features</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Advanced capabilities for professional tariff analysis and business planning
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-bold mb-2 text-primary">Additional Tools</h2>
+            <p className="text-sm text-muted-foreground">
+              HTS code lookup and shipment analysis
             </p>
           </div>
           
-          <div className="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
-            <div className="space-y-6">
-              <QuickCalculateMode onQuickCalculate={() => {}} />
-              <CalculationHistory />
-            </div>
-            <div className="space-y-6">
-              <HTSCodeAssistant />
-              <MixedShipmentAnalyzer />
-            </div>
+          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            <HTSCodeAssistant />
+            <MixedShipmentAnalyzer />
           </div>
         </div>
       </section>
       
       <FAQSection />
       
-      {/* Footer placeholder for trust elements, disclaimers, etc. */}
-      <footer className="bg-primary text-primary-foreground py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+      {/* Simple Footer */}
+      <footer className="bg-primary text-primary-foreground py-8">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div>
-              <h3 className="font-semibold mb-4">TariffPro Calculator</h3>
+              <h3 className="font-semibold text-lg">TariffPro Calculator</h3>
               <p className="text-primary-foreground/80 text-sm">
-                Professional tariff impact analysis for businesses worldwide.
+                Estimate tariff impact on your business
               </p>
             </div>
-            <div>
-              <h4 className="font-medium mb-4">Resources</h4>
-              <ul className="space-y-2 text-sm text-primary-foreground/80">
-                <li><a href="#" className="hover:text-accent transition-colors">How It Works</a></li>
-                <li><a href="#" className="hover:text-accent transition-colors">Industry Guides</a></li>
-                <li><a href="#" className="hover:text-accent transition-colors">Case Studies</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-medium mb-4">Support</h4>
-              <ul className="space-y-2 text-sm text-primary-foreground/80">
-                <li><a href="#" className="hover:text-accent transition-colors">Contact Us</a></li>
-                <li><a href="#" className="hover:text-accent transition-colors">FAQ</a></li>
-                <li><a href="#" className="hover:text-accent transition-colors">Expert Consultation</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-medium mb-4">Legal</h4>
-              <ul className="space-y-2 text-sm text-primary-foreground/80">
-                <li><a href="#" className="hover:text-accent transition-colors">Privacy Policy</a></li>
-                <li><a href="#" className="hover:text-accent transition-colors">Terms of Service</a></li>
-                <li><a href="#" className="hover:text-accent transition-colors">Disclaimers</a></li>
-              </ul>
+            <div className="flex gap-6 text-sm">
+              <button 
+                onClick={() => document.querySelector('#tools')?.scrollIntoView({ behavior: 'smooth' })}
+                className="hover:text-accent transition-colors"
+              >
+                Tools
+              </button>
+              <button 
+                onClick={() => document.querySelector('#faq')?.scrollIntoView({ behavior: 'smooth' })}
+                className="hover:text-accent transition-colors"
+              >
+                FAQ
+              </button>
+              <a href="mailto:support@tariffpro.com" className="hover:text-accent transition-colors">
+                Contact
+              </a>
             </div>
           </div>
           
-          <div className="border-t border-primary-foreground/20 mt-8 pt-8 text-center text-sm text-primary-foreground/80">
-            <p>© 2024 TariffPro Calculator. Data sourced from USTR and Federal Reserve. For informational purposes only.</p>
+          <div className="border-t border-primary-foreground/20 mt-6 pt-6 text-xs text-primary-foreground/70">
+            <p>© 2024 TariffPro Calculator. Data from USTR. For informational purposes only.</p>
           </div>
         </div>
       </footer>

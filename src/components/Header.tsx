@@ -19,16 +19,28 @@ const Header: React.FC<HeaderProps> = ({ onGetStarted }) => {
 
           {/* Navigation - Desktop */}
           <nav className="hidden md:flex items-center space-x-8">
-            <a href="#" className="text-foreground hover:text-primary transition-colors duration-200">
+            <button 
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              className="text-foreground hover:text-primary transition-colors duration-200"
+            >
               Home
-            </a>
-            <a href="#how-it-works" className="text-foreground hover:text-primary transition-colors duration-200">
-              How It Works
-            </a>
-            <a href="#resources" className="text-foreground hover:text-primary transition-colors duration-200">
-              Resources
-            </a>
-            <a href="#contact" className="text-foreground hover:text-primary transition-colors duration-200">
+            </button>
+            <button 
+              onClick={() => document.querySelector('#tools')?.scrollIntoView({ behavior: 'smooth' })}
+              className="text-foreground hover:text-primary transition-colors duration-200"
+            >
+              Tools
+            </button>
+            <button 
+              onClick={() => document.querySelector('#faq')?.scrollIntoView({ behavior: 'smooth' })}
+              className="text-foreground hover:text-primary transition-colors duration-200"
+            >
+              FAQ
+            </button>
+            <a 
+              href="mailto:support@tariffpro.com"
+              className="text-foreground hover:text-primary transition-colors duration-200"
+            >
               Contact
             </a>
           </nav>
